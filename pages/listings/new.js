@@ -1,0 +1,211 @@
+import Nav from '../../components/Nav'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+
+export default function NewListing() {
+  const router = useRouter()
+  const [member, setMember] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [images, setImages] = useState([])
+  const [uploading, setUploading] = useState(false)
+  const [form, setForm] = useState({
+    title: '', description: '', propertyType: 'House', bedrooms: '', bathrooms: '', carSpaces: '', landSize: '', priceGuide: '', streetAddress: '', suburb: '', state: 'QLD', postcode: ''
+  })
+
+  const s = {gold:'#C9A84C',black:'#0A0A0A',black3:'#1A1A1A',white:'#F5F3EE',muted:'#7A7A7A',border:'#2A2A2A',red:'#E24B4A'}
+  const input = {background:s.black3,border:`1px solid ${s.border}`,color:s.white,fontSize:14,padding:'12px 14px',width:'100%',boxSizing:'border-box'}
+  const lab = {fontSize:11,letterSpacing:'0.2em',color:s.muted,textTransform:'uppercase',marginBottom:6,display:'block'}
+
+  useEffect(() => {
+    const stored = localStorage.getItem('member')
+    if (!stored) { router.push('/login'); return }
+    setMember(JSON.parse(stored))
+  }, [])
+
+  const handleChange = e => setForm({...form, [e.target.name]: e.target.value})
+
+  const handleImageUpload = async e => {
+    const files = Array.from(e.target.files)
+    if (files.length === 0) return
+    setUploading(true)
+    try {
+      const url = 'https://jmjtcmfjknmdnlgxudfk.supabase.co'
+      const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
+      const { createClient } = await import('@supabase/supabase-js')
+      const supabase = createClient(url, key)
+      const uploaded = []
+      for (const file of files) {
+        const fileName = `${Date.now()}-${file.name.replace(/\s/g, '-')}`
+        const { error } = await supabase.storage.from('listing-images').upload(fileName, file)
+        if (!error) {
+          const { data } = supabase.storage.from('listing-images').getPublicUrl(fileName)
+          uploaded.push(data.publicUrl)
+        }
+      }
+      setImages(prev => [...prev, ...uploaded])
+    } catch (err) {
+      setError('Image upload failed. Please try again.')
+    }
+    setUploading(false)
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    try {
+      const res = await fetch('/api/listings/create', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          memberId: member?.id,
+          firstName: member?.firstName,
+          lastName: member?.lastName,
+          agency: member?.agency,
+          ...form,
+          images
+        })
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong.')
+      } else {
+        router.push('/dashboard')
+      }
+    } catch {
+      setError('Something went wrong. Please try again.')
+    }
+    setLoading(false)
+  }
+
+  if (!member) return <div style={{background:s.black,minHeight:'100vh'}}></div>
+
+  return (
+    <div style={{background:s.black,minHeight:'100vh',color:s.white}}>
+      <Nav/>
+      <div style={{maxWidth:800,margin:'0 auto',padding:'48px 20px'}}>
+        <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>New listing</div>
+        <h1 style={{fontSize:'clamp(24px,4vw,36px)',color:s.white,marginBottom:8,fontWeight:600}}>Upload an off market listing</h1>
+        <p style={{color:s.muted,marginBottom:40,fontSize:14}}>This listing will only be visible to verified members.</p>
+
+        {error && <div style={{background:'rgba(226,75,74,0.1)',border:'1px solid rgba(226,75,74,0.3)',padding:'12px 16px',marginBottom:24,fontSize:13,color:s.red,borderRadius:2}}>{error}</div>}
+
+        <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:28}}>
+
+          {/* Property details */}
+          <div style={{background:s.black3,border:`1px solid ${s.border}`,padding:28}}>
+            <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Property details</div>
+            <div style={{display:'flex',flexDirection:'column',gap:16}}>
+              <div>
+                <label style={lab}>Listing title *</label>
+                <input name="title" value={form.title} onChange={handleChange} type="text" placeholder="e.g. Prestige waterfront opportunity" style={input} required/>
+              </div>
+              <div>
+                <label style={lab}>Description</label>
+                <textarea name="description" value={form.description} onChange={handleChange} placeholder="Describe the property..." style={{...input,height:120,resize:'vertical'}}/>
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+                <div>
+                  <label style={lab}>Property type</label>
+                  <select name="propertyType" value={form.propertyType} onChange={handleChange} style={{...input,padding:'12px 14px'}}>
+                    <option>House</option>
+                    <option>Apartment</option>
+                    <option>Townhouse</option>
+                    <option>Villa</option>
+                    <option>Land</option>
+                    <option>Acreage</option>
+                    <option>Rural</option>
+                    <option>Commercial</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={lab}>Price guide</label>
+                  <input name="priceGuide" value={form.priceGuide} onChange={handleChange} type="text" placeholder="e.g. $1.2M - $1.4M" style={input}/>
+                </div>
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr 1fr',gap:16}}>
+                <div>
+                  <label style={lab}>Bedrooms</label>
+                  <input name="bedrooms" value={form.bedrooms} onChange={handleChange} type="number" placeholder="4" style={input} min="0"/>
+                </div>
+                <div>
+                  <label style={lab}>Bathrooms</label>
+                  <input name="bathrooms" value={form.bathrooms} onChange={handleChange} type="number" placeholder="2" style={input} min="0"/>
+                </div>
+                <div>
+                  <label style={lab}>Car spaces</label>
+                  <input name="carSpaces" value={form.carSpaces} onChange={handleChange} type="number" placeholder="2" style={input} min="0"/>
+                </div>
+                <div>
+                  <label style={lab}>Land size</label>
+                  <input name="landSize" value={form.landSize} onChange={handleChange} type="text" placeholder="600m²" style={input}/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Address */}
+          <div style={{background:s.black3,border:`1px solid ${s.border}`,padding:28}}>
+            <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Property address</div>
+            <div style={{display:'flex',flexDirection:'column',gap:16}}>
+              <div>
+                <label style={lab}>Street address *</label>
+                <input name="streetAddress" value={form.streetAddress} onChange={handleChange} type="text" placeholder="e.g. 12 Ocean Drive" style={input} required/>
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr',gap:16}}>
+                <div>
+                  <label style={lab}>Suburb *</label>
+                  <input name="suburb" value={form.suburb} onChange={handleChange} type="text" placeholder="e.g. Hope Island" style={input} required/>
+                </div>
+                <div>
+                  <label style={lab}>State *</label>
+                  <select name="state" value={form.state} onChange={handleChange} style={{...input,padding:'12px 14px'}}>
+                    <option>QLD</option>
+                    <option>NSW</option>
+                    <option>VIC</option>
+                    <option>WA</option>
+                    <option>SA</option>
+                    <option>TAS</option>
+                    <option>ACT</option>
+                    <option>NT</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={lab}>Postcode *</label>
+                  <input name="postcode" value={form.postcode} onChange={handleChange} type="text" placeholder="4212" style={input} required/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Photos */}
+          <div style={{background:s.black3,border:`1px solid ${s.border}`,padding:28}}>
+            <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Photos</div>
+            <input type="file" accept="image/*" multiple onChange={handleImageUpload} style={{display:'none'}} id="imageUpload"/>
+            <label htmlFor="imageUpload" style={{display:'block',border:`2px dashed ${s.border}`,padding:'32px',textAlign:'center',cursor:'pointer',marginBottom:16}}>
+              <div style={{fontSize:32,marginBottom:8}}>📷</div>
+              <div style={{fontSize:14,color:s.white,marginBottom:4}}>{uploading ? 'Uploading...' : 'Click to upload photos'}</div>
+              <div style={{fontSize:12,color:s.muted}}>JPG, PNG up to 10MB each. Multiple allowed.</div>
+            </label>
+            {images.length > 0 && (
+              <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12}}>
+                {images.map((img,i)=>(
+                  <div key={i} style={{position:'relative'}}>
+                    <img src={img} alt={`Photo ${i+1}`} style={{width:'100%',height:100,objectFit:'cover'}}/>
+                    <button type="button" onClick={()=>setImages(images.filter((_,idx)=>idx!==i))} style={{position:'absolute',top:4,right:4,background:'rgba(0,0,0,0.7)',border:'none',color:s.white,width:24,height:24,cursor:'pointer',fontSize:12}}>✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <button type="submit" disabled={loading} style={{background:loading?'#8A6A1F':s.gold,border:'none',color:'#000',fontSize:15,fontWeight:600,padding:16,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
+            {loading ? 'Uploading listing...' : 'Publish Listing →'}
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
