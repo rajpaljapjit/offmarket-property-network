@@ -6,9 +6,8 @@ export default function Nav() {
   return (
     <nav style={{position:'sticky',top:0,zIndex:100,background:'rgba(10,10,10,0.97)',borderBottom:'1px solid #2A2A2A'}}>
       <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px',display:'flex',alignItems:'center',justifyContent:'space-between',height:64}}>
-        <Link href="/" style={{textDecoration:'none',display:'flex',flexDirection:'column',lineHeight:1.1}}>
-          <span style={{fontSize:16,fontWeight:700,color:'#F5F3EE',letterSpacing:'0.05em'}}>OFF MARKET</span>
-          <span style={{fontSize:8,letterSpacing:'0.35em',color:'#C9A84C',textTransform:'uppercase'}}>Property Network</span>
+        <Link href="/" style={{textDecoration:'none',display:'flex',alignItems:'center'}}>
+          <img src="/logo.png" alt="Off Market Property Network" style={{height:44,width:'auto',objectFit:'contain'}}/>
         </Link>
 
         {/* Desktop nav */}
@@ -19,9 +18,9 @@ export default function Nav() {
         </div>
 
         <div style={{display:'flex',gap:8,alignItems:'center'}}>
-          <Link href="/login" style={{border:'1px solid #2A2A2A',color:'#D4D8DF',fontSize:13,padding:'7px 14px',textDecoration:'none',display:'none'}} className="desktop-cta">Sign In</Link>
-          <Link href="/signup" style={{background:'#C9A84C',color:'#000',fontSize:13,fontWeight:500,padding:'7px 16px',textDecoration:'none',display:'none'}} className="desktop-cta">Join Free</Link>
-          
+          <Link href="/login" style={{border:'1px solid #2A2A2A',color:'#D4D8DF',fontSize:13,padding:'7px 14px',textDecoration:'none'}} className="desktop-cta">Sign In</Link>
+          <Link href="/signup" style={{background:'#C9A84C',color:'#000',fontSize:13,fontWeight:500,padding:'7px 16px',textDecoration:'none'}} className="desktop-cta">Join Free</Link>
+
           {/* Hamburger */}
           <button onClick={()=>setOpen(!open)} style={{background:'none',border:'1px solid #2A2A2A',color:'#F5F3EE',padding:'8px 10px',cursor:'pointer',fontSize:16,display:'none'}} className="hamburger">
             {open ? '✕' : '☰'}
