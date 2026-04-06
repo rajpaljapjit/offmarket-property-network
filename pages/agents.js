@@ -2,6 +2,8 @@ import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 
+const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45',silver:'#A8B4CC'}
+
 const agents=[
   {initials:'SH',name:'Sarah Hartley',agency:'Hartley Property Group · Brisbane',role:'Selling agent',state:'QLD',spec:'Prestige',sales:24,listings:11,plan:'Gold'},
   {initials:'MK',name:'Marcus Kline',agency:'Kline Buyers Agency · Sydney',role:'Buyers agent',state:'NSW',spec:'Waterfront',sales:38,listings:null,plan:'Silver'},
@@ -11,12 +13,11 @@ const agents=[
 ]
 
 export default function Agents() {
-  const s={gold:'#C9A84C',black:'#0A0A0A',black2:'#111',black3:'#1A1A1A',black4:'#242424',white:'#F5F3EE',muted:'#7A7A7A',mid:'#AAAAAA',border:'#2A2A2A',silver:'#A8AEBB'}
   return (
-    <div style={{background:s.black,color:s.white,minHeight:'100vh'}}>
+    <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
       <style>{`
-        .agents-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2A2A2A;}
+        .agents-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1E2A45;}
         @media(max-width:900px){.agents-grid{grid-template-columns:repeat(2,1fr);}}
         @media(max-width:600px){.agents-grid{grid-template-columns:1fr;}}
       `}</style>
@@ -26,8 +27,8 @@ export default function Agents() {
         <p style={{color:s.muted,marginBottom:32}}>All agents are license-verified real estate professionals.</p>
         <div className="agents-grid">
           {agents.map(a=>(
-            <div key={a.name} style={{background:s.black2,padding:24}}>
-              <div style={{width:48,height:48,borderRadius:'50%',background:s.black4,border:`1px solid ${s.border}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:s.silver,marginBottom:14,fontWeight:600}}>{a.initials}</div>
+            <div key={a.name} style={{background:s.bg2,padding:24}}>
+              <div style={{width:48,height:48,borderRadius:'50%',background:s.bg4,border:`1px solid ${s.border}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:s.silver,marginBottom:14,fontWeight:600}}>{a.initials}</div>
               <div style={{fontSize:17,color:s.white,marginBottom:4,fontWeight:600}}>{a.name}</div>
               <div style={{fontSize:11,color:s.gold,letterSpacing:'0.1em',textTransform:'uppercase',marginBottom:12}}>{a.agency}</div>
               <div style={{display:'flex',gap:20,marginBottom:14}}>
@@ -40,7 +41,7 @@ export default function Agents() {
               <div style={{fontSize:9,letterSpacing:'0.15em',color:s.gold,textTransform:'uppercase'}}>✓ Verified · {a.plan} plan</div>
             </div>
           ))}
-          <div style={{background:s.black2,padding:24,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center',minHeight:200}}>
+          <div style={{background:s.bg2,padding:24,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',textAlign:'center',minHeight:200}}>
             <div style={{fontSize:11,letterSpacing:'0.15em',color:s.muted,textTransform:'uppercase',marginBottom:10}}>2,400+ members</div>
             <div style={{fontSize:17,color:s.white,marginBottom:16,fontWeight:600}}>Full directory for members</div>
             <Link href="/login" style={{background:s.gold,color:'#000',padding:'8px 18px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Sign in to connect</Link>
