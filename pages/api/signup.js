@@ -16,18 +16,26 @@ export default async function handler(req, res) {
     const { createClient } = await import('@supabase/supabase-js')
     const supabase = createClient(url, key)
 
-    const { data: existing, error: existingError } = await supabase
+    // Check if email already exists
+    const { data: existingEmail } = await supabase
       .from('members')
       .select('id')
       .eq('email', email)
       .single()
 
-    if (existingError && existingError.code !== 'PGRST116') {
-      return res.status(500).json({ error: `DB check error: ${existingError.message}` })
+    if (existingEmail) {
+      return res.status(400).json({ error: 'An account with this email already exists. Please sign in.' })
     }
 
-    if (existing) {
-      return res.status(400).json({ error: 'An account with this email already exists. Please sign in.' })
+    // Check if username already exists
+    const { data: existingUsername } = await supabase
+      .from('members')
+      .select('id')
+      .eq('username', username)
+      .single()
+
+    if (existingUsername) {
+      return res.status(400).json({ error: 'This username is already taken. Please choose another.' })
     }
 
     const { error: dbError } = await supabase
@@ -60,7 +68,7 @@ export default async function handler(req, res) {
           from: 'Off Market Property Network <welcome.no-reply@offmarketpropertynetwork.com.au>',
           to: email,
           subject: 'Welcome to Off Market Property Network',
-          html: `<html><body style="background:#0A0A0A;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#111;padding:40px;"><h1 style="color:#F5F3EE;">Welcome, ${firstName}!</h1><p style="color:#AAAAAA;">Thank you for applying. We are verifying your license — this takes 24-48 hours.</p><a href="https://offmarketpropertynetwork.com.au" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;">Visit the Network</a></div></body></html>`
+          html: `<html><body style="background:#0A0A0A;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#111;padding:40px;"><h1 style="color:#F5F3EE;">Welcome, ${firstName}!</h1><p style="color:#AAAAAA;">Thank you for applying. We are verifying your license — this takes 24-48 hours. Once verified you will receive full access.</p><a href="https://offmarketpropertynetwork.com.au" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;">Visit the Network</a></div></body></html>`
         })
       })
     } catch (emailError) {
