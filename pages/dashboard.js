@@ -33,7 +33,7 @@ export default function Dashboard() {
     fetchAll(m)
   }, [])
 
-  const supabase = async () => {
+  const getSupabase = async () => {
     const { createClient } = await import('@supabase/supabase-js')
     return createClient(
       'https://jmjtcmfjknmdnlgxudfk.supabase.co',
@@ -42,7 +42,7 @@ export default function Dashboard() {
   }
 
   const fetchAll = async (m) => {
-    const db = await supabase()
+    const db = await getSupabase()
     const [l, s, es, er] = await Promise.all([
       db.from('listings').select('*').eq('member_id', m.id).order('created_at', { ascending: false }),
       db.from('saved_listings').select('*, listings(*)').eq('member_id', m.id),
@@ -56,14 +56,14 @@ export default function Dashboard() {
   }
 
   const fetchMessages = async (enquiryId) => {
-    const db = await supabase()
+    const db = await getSupabase()
     const { data } = await db.from('messages').select('*').eq('enquiry_id', enquiryId).order('created_at', { ascending: true })
     setMessages(data || [])
   }
 
   const sendMessage = async () => {
     if (!messageText.trim() || !activeEnquiry) return
-    const db = await supabase()
+    const db = await getSupabase()
     await db.from('messages').insert([{
       enquiry_id: activeEnquiry.id,
       sender_id: member.id,
@@ -89,6 +89,28 @@ export default function Dashboard() {
   ]
 
   const input = {background:black3,border:`1px solid ${border}`,color:white,fontSize:14,padding:'12px 14px',width:'100%',boxSizing:'border-box'}
+
+  const ListingCard = ({l, showEdit=true}) => (
+    <div style={{background:black2,display:'grid',gridTemplateColumns:'120px 1fr auto',gap:20,alignItems:'center',padding:20}}>
+      <Link href={`/listings/${l.id}`} style={{textDecoration:'none'}}>
+        {l.images&&l.images[0]?<img src={l.images[0]} alt={l.title} style={{width:120,height:80,objectFit:'cover',opacity:0.8}}/>:<div style={{width:120,height:80,background:black4,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,color:muted}}>No image</div>}
+      </Link>
+      <div>
+        <div style={{fontSize:9,letterSpacing:'0.25em',color:gold,textTransform:'uppercase',marginBottom:4}}>{l.suburb} · {l.state} · {l.postcode}</div>
+        <Link href={`/listings/${l.id}`} style={{textDecoration:'none'}}><div style={{fontSize:16,color:white,marginBottom:6,fontWeight:600}}>{l.title}</div></Link>
+        <div style={{fontSize:12,color:muted,marginBottom:4}}>{l.street_address}</div>
+        <div style={{fontSize:12,color:muted}}>{l.bedrooms} bed · {l.bathrooms} bath · {l.property_type}</div>
+        {l.price_guide&&<div style={{fontSize:13,color:gold,marginTop:6}}>{l.price_guide}</div>}
+      </div>
+      <div style={{display:'flex',flexDirection:'column',gap:8,alignItems:'flex-end'}}>
+        <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',padding:'3px 10px',border:`1px solid`,color:l.status==='sold'?muted:gold,borderColor:l.status==='sold'?border:'#8A6A1F'}}>{l.status}</div>
+        <div style={{fontSize:11,color:muted}}>{new Date(l.created_at).toLocaleDateString('en-AU')}</div>
+        {showEdit && (
+          <Link href={`/listings/edit/${l.id}`} style={{fontSize:11,color:gold,textDecoration:'none',border:`1px solid ${border}`,padding:'4px 10px'}}>Edit →</Link>
+        )}
+      </div>
+    </div>
+  )
 
   return (
     <div style={{background:black,minHeight:'100vh'}}>
@@ -143,19 +165,12 @@ export default function Dashboard() {
               </div>
               {listings.length > 0 ? (
                 <>
-                  <h3 style={{fontSize:16,color:white,fontWeight:600,marginBottom:16}}>My recent listings</h3>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+                    <h3 style={{fontSize:16,color:white,fontWeight:600}}>My recent listings</h3>
+                    <button onClick={()=>setActiveSection('My listings')} style={{background:'none',border:`1px solid ${border}`,color:'#D4D8DF',fontSize:12,padding:'6px 14px',cursor:'pointer'}}>View all</button>
+                  </div>
                   <div style={{display:'flex',flexDirection:'column',gap:1,background:border,marginBottom:28}}>
-                    {listings.slice(0,3).map(l=>(
-                      <Link key={l.id} href={`/listings/${l.id}`} style={{textDecoration:'none',background:black2,display:'grid',gridTemplateColumns:'80px 1fr auto',gap:16,alignItems:'center',padding:16}}>
-                        {l.images&&l.images[0]?<img src={l.images[0]} alt={l.title} style={{width:80,height:56,objectFit:'cover',opacity:0.8}}/>:<div style={{width:80,height:56,background:black4,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,color:muted}}>No img</div>}
-                        <div>
-                          <div style={{fontSize:9,letterSpacing:'0.25em',color:gold,textTransform:'uppercase',marginBottom:3}}>{l.suburb} · {l.state}</div>
-                          <div style={{fontSize:14,color:white,marginBottom:4}}>{l.title}</div>
-                          <div style={{fontSize:11,color:muted}}>{l.bedrooms} bed · {l.bathrooms} bath · {l.property_type}</div>
-                        </div>
-                        <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',padding:'3px 10px',border:`1px solid`,color:gold,borderColor:'#8A6A1F'}}>{l.status}</div>
-                      </Link>
-                    ))}
+                    {listings.slice(0,3).map(l=><ListingCard key={l.id} l={l}/>)}
                   </div>
                 </>
               ) : (
@@ -169,7 +184,7 @@ export default function Dashboard() {
                   <h3 style={{fontSize:16,color:white,fontWeight:600,marginBottom:16}}>Recent enquiries received</h3>
                   <div style={{display:'flex',flexDirection:'column',gap:1,background:border}}>
                     {enquiriesReceived.slice(0,3).map(e=>(
-                      <div key={e.id} style={{background:black2,display:'grid',gridTemplateColumns:'1fr 1fr auto',gap:16,alignItems:'center',padding:'14px 16px'}}>
+                      <div key={e.id} onClick={()=>{setActiveEnquiry(e);fetchMessages(e.id);setActiveSection('Messages')}} style={{background:black2,display:'grid',gridTemplateColumns:'1fr 1fr auto',gap:16,alignItems:'center',padding:'14px 16px',cursor:'pointer'}}>
                         <div><div style={{fontSize:13,color:white}}>{e.enquirer_name}</div><div style={{fontSize:11,color:muted}}>{e.enquirer_agency}</div></div>
                         <div style={{fontSize:12,color:muted}}>{e.listing_title}</div>
                         <div style={{fontSize:10,color:gold}}>{new Date(e.created_at).toLocaleDateString('en-AU')}</div>
@@ -195,22 +210,7 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div style={{display:'flex',flexDirection:'column',gap:1,background:border}}>
-                  {listings.map(l=>(
-                    <Link key={l.id} href={`/listings/${l.id}`} style={{textDecoration:'none',background:black2,display:'grid',gridTemplateColumns:'120px 1fr auto',gap:20,alignItems:'center',padding:20}}>
-                      {l.images&&l.images[0]?<img src={l.images[0]} alt={l.title} style={{width:120,height:80,objectFit:'cover',opacity:0.8}}/>:<div style={{width:120,height:80,background:black4,display:'flex',alignItems:'center',justifyContent:'center',fontSize:10,color:muted}}>No image</div>}
-                      <div>
-                        <div style={{fontSize:9,letterSpacing:'0.25em',color:gold,textTransform:'uppercase',marginBottom:4}}>{l.suburb} · {l.state} · {l.postcode}</div>
-                        <div style={{fontSize:16,color:white,marginBottom:6,fontWeight:600}}>{l.title}</div>
-                        <div style={{fontSize:12,color:muted,marginBottom:4}}>{l.street_address}</div>
-                        <div style={{fontSize:12,color:muted}}>{l.bedrooms} bed · {l.bathrooms} bath · {l.property_type}</div>
-                        {l.price_guide&&<div style={{fontSize:13,color:gold,marginTop:6}}>{l.price_guide}</div>}
-                      </div>
-                      <div style={{display:'flex',flexDirection:'column',gap:8,alignItems:'flex-end'}}>
-                        <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',padding:'3px 10px',border:`1px solid`,color:gold,borderColor:'#8A6A1F'}}>{l.status}</div>
-                        <div style={{fontSize:11,color:muted}}>{new Date(l.created_at).toLocaleDateString('en-AU')}</div>
-                      </div>
-                    </Link>
-                  ))}
+                  {listings.map(l=><ListingCard key={l.id} l={l}/>)}
                 </div>
               )}
             </>
@@ -220,6 +220,7 @@ export default function Dashboard() {
           {activeSection === 'Browse feed' && (
             <div>
               <h2 style={{fontSize:22,color:white,fontWeight:600,marginBottom:16}}>Browse feed</h2>
+              <p style={{color:muted,marginBottom:24,fontSize:14}}>Search and browse all active off market listings from verified members.</p>
               <Link href="/listings" style={{display:'inline-block',background:gold,color:'#000',padding:'12px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Open full browse feed →</Link>
             </div>
           )}
@@ -286,7 +287,7 @@ export default function Dashboard() {
                   {enquiriesSent.map(e=>(
                     <div key={e.id} onClick={()=>{setActiveEnquiry(e);fetchMessages(e.id);setActiveSection('Messages')}} style={{background:black2,display:'grid',gridTemplateColumns:'1fr auto',gap:16,alignItems:'center',padding:'16px 20px',cursor:'pointer'}}>
                       <div><div style={{fontSize:14,color:white,fontWeight:600}}>{e.listing_title}</div><div style={{fontSize:12,color:muted}}>Enquiry sent · {new Date(e.created_at).toLocaleDateString('en-AU')}</div></div>
-                      <div style={{fontSize:12,color:gold}}>View →</div>
+                      <div style={{fontSize:12,color:gold}}>Message →</div>
                     </div>
                   ))}
                 </div>
@@ -308,7 +309,7 @@ export default function Dashboard() {
                   <div style={{padding:'16px 20px',borderBottom:`1px solid ${border}`,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <div>
                       <div style={{fontSize:14,color:white,fontWeight:600}}>{activeEnquiry.listing_title}</div>
-                      <div style={{fontSize:12,color:muted}}>with {activeEnquiry.enquirer_id === member.id ? activeEnquiry.listing_member_id : activeEnquiry.enquirer_name}</div>
+                      <div style={{fontSize:12,color:muted}}>with {activeEnquiry.enquirer_id===member.id?'Listing agent':activeEnquiry.enquirer_name}</div>
                     </div>
                     <button onClick={()=>setActiveEnquiry(null)} style={{background:'none',border:`1px solid ${border}`,color:muted,fontSize:12,padding:'4px 10px',cursor:'pointer'}}>Close</button>
                   </div>
@@ -369,18 +370,18 @@ export default function Dashboard() {
               <div style={{background:black3,border:`1px solid ${border}`,padding:32,maxWidth:600,marginBottom:20}}>
                 <div style={{fontSize:10,letterSpacing:'0.3em',color:gold,textTransform:'uppercase',marginBottom:16}}>Current plan</div>
                 <div style={{fontSize:28,color:gold,fontWeight:700,marginBottom:4}}>{member.plan}</div>
-                <div style={{fontSize:13,color:muted,marginBottom:20}}>3 months free trial · No credit card required</div>
-                <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
-                  {['Bronze','Silver','Gold','Platinum'].map(p=>(
-                    <div key={p} style={{background:p===member.plan?'rgba(201,168,76,0.1)':black4,border:`1px solid ${p===member.plan?gold:border}`,padding:'16px 20px',flex:1,minWidth:120}}>
+                <div style={{fontSize:13,color:muted,marginBottom:24}}>3 months free trial · No credit card required</div>
+                <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12}}>
+                  {[['Bronze','$49'],['Silver','$99'],['Gold','$179'],['Platinum','$349']].map(([p,price])=>(
+                    <div key={p} style={{background:p===member.plan?'rgba(201,168,76,0.1)':black4,border:`1px solid ${p===member.plan?gold:border}`,padding:'16px 12px',textAlign:'center'}}>
                       <div style={{fontSize:14,color:p===member.plan?gold:white,fontWeight:600,marginBottom:4}}>{p}</div>
-                      <div style={{fontSize:11,color:muted}}>{p==='Bronze'?'$49':p==='Silver'?'$99':p==='Gold'?'$179':'$349'}/mo after trial</div>
-                      {p===member.plan&&<div style={{fontSize:10,color:gold,marginTop:8}}>✓ Current plan</div>}
+                      <div style={{fontSize:11,color:muted}}>{price}/mo after trial</div>
+                      {p===member.plan&&<div style={{fontSize:10,color:gold,marginTop:8}}>✓ Current</div>}
                     </div>
                   ))}
                 </div>
               </div>
-              <div style={{fontSize:13,color:muted}}>To change your plan or add payment details, contact <a href="mailto:support@offmarketpropertynetwork.com.au" style={{color:gold,textDecoration:'none'}}>support@offmarketpropertynetwork.com.au</a></div>
+              <div style={{fontSize:13,color:muted}}>To change your plan contact <a href="mailto:support@offmarketpropertynetwork.com.au" style={{color:gold,textDecoration:'none'}}>support@offmarketpropertynetwork.com.au</a></div>
             </>
           )}
 
