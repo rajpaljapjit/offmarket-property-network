@@ -369,10 +369,10 @@ export default function Dashboard() {
             <>
               <h2 style={{fontSize:22,color:s.white,fontWeight:600,marginBottom:28}}>Settings</h2>
               <div style={{display:'flex',flexDirection:'column',gap:16,maxWidth:500}}>
-                {[['Change password','Update your login password'],['Email notifications','Get alerts for new listings and enquiries'],['Account visibility','Control who can see your profile'],['Deactivate account','Temporarily disable your account']].map(([title,desc])=>(
+                {[["Change password","Update your login password","/profile/change-password"],["Email notifications","Get alerts for new listings and enquiries",""],["Account visibility","Control who can see your profile",""],["Deactivate account","Temporarily disable your account",""]].map(([title,desc,link])=>(
                   <div key={title} style={{background:s.bg3,border:`1px solid ${s.border}`,padding:20,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
                     <div><div style={{fontSize:14,color:s.white,fontWeight:600,marginBottom:4}}>{title}</div><div style={{fontSize:12,color:s.muted}}>{desc}</div></div>
-                    <button style={{background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:12,padding:'6px 14px',cursor:'pointer'}}>Manage</button>
+                    {link ? <Link href={link} style={{background:"none",border:`1px solid ${s.border}`,color:s.gold,fontSize:12,padding:"6px 14px",textDecoration:"none"}}>Manage</Link> : <button style={{background:"none",border:`1px solid ${s.border}`,color:s.muted,fontSize:12,padding:"6px 14px",cursor:"pointer"}}>Coming soon</button>}
                   </div>
                 ))}
               </div>
