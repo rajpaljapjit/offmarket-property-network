@@ -3,12 +3,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SECRET_KEY
-
-  if (!url || !key) {
-    return res.status(500).json({ error: `Missing env vars. URL: ${!!url}, KEY: ${!!key}` })
-  }
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://jmjtcmfjknmdnlgxudfk.supabase.co'
+  const key = process.env.SUPABASE_SECRET_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
 
   const { firstName, lastName, email, mobile, username, password, agency, role, state, licenseNumber, plan } = req.body
 
@@ -59,12 +55,12 @@ export default async function handler(req, res) {
     try {
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY || 're_bmLA4KoW_HFXWiJj5w7yu27hwHkeb5hBd'}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           from: 'Off Market Property Network <welcome.no-reply@offmarketpropertynetwork.com.au>',
           to: email,
           subject: 'Welcome to Off Market Property Network',
-          html: `<html><body style="background:#0A0A0A;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#111;padding:40px;"><h1 style="color:#F5F3EE;">Welcome, ${firstName}!</h1><p style="color:#AAAAAA;">Thank you for applying. We are verifying your license — this takes 24-48 hours. Once verified you will receive full access.</p><a href="https://offmarketpropertynetwork.com.au" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;">Visit the Network</a></div></body></html>`
+          html: `<html><body style="background:#0A0A0A;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#111;padding:40px;"><h1 style="color:#F5F3EE;">Welcome, ${firstName}!</h1><p style="color:#AAAAAA;">Thank you for applying. We are verifying your license — this takes 24-48 hours.</p><a href="https://offmarketpropertynetwork.com.au" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;">Visit the Network</a></div></body></html>`
         })
       })
     } catch (emailError) {
