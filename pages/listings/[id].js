@@ -12,6 +12,7 @@ export default function ListingDetail() {
   const [loading, setLoading] = useState(true)
   const [member, setMember] = useState(null)
   const [enquirySent, setEnquirySent] = useState(false)
+  const [enquiryLoading, setEnquiryLoading] = useState(false)
   const [activePhoto, setActivePhoto] = useState(0)
 
   useEffect(() => {
@@ -34,19 +35,33 @@ export default function ListingDetail() {
 
   const handleEnquiry = async () => {
     if (!member) { router.push('/login'); return }
-    const db = await getSupabase()
-    await db.from('enquiries').insert([{
-      listing_id: listing.id,
-      listing_title: listing.title,
-      listing_member_id: listing.member_id,
-      enquirer_id: member.id,
-      enquirer_name: `${member.firstName} ${member.lastName}`,
-      enquirer_agency: member.agency,
-      enquirer_username: member.username,
-      status: 'pending',
-      created_at: new Date().toISOString()
-    }])
-    setEnquirySent(true)
+    setEnquiryLoading(true)
+    try {
+      // Get listing member email
+      const db = await getSupabase()
+      const { data: listingMember } = await db.from('members').select('email, mobile').eq('id', listing.member_id).single()
+
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          listingId: listing.id,
+          listingTitle: listing.title,
+          listingMemberId: listing.member_id,
+          listingMemberEmail: listingMember?.email,
+          enquirerId: member.id,
+          enquirerName: `${member.firstName} ${member.lastName}`,
+          enquirerAgency: member.agency,
+          enquirerUsername: member.username,
+          enquirerEmail: member.email,
+          enquirerMobile: member.mobile,
+        })
+      })
+      if (res.ok) setEnquirySent(true)
+    } catch (err) {
+      console.error(err)
+    }
+    setEnquiryLoading(false)
   }
 
   if (loading) return <div style={{background:s.bg,minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center'}}><div style={{color:s.muted}}>Loading...</div></div>
@@ -55,10 +70,7 @@ export default function ListingDetail() {
   return (
     <div style={{background:s.bg,minHeight:'100vh',color:s.white}}>
       <Nav/>
-      <style>{`
-        .listing-grid{display:grid;grid-template-columns:1fr 340px;gap:32px;}
-        @media(max-width:900px){.listing-grid{grid-template-columns:1fr;}}
-      `}</style>
+      <style>{`.listing-grid{display:grid;grid-template-columns:1fr 340px;gap:32px;}@media(max-width:900px){.listing-grid{grid-template-columns:1fr;}}`}</style>
       <div style={{maxWidth:1100,margin:'0 auto',padding:'40px 20px'}}>
         <Link href="/listings" style={{fontSize:12,color:s.muted,textDecoration:'none',marginBottom:20,display:'inline-block'}}>← Back to listings</Link>
         <div className="listing-grid" style={{marginTop:16}}>
@@ -133,8 +145,8 @@ export default function ListingDetail() {
                     ✓ Enquiry sent! The agent will be in touch.
                   </div>
                 ) : (
-                  <button onClick={handleEnquiry} style={{background:s.gold,border:'none',color:'#000',fontSize:14,fontWeight:600,padding:14,cursor:'pointer',width:'100%'}}>
-                    Send Enquiry →
+                  <button onClick={handleEnquiry} disabled={enquiryLoading} style={{background:enquiryLoading?'#8A6A1F':s.gold,border:'none',color:'#000',fontSize:14,fontWeight:600,padding:14,cursor:enquiryLoading?'not-allowed':'pointer',width:'100%',opacity:enquiryLoading?0.8:1}}>
+                    {enquiryLoading?'Sending...':'Send Enquiry →'}
                   </button>
                 )
               ) : (
