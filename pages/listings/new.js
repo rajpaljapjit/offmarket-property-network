@@ -1,5 +1,5 @@
 import Nav from '../../components/Nav'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
 const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',border:'#1E2A45',red:'#E24B4A'}
@@ -14,6 +14,8 @@ export default function NewListing() {
   const [form, setForm] = useState({
     title:'',description:'',propertyType:'House',bedrooms:'',bathrooms:'',carSpaces:'',landSize:'',priceGuide:'',streetAddress:'',suburb:'',state:'QLD',postcode:''
   })
+  const addressRef = useRef(null)
+  const autocompleteRef = useRef(null)
 
   const input = {background:s.bg3,border:`1px solid ${s.border}`,color:s.white,fontSize:14,padding:'12px 14px',width:'100%',boxSizing:'border-box'}
   const lab = {fontSize:11,letterSpacing:'0.2em',color:s.muted,textTransform:'uppercase',marginBottom:6,display:'block'}
@@ -22,7 +24,46 @@ export default function NewListing() {
     const stored = localStorage.getItem('member')
     if (!stored) { router.push('/login'); return }
     setMember(JSON.parse(stored))
+    loadGoogleMaps()
   }, [])
+
+  const loadGoogleMaps = () => {
+    if (window.google) { initAutocomplete(); return }
+    const script = document.createElement('script')
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_KEY}&libraries=places`
+    script.async = true
+    script.onload = initAutocomplete
+    document.head.appendChild(script)
+  }
+
+  const initAutocomplete = () => {
+    if (!addressRef.current || !window.google) return
+    autocompleteRef.current = new window.google.maps.places.Autocomplete(addressRef.current, {
+      componentRestrictions: { country: 'au' },
+      fields: ['address_components', 'formatted_address'],
+      types: ['address']
+    })
+    autocompleteRef.current.addListener('place_changed', () => {
+      const place = autocompleteRef.current.getPlace()
+      if (!place.address_components) return
+      let streetNumber = '', streetName = '', suburb = '', state = '', postcode = ''
+      place.address_components.forEach(component => {
+        const types = component.types
+        if (types.includes('street_number')) streetNumber = component.long_name
+        if (types.includes('route')) streetName = component.long_name
+        if (types.includes('locality')) suburb = component.long_name
+        if (types.includes('administrative_area_level_1')) state = component.short_name
+        if (types.includes('postal_code')) postcode = component.long_name
+      })
+      setForm(prev => ({
+        ...prev,
+        streetAddress: `${streetNumber} ${streetName}`.trim(),
+        suburb,
+        state,
+        postcode
+      }))
+    })
+  }
 
   const getSupabase = async () => {
     const { createClient } = await import('@supabase/supabase-js')
@@ -33,16 +74,16 @@ export default function NewListing() {
 
   const handleImageUpload = async e => {
     const files = Array.from(e.target.files)
-    if (files.length === 0) return
+    if (!files.length) return
     setUploading(true)
     try {
-      const supabase = await getSupabase()
+      const db = await getSupabase()
       const uploaded = []
       for (const file of files) {
         const fileName = `${Date.now()}-${file.name.replace(/\s/g,'-')}`
-        const { error } = await supabase.storage.from('listing-images').upload(fileName, file)
+        const { error } = await db.storage.from('listing-images').upload(fileName, file)
         if (!error) {
-          const { data } = supabase.storage.from('listing-images').getPublicUrl(fileName)
+          const { data } = db.storage.from('listing-images').getPublicUrl(fileName)
           uploaded.push(data.publicUrl)
         }
       }
@@ -79,6 +120,13 @@ export default function NewListing() {
   return (
     <div style={{background:s.bg,minHeight:'100vh',color:s.white}}>
       <Nav/>
+      <style>{`
+        .pac-container { background:#151D35 !important; border:1px solid #1E2A45 !important; font-family:inherit !important; }
+        .pac-item { color:#A8B4CC !important; padding:8px 12px !important; cursor:pointer !important; border-top:1px solid #1E2A45 !important; }
+        .pac-item:hover { background:#1A2340 !important; }
+        .pac-item-query { color:#F5F3EE !important; }
+        .pac-matched { color:#C9A84C !important; }
+      `}</style>
       <div style={{maxWidth:800,margin:'0 auto',padding:'48px 20px'}}>
         <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>New listing</div>
         <h1 style={{fontSize:'clamp(24px,4vw,36px)',color:s.white,marginBottom:8,fontWeight:600}}>Upload an off market listing</h1>
@@ -110,17 +158,29 @@ export default function NewListing() {
           </div>
 
           <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:28}}>
-            <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Property address</div>
+            <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:8}}>Property address</div>
+            <p style={{fontSize:12,color:s.muted,marginBottom:20}}>Start typing the address and select from the suggestions.</p>
             <div style={{display:'flex',flexDirection:'column',gap:16}}>
-              <div><label style={lab}>Street address *</label><input name="streetAddress" value={form.streetAddress} onChange={handleChange} type="text" placeholder="e.g. 12 Ocean Drive" style={input} required/></div>
-              <div style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr',gap:16}}>
-                <div><label style={lab}>Suburb *</label><input name="suburb" value={form.suburb} onChange={handleChange} type="text" placeholder="e.g. Hope Island" style={input} required/></div>
+              <div>
+                <label style={lab}>Search address *</label>
+                <input
+                  ref={addressRef}
+                  type="text"
+                  placeholder="Start typing the property address..."
+                  style={input}
+                />
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:16}}>
+                <div><label style={lab}>Street address *</label><input name="streetAddress" value={form.streetAddress} onChange={handleChange} type="text" placeholder="Will auto-fill" style={input} required/></div>
+                <div><label style={lab}>Suburb *</label><input name="suburb" value={form.suburb} onChange={handleChange} type="text" placeholder="Will auto-fill" style={input} required/></div>
+              </div>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
                 <div><label style={lab}>State *</label>
                   <select name="state" value={form.state} onChange={handleChange} style={{...input,padding:'12px 14px'}}>
                     <option>QLD</option><option>NSW</option><option>VIC</option><option>WA</option><option>SA</option><option>TAS</option><option>ACT</option><option>NT</option>
                   </select>
                 </div>
-                <div><label style={lab}>Postcode *</label><input name="postcode" value={form.postcode} onChange={handleChange} type="text" placeholder="4212" style={input} required/></div>
+                <div><label style={lab}>Postcode *</label><input name="postcode" value={form.postcode} onChange={handleChange} type="text" placeholder="Will auto-fill" style={input} required/></div>
               </div>
             </div>
           </div>
