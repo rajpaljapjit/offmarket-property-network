@@ -330,7 +330,7 @@ export default function Dashboard() {
 
           {activeSection === 'My profile' && (
             <>
-              <h2 style={{fontSize:22,color:s.white,fontWeight:600,marginBottom:28}}>My profile</h2>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:28}}><h2 style={{fontSize:22,color:s.white,fontWeight:600}}>My profile</h2><Link href="/profile/edit" style={{background:s.gold,color:"#000",fontSize:13,fontWeight:500,padding:"8px 20px",textDecoration:"none"}}>Edit profile →</Link></div>
               <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,maxWidth:600}}>
                 <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
                   {[['First name',member.firstName],['Last name',member.lastName],['Email',member.email],['Username',member.username],['Agency',member.agency],['Role',member.role],['State',member.state],['Plan',member.plan],['Status',member.status]].map(([label,val])=>(
