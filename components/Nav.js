@@ -23,7 +23,7 @@ export default function Nav() {
     <nav style={{position:'sticky',top:0,zIndex:100,background:'rgba(10,15,30,0.97)',borderBottom:'1px solid #1E2A45'}}>
       <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px',display:'flex',alignItems:'center',justifyContent:'space-between',height:64}}>
         <Link href="/" style={{textDecoration:'none',display:'flex',alignItems:'center'}}>
-          <img src="/logo.png" alt="Off Market Property Network" style={{height:44,width:'auto',objectFit:'contain'}}/>
+          <img src="/logo.png" alt="Off Market Property Network" style={{height:52,width:'auto',objectFit:'contain',maxWidth:220}}/>
         </Link>
 
         {/* Desktop nav */}
