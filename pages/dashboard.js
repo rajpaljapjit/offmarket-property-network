@@ -23,7 +23,37 @@ export default function Dashboard() {
     const m = JSON.parse(stored)
     setMember(m)
     fetchAll(m)
+    // Refresh member status from Supabase
+    refreshMember(m.id)
   }, [])
+
+  const refreshMember = async (id) => {
+    try {
+      const { createClient } = await import('@supabase/supabase-js')
+      const supabase = createClient(
+        'https://jmjtcmfjknmdnlgxudfk.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
+      )
+      const { data } = await supabase.from('members').select('*').eq('id', id).single()
+      if (data) {
+        const updated = {
+          id: data.id,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          email: data.email,
+          username: data.username,
+          agency: data.agency,
+          role: data.role,
+          state: data.state,
+          plan: data.plan,
+          status: data.status,
+          mobile: data.mobile,
+        }
+        localStorage.setItem('member', JSON.stringify(updated))
+        setMember(updated)
+      }
+    } catch(err) { console.error('Refresh error:', err) }
+  }
 
   const getSupabase = async () => {
     const { createClient } = await import('@supabase/supabase-js')
