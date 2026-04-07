@@ -1,10 +1,33 @@
 import Nav from '../components/Nav'
+import { useState, useEffect } from 'react'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 
 const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45'}
 
 export default function Home() {
+  const [realListings, setRealListings] = useState([])
+
+  useEffect(() => {
+    fetchListings()
+  }, [])
+
+  const fetchListings = async () => {
+    try {
+      const { createClient } = await import('@supabase/supabase-js')
+      const supabase = createClient(
+        'https://jmjtcmfjknmdnlgxudfk.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
+      )
+      const { data } = await supabase
+        .from('listings')
+        .select('*')
+        .eq('status', 'active')
+        .order('created_at', {ascending: false})
+        .limit(3)
+      if (data && data.length >= 3) setRealListings(data)
+    } catch(err) { console.error(err) }
+  }
   return (
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
@@ -82,13 +105,13 @@ export default function Home() {
             <Link href="/listings" style={{border:`1px solid ${s.border}`,color:'#A8B4CC',padding:'8px 16px',fontSize:13,textDecoration:'none'}}>View all →</Link>
           </div>
           <div className="listings-grid">
-            {[
-              {suburb:'Hope Island',state:'QLD',title:'Prestige waterfront opportunity',img:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80'},
-              {suburb:'Burleigh Heads',state:'QLD',title:'Boutique coastal apartment',img:'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80'},
-              {suburb:'Main Beach',state:'QLD',title:'Luxury sky home opportunity',img:null},
-            ].map(l=>(
-              <div key={l.suburb} style={{background:s.bg2}}>
-                {l.img?<img src={l.img} alt={l.title} style={{width:'100%',height:180,objectFit:'cover',opacity:0.75}}/>:<div style={{height:180,background:s.bg4,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}><div style={{fontSize:20,marginBottom:8}}>🔒</div><div style={{fontSize:10,letterSpacing:'0.25em',color:s.muted,textTransform:'uppercase'}}>Members only</div></div>}
+            {(realListings.length >= 3 ? realListings : [
+              {id:'1',suburb:'Hope Island',state:'QLD',title:'Prestige waterfront opportunity',images:['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80']},
+              {id:'2',suburb:'Burleigh Heads',state:'QLD',title:'Boutique coastal apartment',images:['https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80']},
+              {id:'3',suburb:'Main Beach',state:'QLD',title:'Luxury sky home opportunity',images:[]},
+            ]).map(l=>(
+              <div key={l.id} style={{background:s.bg2}}>
+                {l.images&&l.images[0]?<img src={l.images[0]} alt={l.title} style={{width:'100%',height:180,objectFit:'cover',opacity:0.75}}/>:<div style={{height:180,background:s.bg4,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}><div style={{fontSize:20,marginBottom:8}}>🔒</div><div style={{fontSize:10,letterSpacing:'0.25em',color:s.muted,textTransform:'uppercase'}}>Members only</div></div>}
                 <div style={{padding:16}}>
                   <div style={{fontSize:9,letterSpacing:'0.35em',color:s.gold,textTransform:'uppercase',marginBottom:6}}>{l.suburb} · {l.state}</div>
                   <div style={{fontSize:16,color:s.white,marginBottom:8,fontWeight:600}}>{l.title}</div>
