@@ -44,7 +44,7 @@ export default function Admin() {
       db.from("members").select("*").order("created_at",{ascending:false}),
       db.from('listings').select('*').order('created_at',{ascending:false})
     ])
-    setMembers(m.data||[])
+    console.log("Members:", m.data, "Error:", m.error); setMembers(m.data||[])
     setListings(l.data||[])
     setLoading(false)
   }
