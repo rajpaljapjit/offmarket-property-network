@@ -3,11 +3,12 @@ import Footer from '../components/Footer'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45',silver:'#A8B4CC'}
+const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45',silver:'#A8B4CC',red:'#E24B4A'}
 
 export default function Agents() {
   const [member, setMember] = useState(null)
   const [agents, setAgents] = useState([])
+  const [favourites, setFavourites] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [filterState, setFilterState] = useState('All States')
@@ -16,34 +17,56 @@ export default function Agents() {
   useEffect(() => {
     const stored = localStorage.getItem('member')
     if (stored) {
-      setMember(JSON.parse(stored))
-      fetchAgents()
+      const m = JSON.parse(stored)
+      setMember(m)
+      fetchAgents(m.id)
     } else {
       setLoading(false)
     }
   }, [])
 
-  const fetchAgents = async () => {
+  const getSupabase = async () => {
+    const { createClient } = await import('@supabase/supabase-js')
+    return createClient('https://jmjtcmfjknmdnlgxudfk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo')
+  }
+
+  const fetchAgents = async (memberId) => {
     try {
-      const { createClient } = await import('@supabase/supabase-js')
-      const supabase = createClient(
-        'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-      )
-      const { data } = await supabase
-        .from('members')
-        .select('id, first_name, last_name, agency, role, state, plan, username')
-        .eq('status', 'active')
-        .neq('username', 'ompnadminlogin')
-        .order('trial_start', {ascending: false})
-      setAgents(data || [])
+      const db = await getSupabase()
+      const [agentsRes, favsRes] = await Promise.all([
+        db.from('members').select('id,first_name,last_name,agency,role,state,plan,username').eq('status','active').neq('username','ompnadminlogin'),
+        db.from('favourite_agents').select('agent_id').eq('member_id', memberId)
+      ])
+      setAgents(agentsRes.data||[])
+      setFavourites((favsRes.data||[]).map(f=>f.agent_id))
     } catch(err) { console.error(err) }
     setLoading(false)
   }
 
+  const toggleFavourite = async (agent) => {
+    if (!member) return
+    const db = await getSupabase()
+    if (favourites.includes(agent.id)) {
+      await db.from('favourite_agents').delete().eq('member_id', member.id).eq('agent_id', agent.id)
+      setFavourites(favourites.filter(id=>id!==agent.id))
+    } else {
+      await db.from('favourite_agents').insert([{
+        member_id: member.id,
+        agent_id: agent.id,
+        agent_name: `${agent.first_name} ${agent.last_name}`,
+        agent_username: agent.username,
+        agent_agency: agent.agency,
+        agent_role: agent.role,
+        agent_state: agent.state,
+      }])
+      setFavourites([...favourites, agent.id])
+    }
+  }
+
   const filtered = agents.filter(a => {
+    if (member && a.id === member.id) return false
     const q = search.toLowerCase()
-    const matchSearch = !search || 
+    const matchSearch = !search ||
       `${a.first_name} ${a.last_name}`.toLowerCase().includes(q) ||
       a.agency?.toLowerCase().includes(q) ||
       a.username?.toLowerCase().includes(q)
@@ -65,13 +88,13 @@ export default function Agents() {
       <div style={{maxWidth:1200,margin:'0 auto',padding:'48px 20px 60px'}}>
         <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>Agent directory</div>
         <h1 style={{fontSize:'clamp(28px,5vw,40px)',color:s.white,marginBottom:12,fontWeight:600}}>Verified members</h1>
-        <p style={{color:s.muted,marginBottom:32}}>All agents are license-verified real estate professionals.</p>
+        <p style={{color:s.muted,marginBottom:32}}>All agents are license-verified real estate professionals. Star an agent to add them to your favourites.</p>
 
         {!member ? (
           <div style={{textAlign:'center',padding:'60px 20px',background:s.bg2,border:`1px solid ${s.border}`}}>
             <div style={{fontSize:32,marginBottom:16}}>🔒</div>
             <h2 style={{fontSize:22,color:s.white,marginBottom:12,fontWeight:600}}>Members only</h2>
-            <p style={{color:s.muted,marginBottom:24,maxWidth:400,margin:'0 auto 24px'}}>The agent directory is exclusively available to verified members. Sign in or join free to connect with Australia's top agents.</p>
+            <p style={{color:s.muted,marginBottom:24,maxWidth:400,margin:'0 auto 24px'}}>The agent directory is exclusively available to verified members.</p>
             <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
               <Link href="/login" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Sign in to view agents</Link>
               <Link href="/signup" style={{border:`1px solid ${s.silver}`,color:s.silver,padding:'14px 28px',fontSize:14,textDecoration:'none'}}>Join free</Link>
@@ -81,7 +104,6 @@ export default function Agents() {
           <div style={{textAlign:'center',padding:'60px 0',color:s.muted}}>Loading agents...</div>
         ) : (
           <>
-            {/* Filters */}
             <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:'16px 20px',marginBottom:32}}>
               <div style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr',gap:12}}>
                 <input type="text" placeholder="Search by name, agency or username..." value={search} onChange={e=>setSearch(e.target.value)} style={{...input,width:'100%',boxSizing:'border-box'}}/>
@@ -108,7 +130,10 @@ export default function Agents() {
             ) : (
               <div className="agents-grid">
                 {filtered.map(a=>(
-                  <div key={a.id} style={{background:s.bg2,padding:24}}>
+                  <div key={a.id} style={{background:s.bg2,padding:24,position:'relative'}}>
+                    <button onClick={()=>toggleFavourite(a)} style={{position:'absolute',top:16,right:16,background:'none',border:'none',fontSize:20,cursor:'pointer',color:favourites.includes(a.id)?s.gold:s.border}}>
+                      {favourites.includes(a.id)?'★':'☆'}
+                    </button>
                     <div style={{width:48,height:48,borderRadius:'50%',background:s.bg4,border:`1px solid ${s.border}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,color:s.gold,marginBottom:14,fontWeight:600}}>
                       {a.first_name?.[0]}{a.last_name?.[0]}
                     </div>
