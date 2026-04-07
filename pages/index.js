@@ -106,16 +106,25 @@ export default function Home() {
           </div>
           <div className="listings-grid">
             {(realListings.length >= 3 ? realListings : [
-              {id:'1',suburb:'Hope Island',state:'QLD',title:'Prestige waterfront opportunity',images:['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80']},
-              {id:'2',suburb:'Burleigh Heads',state:'QLD',title:'Boutique coastal apartment',images:['https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80']},
-              {id:'3',suburb:'Main Beach',state:'QLD',title:'Luxury sky home opportunity',images:[]},
+              {id:'1',suburb:'Hope Island',state:'QLD',property_type:'House'},
+              {id:'2',suburb:'Burleigh Heads',state:'QLD',property_type:'Apartment'},
+              {id:'3',suburb:'Main Beach',state:'QLD',property_type:'House'},
             ]).map(l=>(
-              <div key={l.id} style={{background:s.bg2}}>
-                {l.images&&l.images[0]?<img src={l.images[0]} alt={l.title} style={{width:'100%',height:180,objectFit:'cover',opacity:0.75}}/>:<div style={{height:180,background:s.bg4,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}><div style={{fontSize:20,marginBottom:8}}>🔒</div><div style={{fontSize:10,letterSpacing:'0.25em',color:s.muted,textTransform:'uppercase'}}>Members only</div></div>}
+              <div key={l.id} style={{background:s.bg2,cursor:'default'}}>
+                <div style={{height:180,background:s.bg4,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',position:'relative',overflow:'hidden'}}>
+                  {l.images&&l.images[0]&&<img src={l.images[0]} alt="Property" style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',objectFit:'cover',opacity:0.2,filter:'blur(4px)'}}/>}
+                  <div style={{position:'relative',zIndex:1,textAlign:'center'}}>
+                    <div style={{fontSize:24,marginBottom:8}}>🔒</div>
+                    <div style={{fontSize:10,letterSpacing:'0.25em',color:s.muted,textTransform:'uppercase'}}>Members only</div>
+                  </div>
+                </div>
                 <div style={{padding:16}}>
                   <div style={{fontSize:9,letterSpacing:'0.35em',color:s.gold,textTransform:'uppercase',marginBottom:6}}>{l.suburb} · {l.state}</div>
-                  <div style={{fontSize:16,color:s.white,marginBottom:8,fontWeight:600}}>{l.title}</div>
-                  <div style={{fontSize:10,color:s.muted,textTransform:'uppercase'}}>Private member listing · 🔒</div>
+                  <div style={{fontSize:16,color:s.white,marginBottom:8,fontWeight:600}}>Private off market opportunity</div>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                    <div style={{fontSize:10,color:s.muted,textTransform:'uppercase'}}>Details hidden · Members only</div>
+                    <div style={{fontSize:11,color:s.gold}}>🔒</div>
+                  </div>
                 </div>
               </div>
             ))}
