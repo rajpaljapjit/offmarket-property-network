@@ -52,7 +52,7 @@ export default async function handler(req, res) {
               <body style="margin:0;padding:0;background:#0A0F1E;font-family:Arial,sans-serif;">
                 <div style="max-width:600px;margin:0 auto;background:#0F1628;">
                   <div style="padding:32px 40px;border-bottom:1px solid #1E2A45;">
-                    <img src="https://offmarketpropertynetwork.com.au/logo.png" alt="Off Market Property Network" style="height:40px;"/>
+                    <img src="https://offmarketpropertynetwork.com.au/logo-new.png" alt="Off Market Property Network" style="height:40px;"/>
                   </div>
                   <div style="padding:40px;">
                     <h1 style="font-size:24px;color:#F5F3EE;margin:0 0 8px;font-weight:600;">New enquiry received</h1>
