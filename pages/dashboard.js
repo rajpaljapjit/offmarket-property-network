@@ -5,6 +5,67 @@ import { useRouter } from 'next/router'
 
 const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45',red:'#E24B4A'}
 
+function FavouriteAgents({member, s}) {
+  const [favs, setFavs] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (member) fetchFavs()
+  }, [member])
+
+  const fetchFavs = async () => {
+    try {
+      const { createClient } = await import('@supabase/supabase-js')
+      const supabase = createClient('https://jmjtcmfjknmdnlgxudfk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo')
+      const { data } = await supabase.from('favourite_agents').select('*').eq('member_id', member.id)
+      setFavs(data||[])
+    } catch(err) { console.error(err) }
+    setLoading(false)
+  }
+
+  const removeFav = async (agentId) => {
+    const { createClient } = await import('@supabase/supabase-js')
+    const supabase = createClient('https://jmjtcmfjknmdnlgxudfk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo')
+    await supabase.from('favourite_agents').delete().eq('member_id', member.id).eq('agent_id', agentId)
+    setFavs(favs.filter(f=>f.agent_id!==agentId))
+  }
+
+  if (loading) return <div style={{color:s.muted,padding:40,textAlign:'center'}}>Loading...</div>
+
+  return (
+    <>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:28}}>
+        <h2 style={{fontSize:22,color:s.white,fontWeight:600}}>Favourite agents</h2>
+        <Link href="/agents" style={{background:s.gold,color:'#000',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>Browse agents</Link>
+      </div>
+      {favs.length === 0 ? (
+        <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
+          <div style={{fontSize:32,marginBottom:16}}>⭐</div>
+          <div style={{fontSize:14,color:s.white,fontWeight:600,marginBottom:8}}>No favourite agents yet</div>
+          <div style={{fontSize:13,color:s.muted,marginBottom:20}}>Browse the agent directory and star agents you work with frequently.</div>
+          <Link href="/agents" style={{background:s.gold,color:'#000',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse agents</Link>
+        </div>
+      ) : (
+        <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
+          {favs.map(f=>(
+            <div key={f.id} style={{background:s.bg2,display:'grid',gridTemplateColumns:'48px 1fr auto',gap:16,alignItems:'center',padding:'16px 20px'}}>
+              <div style={{width:48,height:48,borderRadius:'50%',background:s.bg4,border:`1px solid ${s.border}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,color:s.gold,fontWeight:600}}>
+                {f.agent_name?.[0]}
+              </div>
+              <div>
+                <div style={{fontSize:14,color:s.white,fontWeight:600,marginBottom:2}}>{f.agent_name}</div>
+                <div style={{fontSize:12,color:s.gold,marginBottom:2}}>{f.agent_agency}</div>
+                <div style={{fontSize:11,color:s.muted}}>@{f.agent_username} · {f.agent_role} · {f.agent_state}</div>
+              </div>
+              <button onClick={()=>removeFav(f.agent_id)} style={{background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:11,padding:'6px 12px',cursor:'pointer'}}>Remove</button>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  )
+}
+
 export default function Dashboard() {
   const router = useRouter()
   const [member, setMember] = useState(null)
@@ -361,12 +422,7 @@ export default function Dashboard() {
           )}
 
           {activeSection === 'Favourite agents' && (
-            <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
-              <div style={{fontSize:32,marginBottom:16}}>⭐</div>
-              <div style={{fontSize:16,color:s.white,fontWeight:600,marginBottom:8}}>Favourite agents</div>
-              <div style={{fontSize:13,color:s.muted,marginBottom:20}}>Save agents you work with frequently. Coming soon.</div>
-              <Link href="/agents" style={{background:s.gold,color:'#000',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse agents</Link>
-            </div>
+            <FavouriteAgents member={member} s={s} />
           )}
 
           {activeSection === 'My profile' && (
