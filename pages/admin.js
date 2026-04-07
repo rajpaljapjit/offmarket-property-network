@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45',red:'#E24B4A',green:'#2ECC71'}
-
 const ADMIN_USERNAME = 'ompnadminlogin'
+const SB_URL = 'https://jmjtcmfjknmdnlgxudfk.supabase.co'
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
 
 export default function Admin() {
   const router = useRouter()
@@ -31,23 +32,24 @@ export default function Admin() {
 
   const getSupabase = async () => {
     const { createClient } = await import('@supabase/supabase-js')
-    return createClient(
-      'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-    )
+    return createClient(SB_URL, SB_KEY)
   }
 
-
-
-
-
-
-
-
-
-
-
-
+  const fetchAll = async () => {
+    setLoading(true)
+    try {
+      const db = await getSupabase()
+      const membersRes = await db.from('members').select('*').neq('username', ADMIN_USERNAME)
+      const listingsRes = await db.from('listings').select('*')
+      console.log('Members:', membersRes)
+      console.log('Listings:', listingsRes)
+      setMembers(membersRes.data || [])
+      setListings(listingsRes.data || [])
+    } catch(err) {
+      console.error('Error:', err)
+    }
+    setLoading(false)
+  }
 
   const updateMemberStatus = async (id, status) => {
     const db = await getSupabase()
@@ -62,8 +64,8 @@ export default function Admin() {
             body: JSON.stringify({
               from: 'Off Market Property Network <welcome@offmarketpropertynetwork.com.au>',
               to: m.email,
-              subject: "You're verified! Your Off Market Property Network account is now active",
-              html: `<html><body style="background:#0A0F1E;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#0F1628;padding:40px;"><img src="https://offmarketpropertynetwork.com.au/logo.png" style="height:40px;margin-bottom:32px;"/><h1 style="color:#F5F3EE;font-size:24px;">You're verified, ${m.first_name}!</h1><p style="color:#A8B4CC;line-height:1.7;margin:0 0 24px;">Your real estate license has been verified and your account is now active. You have full access to the platform.</p><div style="background:#151D35;border:1px solid #1E2A45;padding:20px;margin:0 0 24px;"><p style="color:#6B7A99;font-size:12px;margin:0 0 8px;">YOUR LOGIN DETAILS</p><p style="color:#F5F3EE;margin:4px 0;">Username: <strong>${m.username}</strong></p><p style="color:#F5F3EE;margin:4px 0;">Plan: <strong>${m.plan} — 3 months free</strong></p></div><a href="https://offmarketpropertynetwork.com.au/login" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;">Sign in now →</a></div></body></html>`
+              subject: "You're verified! Your account is now active",
+              html: `<html><body style="background:#0A0F1E;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#0F1628;padding:40px;"><h1 style="color:#F5F3EE;">You're verified, ${m.first_name}!</h1><p style="color:#A8B4CC;">Your account is now active. Sign in to access the platform.</p><a href="https://offmarketpropertynetwork.com.au/login" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;margin-top:24px;">Sign in now →</a></div></body></html>`
             })
           })
         } catch(e) { console.error(e) }
@@ -89,12 +91,7 @@ export default function Admin() {
 
   const pendingMembers = members.filter(m=>m.status==='pending')
   const activeMembers = members.filter(m=>m.status==='active')
-  const stats = {
-    total: members.length,
-    pending: pendingMembers.length,
-    active: activeMembers.length,
-    listings: listings.length
-  }
+  const stats = {total:members.length, pending:pendingMembers.length, active:activeMembers.length, listings:listings.length}
   const tabs = ['Pending','Active','All members','Listings','Stats']
 
   const MemberRow = ({m}) => (
@@ -195,7 +192,6 @@ export default function Admin() {
                   </div>
                   <div style={{display:'flex',flexDirection:'column',gap:6,alignItems:'flex-end'}}>
                     <div style={{fontSize:10,textTransform:'uppercase',padding:'2px 8px',border:`1px solid`,color:l.status==='active'?s.green:s.muted,borderColor:l.status==='active'?s.green:s.border}}>{l.status}</div>
-                    <div style={{fontSize:11,color:s.muted}}>{new Date(l.created_at).toLocaleDateString('en-AU')}</div>
                     <Link href={`/listings/${l.id}`} style={{fontSize:11,color:s.gold,textDecoration:'none'}}>View →</Link>
                   </div>
                 </div>
