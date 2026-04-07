@@ -26,50 +26,43 @@ export default function Nav() {
           .nav-links{display:none !important;}
           .nav-cta{display:none !important;}
           .hamburger{display:block !important;}
-          .nav-logo{height:70px !important;}
-          .nav-top{padding:4px 16px !important;}
-          .nav-bottom{display:none !important;}
         }
         @media(min-width:769px){
           .hamburger{display:none !important;}
-          .nav-logo{height:110px !important;}
         }
       `}</style>
 
-      {/* TOP ROW - Logo + CTA */}
-      <div className="nav-top" style={{maxWidth:1400,margin:'0 auto',padding:'8px 40px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+      {/* LOGO ROW - full width, centered, big */}
+      <div style={{width:'100%',padding:'12px 0',display:'flex',alignItems:'center',justifyContent:'center',borderBottom:'1px solid #1E2A45'}}>
         <Link href="/" style={{textDecoration:'none'}}>
-          <img src="/logo-new.png" alt="Off Market Property Network" className="nav-logo" style={{height:110,width:'auto',objectFit:'contain',maxWidth:520}}/>
+          <img src="/logo-new.png" alt="Off Market Property Network" style={{height:120,width:'auto',objectFit:'contain'}}/>
         </Link>
-        <div style={{display:'flex',gap:10,alignItems:'center'}}>
-          <div className="nav-cta" style={{display:'flex',gap:10}}>
+      </div>
+
+      {/* NAV ROW - links + buttons */}
+      <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px',display:'flex',alignItems:'center',justifyContent:'space-between',height:44}}>
+        <div className="nav-links" style={{display:'flex',gap:4}}>
+          {[['/', 'Home'],['/how-it-works','How It Works'],['/listings','Listings'],['/pricing','Pricing']].map(([href,label])=>(
+            <Link key={href} href={href} style={{color:'#6B7A99',fontSize:13,padding:'6px 12px',textDecoration:'none'}}>{label}</Link>
+          ))}
+        </div>
+        <div style={{display:'flex',gap:8,alignItems:'center'}}>
+          <div className="nav-cta" style={{display:'flex',gap:8}}>
             {member ? (
               <>
-                <Link href="/dashboard" style={{border:'1px solid #1E2A45',color:'#A8B4CC',fontSize:13,padding:'8px 18px',textDecoration:'none'}}>Dashboard</Link>
-                <button onClick={handleSignOut} style={{background:'#C9A84C',color:'#000',fontSize:13,fontWeight:600,padding:'8px 18px',border:'none',cursor:'pointer'}}>Sign Out</button>
+                <Link href="/dashboard" style={{border:'1px solid #1E2A45',color:'#A8B4CC',fontSize:13,padding:'6px 14px',textDecoration:'none'}}>Dashboard</Link>
+                <button onClick={handleSignOut} style={{background:'#C9A84C',color:'#000',fontSize:13,fontWeight:600,padding:'6px 14px',border:'none',cursor:'pointer'}}>Sign Out</button>
               </>
             ) : (
               <>
-                <Link href="/login" style={{border:'1px solid #1E2A45',color:'#A8B4CC',fontSize:13,padding:'8px 18px',textDecoration:'none'}}>Sign In</Link>
-                <Link href="/signup" style={{background:'#C9A84C',color:'#000',fontSize:13,fontWeight:600,padding:'8px 18px',textDecoration:'none'}}>Join Free</Link>
+                <Link href="/login" style={{border:'1px solid #1E2A45',color:'#A8B4CC',fontSize:13,padding:'6px 14px',textDecoration:'none'}}>Sign In</Link>
+                <Link href="/signup" style={{background:'#C9A84C',color:'#000',fontSize:13,fontWeight:600,padding:'6px 14px',textDecoration:'none'}}>Join Free</Link>
               </>
             )}
           </div>
           <button onClick={()=>setOpen(!open)} className="hamburger" style={{background:'none',border:'1px solid #1E2A45',color:'#F5F3EE',padding:'8px 10px',cursor:'pointer',fontSize:16,display:'none'}}>
             {open ? '✕' : '☰'}
           </button>
-        </div>
-      </div>
-
-      {/* BOTTOM ROW - Nav links */}
-      <div className="nav-bottom" style={{borderTop:'1px solid #1E2A45',background:'rgba(15,22,40,0.98)'}}>
-        <div style={{maxWidth:1400,margin:'0 auto',padding:'0 40px',display:'flex',alignItems:'center',justifyContent:'space-between',height:40}}>
-          <div className="nav-links" style={{display:'flex',gap:4}}>
-            {[['/', 'Home'],['/how-it-works','How It Works'],['/listings','Listings'],['/pricing','Pricing']].map(([href,label])=>(
-              <Link key={href} href={href} style={{color:'#6B7A99',fontSize:13,padding:'6px 12px',textDecoration:'none'}}>{label}</Link>
-            ))}
-          </div>
-          <div style={{fontSize:10,color:'#1E2A45',letterSpacing:'0.15em',textTransform:'uppercase'}}>Australia&apos;s Private Property Network</div>
         </div>
       </div>
 
