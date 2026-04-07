@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs'
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -15,6 +17,9 @@ export default async function handler(req, res) {
   try {
     const { createClient } = await import('@supabase/supabase-js')
     const supabase = createClient(url, key)
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     // Check if email already exists
     const { data: existingEmail } = await supabase
@@ -46,7 +51,7 @@ export default async function handler(req, res) {
         email,
         mobile,
         username,
-        password,
+        password: hashedPassword,
         agency,
         role,
         state,

@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs'
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -25,17 +27,24 @@ export default async function handler(req, res) {
       .from('members')
       .select('id, password')
       .eq('id', memberId)
-      .eq('password', currentPassword)
       .single()
 
     if (error || !member) {
       return res.status(401).json({ error: 'Current password is incorrect.' })
     }
 
+    const passwordMatch = await bcrypt.compare(currentPassword, member.password)
+    if (!passwordMatch) {
+      return res.status(401).json({ error: 'Current password is incorrect.' })
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+
     // Update password
     const { error: updateError } = await supabase
       .from('members')
-      .update({ password: newPassword })
+      .update({ password: hashedPassword })
       .eq('id', memberId)
 
     if (updateError) {

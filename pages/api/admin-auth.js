@@ -1,6 +1,8 @@
 const ADMIN_KEY = 'ompnSecure1609'
 const ADMIN_USERNAME = 'ompnadminlogin'
 
+import bcrypt from 'bcryptjs'
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -27,10 +29,14 @@ export default async function handler(req, res) {
       .from('members')
       .select('*')
       .eq('username', username)
-      .eq('password', password)
       .single()
 
     if (error || !member) {
+      return res.status(401).json({ error: 'Invalid username or password.' })
+    }
+
+    const passwordMatch = await bcrypt.compare(password, member.password)
+    if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid username or password.' })
     }
 
