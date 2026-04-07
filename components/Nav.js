@@ -35,7 +35,7 @@ export default function Nav() {
       {/* LOGO ROW - full width, centered, big */}
       <div style={{width:'100%',padding:'12px 0',display:'flex',alignItems:'center',justifyContent:'center',borderBottom:'1px solid #1E2A45'}}>
         <Link href="/" style={{textDecoration:'none'}}>
-          <img src="/logo-new.png" alt="Off Market Property Network" style={{height:120,width:'auto',objectFit:'contain'}}/>
+          <img src="/logo-new.png" alt="Off Market Property Network" style={{height:120,width:"75vw",objectFit:"contain"}}/>
         </Link>
       </div>
 
