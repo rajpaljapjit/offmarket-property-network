@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 
 const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45',red:'#E24B4A',green:'#2ECC71'}
 
-const ADMIN_KEY = 'ompn$ecure1609'
 const ADMIN_USERNAME = 'ompnadminlogin'
 
 export default function Admin() {
@@ -17,18 +16,14 @@ export default function Admin() {
   const [member, setMember] = useState(null)
 
   useEffect(() => {
-    if (!router.isReady) return
-    const key = router.query.key
     const stored = localStorage.getItem('member')
-    if (!stored) { router.push('/admin-login'); return }
+    const adminAuth = localStorage.getItem('adminAuth')
+    if (!stored || !adminAuth) { router.push('/admin-login'); return }
     const m = JSON.parse(stored)
+    if (m.username !== ADMIN_USERNAME) { router.push('/admin-login'); return }
     setMember(m)
-    if (key !== ADMIN_KEY || m.username !== ADMIN_USERNAME) {
-      router.push('/admin-login')
-      return
-    }
     setReady(true)
-  }, [router.isReady, router.query.key])
+  }, [])
 
   useEffect(() => {
     if (ready) fetchAll()
@@ -46,11 +41,11 @@ export default function Admin() {
     setLoading(true)
     const db = await getSupabase()
     const [m, l] = await Promise.all([
-      db.from('members').select('*').neq('username', ADMIN_USERNAME).order('created_at', {ascending: false}),
-      db.from('listings').select('*').order('created_at', {ascending: false})
+      db.from('members').select('*').neq('username', ADMIN_USERNAME).order('created_at',{ascending:false}),
+      db.from('listings').select('*').order('created_at',{ascending:false})
     ])
-    setMembers(m.data || [])
-    setListings(l.data || [])
+    setMembers(m.data||[])
+    setListings(l.data||[])
     setLoading(false)
   }
 
@@ -84,6 +79,12 @@ export default function Admin() {
     await fetchAll()
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem('adminAuth')
+    localStorage.removeItem('member')
+    router.push('/admin-login')
+  }
+
   if (!ready) return <div style={{background:s.bg,minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center'}}><div style={{color:s.muted}}>Loading...</div></div>
 
   const pendingMembers = members.filter(m=>m.status==='pending')
@@ -111,7 +112,7 @@ export default function Admin() {
       </div>
       <div>
         <div style={{fontSize:11,color:s.muted,marginBottom:4}}>License: {m.license_number}</div>
-        <div style={{fontSize:11,color:s.muted}}>Joined: {m.trial_start ? new Date(m.trial_start).toLocaleDateString('en-AU') : 'N/A'}</div>
+        <div style={{fontSize:11,color:s.muted}}>Joined: {m.trial_start?new Date(m.trial_start).toLocaleDateString('en-AU'):'N/A'}</div>
         <div style={{display:'inline-block',fontSize:9,letterSpacing:'0.15em',textTransform:'uppercase',padding:'3px 8px',border:`1px solid`,marginTop:6,
           color:m.status==='active'?s.green:m.status==='pending'?s.gold:s.red,
           borderColor:m.status==='active'?s.green:m.status==='pending'?s.gold:s.red
@@ -137,7 +138,7 @@ export default function Admin() {
           </div>
           <div style={{display:'flex',gap:12,alignItems:'center'}}>
             <span style={{fontSize:12,color:s.muted}}>Logged in as {member?.username}</span>
-            <button onClick={()=>{localStorage.removeItem('member');router.push('/admin-login')}} style={{background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:12,padding:'6px 14px',cursor:'pointer'}}>Sign out</button>
+            <button onClick={handleLogout} style={{background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:12,padding:'6px 14px',cursor:'pointer'}}>Sign out</button>
           </div>
         </div>
       </div>
@@ -168,7 +169,7 @@ export default function Admin() {
 
         <div style={{background:s.bg2,border:`1px solid ${s.border}`}}>
           {loading ? (
-            <div style={{padding:40,textAlign:'center',color:s.muted}}>Loading members...</div>
+            <div style={{padding:40,textAlign:'center',color:s.muted}}>Loading...</div>
           ) : activeTab==='Pending' ? (
             pendingMembers.length===0 ?
               <div style={{padding:40,textAlign:'center',color:s.muted}}>🎉 No pending members</div> :
