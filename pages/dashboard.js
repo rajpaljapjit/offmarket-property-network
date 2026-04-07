@@ -110,6 +110,17 @@ export default function Dashboard() {
           .dash-grid{grid-template-columns:1fr !important;}
           .dash-sidebar{display:none !important;}
           .metrics-grid{grid-template-columns:1fr 1fr !important;}
+          .listing-card{grid-template-columns:1fr !important;}
+          .listing-card img{width:100% !important;height:160px !important;}
+        }
+      `}</style>
+      {/* Mobile bottom nav */}
+      <style>{`
+        .mobile-nav{display:none;}
+        @media(max-width:768px){
+          .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#0F1628;border-top:1px solid #1E2A45;z-index:100;padding:8px 0;}
+          .mobile-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;cursor:pointer;border:none;background:none;}
+          .main-content{padding-bottom:80px !important;}
         }
       `}</style>
       <div className="dash-grid" style={{display:'grid',gridTemplateColumns:'220px 1fr',minHeight:'calc(100vh - 64px)'}}>
@@ -133,7 +144,7 @@ export default function Dashboard() {
           </div>
         </aside>
 
-        <main style={{padding:32,overflowY:'auto'}}>
+        <main className="main-content" style={{padding:32,overflowY:'auto'}}>
 
           {activeSection === 'Overview' && (
             <>
@@ -380,6 +391,22 @@ export default function Dashboard() {
           )}
 
         </main>
+      </div>
+
+      {/* Mobile bottom navigation */}
+      <div className="mobile-nav">
+        {[
+          {icon:'🏠',label:'Home',section:'Overview'},
+          {icon:'📋',label:'Listings',section:'My listings'},
+          {icon:'🔍',label:'Browse',section:'Browse feed'},
+          {icon:'💬',label:'Messages',section:'Messages'},
+          {icon:'👤',label:'Profile',section:'My profile'},
+        ].map(item=>(
+          <button key={item.section} className="mobile-nav-item" onClick={()=>setActiveSection(item.section)}>
+            <span style={{fontSize:20}}>{item.icon}</span>
+            <span style={{fontSize:9,color:activeSection===item.section?s.gold:s.muted,letterSpacing:'0.05em'}}>{item.label}</span>
+          </button>
+        ))}
       </div>
     </div>
   )
