@@ -37,17 +37,17 @@ export default function Admin() {
     )
   }
 
-  const fetchAll = async () => {
-    setLoading(true)
-    const db = await getSupabase()
-    const [m, l] = await Promise.all([
-      db.from("members").select("*").order("created_at",{ascending:false}),
-      db.from('listings').select('*').order('created_at',{ascending:false})
-    ])
-    console.log("Members:", m.data, "Error:", m.error); setMembers(m.data||[])
-    setListings(l.data||[])
-    setLoading(false)
-  }
+
+
+
+
+
+
+
+
+
+
+
 
   const updateMemberStatus = async (id, status) => {
     const db = await getSupabase()
