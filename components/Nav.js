@@ -10,7 +10,7 @@ export default function Nav() {
           <img src="/logo.png" alt="Off Market Property Network" style={{height:44,width:'auto',objectFit:'contain'}}/>
         </Link>
         <div style={{display:'flex',gap:4,alignItems:'center'}} className="desktop-nav">
-          {[['/', 'Home'],['/how-it-works','How It Works'],['/listings','Listings'],['/agents','Agents'],['/pricing','Pricing']].map(([href,label])=>(
+          {[['/', 'Home'],['/how-it-works','How It Works'],['/listings','Listings'],['/pricing','Pricing']].map(([href,label])=>(
             <Link key={href} href={href} style={{color:'#6B7A99',fontSize:13,padding:'6px 10px',textDecoration:'none'}}>{label}</Link>
           ))}
         </div>
@@ -24,7 +24,7 @@ export default function Nav() {
       </div>
       {open && (
         <div style={{background:'#0F1628',borderTop:'1px solid #1E2A45',padding:'16px 20px',display:'flex',flexDirection:'column',gap:0}}>
-          {[['/', 'Home'],['/how-it-works','How It Works'],['/listings','Listings'],['/agents','Agents'],['/pricing','Pricing'],['/login','Sign In'],['/signup','Join Free — 3 Months Free']].map(([href,label])=>(
+          {[['/', 'Home'],['/how-it-works','How It Works'],['/listings','Listings'],['/pricing','Pricing'],['/login','Sign In'],['/signup','Join Free — 3 Months Free']].map(([href,label])=>(
             <Link key={href} href={href} onClick={()=>setOpen(false)} style={{color:'#F5F3EE',fontSize:15,padding:'14px 0',textDecoration:'none',borderBottom:'1px solid #1E2A45'}}>{label}</Link>
           ))}
         </div>
