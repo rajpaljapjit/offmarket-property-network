@@ -33,7 +33,7 @@ export default function Home() {
       <Nav/>
       {/* Hero logo banner */}
       <div style={{width:'100%',padding:'24px 0',textAlign:'center',borderBottom:'1px solid #1E2A45'}}>
-        <img src="/ompnherofilelogo.png" alt="Off Market Property Network" style={{width:'70%',maxWidth:860,height:'auto',objectFit:'contain'}}/>
+        <img src="/ompnherofilelogo.png" alt="Off Market Property Network" style={{width:'35%',maxWidth:430,height:'auto',objectFit:'contain'}}/>
       </div>
 
       <style>{`
