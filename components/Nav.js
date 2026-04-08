@@ -32,10 +32,11 @@ export default function Nav() {
         }
       `}</style>
 
-      {/* LOGO ROW - full width, centered, big */}
-      <div style={{width:'100%',padding:'12px 0',display:'flex',alignItems:'center',justifyContent:'center',borderBottom:'1px solid #1E2A45'}}>
-        <Link href="/" style={{textDecoration:'none'}}>
-          <img src="/logo-new.png" alt="Off Market Property Network" style={{height:120,width:"75vw",objectFit:"contain"}}/>
+      {/* LOGO ROW */}
+      <div style={{width:'100%',padding:'16px 0',display:'flex',alignItems:'center',justifyContent:'center',borderBottom:'1px solid #1E2A45'}}>
+        <Link href="/" style={{textDecoration:'none',display:'flex',flexDirection:'column',alignItems:'center',gap:4}}>
+          <span style={{fontSize:'clamp(28px,4vw,52px)',fontWeight:700,color:'#F5F3EE',letterSpacing:'0.12em',fontFamily:'Georgia,serif'}}>OFF MARKET</span>
+          <span style={{fontSize:'clamp(9px,1.2vw,13px)',letterSpacing:'0.5em',color:'#C9A84C',textTransform:'uppercase',fontFamily:'Arial,sans-serif'}}>Property Network · Australia</span>
         </Link>
       </div>
 
