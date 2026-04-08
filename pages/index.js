@@ -31,10 +31,6 @@ export default function Home() {
   return (
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
-      {/* Hero logo banner */}
-      <div style={{width:'100%',padding:'24px 0',textAlign:'center',borderBottom:'1px solid #1E2A45'}}>
-        <img src="/ompnherofilelogo.png" alt="Off Market Property Network" style={{width:'35%',maxWidth:430,height:'auto',objectFit:'contain'}}/>
-      </div>
 
       <style>{`
         .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
