@@ -48,7 +48,7 @@ export default function Signup() {
       <div className="auth-grid">
         <div className="auth-left" style={{background:s.bg3,borderRight:`1px solid ${s.border}`,padding:'48px 40px',flexDirection:'column',justifyContent:'space-between'}}>
           <Link href="/" style={{textDecoration:'none'}}>
-            <img src="/Offmarketproplogo.png" alt="Off Market Property Network" style={{height:44,width:'auto',objectFit:'contain'}}/>
+            <img src="/Offmarketproplogo1.png" alt="Off Market Property Network" style={{height:44,width:'auto',objectFit:'contain'}}/>
           </Link>
           <div>
             <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:16}}>🎉 Limited time offer</div>
