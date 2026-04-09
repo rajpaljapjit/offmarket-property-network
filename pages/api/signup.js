@@ -81,7 +81,7 @@ export default async function handler(req, res) {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY || 're_bmLA4KoW_HFXWiJj5w7yu27hwHkeb5hBd'}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          from: 'Off Market Property Network <welcome.no-reply@offmarketpropertynetwork.com.au>',
+          from: 'Off Market Property Network <notifications@offmarketpropertynetwork.com.au>',
           to: email,
           subject: 'Welcome to Off Market Property Network',
           html: `<html><body style="background:#0A0A0A;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#111;padding:40px;"><h1 style="color:#F5F3EE;">Welcome, ${firstName}!</h1><p style="color:#AAAAAA;">Thank you for applying. We are verifying your license — this takes 24-48 hours. Once verified you will receive full access.</p><a href="https://offmarketpropertynetwork.com.au" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;">Visit the Network</a></div></body></html>`
