@@ -84,7 +84,7 @@ export default function Dashboard() {
     
     // Session expiry - 8 hours
     const sessionTime = localStorage.getItem('sessionTime')
-    const EIGHT_HOURS = 8 * 60 * 60 * 1000
+    const EIGHT_HOURS = 1 * 60 * 60 * 1000
     if (sessionTime && Date.now() - parseInt(sessionTime) > EIGHT_HOURS) {
       localStorage.removeItem('member')
       localStorage.removeItem('sessionTime')
