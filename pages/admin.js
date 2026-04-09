@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 
 const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#E8E8E8',mid:'#E8E8E8',border:'#2D4A2D',red:'#E24B4A',green:'#4CAF50'}
 const ADMIN_USERNAME = 'ompnadminlogin'
-const SB_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
-const SB_KEY = process.env.SUPABASE_SECRET_KEY
+const SB_URL = 'https://jmjtcmfjknmdnlgxudfk.supabase.co'
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
 
 export default function Admin() {
   const router = useRouter()
