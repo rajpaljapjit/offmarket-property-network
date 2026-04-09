@@ -16,7 +16,6 @@ export default function Admin() {
   const [loading, setLoading] = useState(true)
   const [member, setMember] = useState(null)
   const [viewMember, setViewMember] = useState(null)
-  const [viewMember, setViewMember] = useState(null)
 
   useEffect(() => {
     const stored = localStorage.getItem('member')
