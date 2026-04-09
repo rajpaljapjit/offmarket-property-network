@@ -23,7 +23,7 @@ export default function ListingDetail() {
 
   const getSupabase = async () => {
     const { createClient } = await import('@supabase/supabase-js')
-    return createClient('https://jmjtcmfjknmdnlgxudfk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo')
+    return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,process.env.SUPABASE_SECRET_KEY)
   }
 
   const fetchListing = async () => {
