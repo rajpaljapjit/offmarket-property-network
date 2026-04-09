@@ -20,14 +20,25 @@ const StatNumber = ({ value, suffix='' }) => {
 }
 
 const ParticleBackground = () => {
-  const particlesInit = useCallback(async engine => {
-    await loadSlim(engine)
+  const [ParticlesComponent, setParticlesComponent] = useState(null)
+
+  useEffect(() => {
+    const loadParticles = async () => {
+      const { default: Particles, initParticlesEngine } = await import('@tsparticles/react')
+      const { loadSlim } = await import('@tsparticles/slim')
+      await initParticlesEngine(async (engine) => {
+        await loadSlim(engine)
+      })
+      setParticlesComponent(() => Particles)
+    }
+    loadParticles()
   }, [])
 
+  if (!ParticlesComponent) return null
+
   return (
-    <Particles
+    <ParticlesComponent
       id="tsparticles"
-      init={particlesInit}
       style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:0}}
       options={{
         background: { color: { value: 'transparent' } },
