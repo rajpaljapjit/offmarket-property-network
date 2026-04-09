@@ -2,6 +2,7 @@ import Nav from '../components/Nav'
 import { motion } from 'framer-motion'
 import { GoldButton, SilverButton, MagneticButton } from '../components/Button'
 import CountUp from 'react-countup'
+import Typewriter from 'typewriter-effect'
 import { useInView } from 'react-intersection-observer'
 import { useState, useEffect } from 'react'
 import Footer from '../components/Footer'
@@ -109,7 +110,22 @@ export default function Home() {
             <div>
               <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.6}} style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>Australia&apos;s Private Property Network</motion.div>
               <motion.h1 initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.1}} style={{fontSize:'clamp(32px, 5vw, 52px)',lineHeight:1.1,color:s.white,marginBottom:20,fontWeight:600}}>Where agents move property <em style={{fontStyle:'italic',background:'linear-gradient(135deg, #C9A84C 0%, #E8C96A 50%, #C9A84C 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>off market</em></motion.h1>
-              <motion.p initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.2}} style={{color:s.mid,fontSize:16,marginBottom:32,lineHeight:1.7}}>A members-only network connecting selling agents and buyers agents. Share hidden opportunities. Close quietly. No public portals.</motion.p>
+              <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.2}} style={{color:s.mid,fontSize:16,marginBottom:32,lineHeight:1.7,minHeight:56}}>
+                <Typewriter
+                  options={{
+                    strings:[
+                      'Connect selling agents with buyers agents.',
+                      'Share hidden opportunities off market.',
+                      'Close quietly. No public portals.',
+                      'Australia's private property network.',
+                    ],
+                    autoStart:true,
+                    loop:true,
+                    delay:40,
+                    deleteSpeed:20,
+                  }}
+                />
+              </motion.div>
               <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.4}} style={{display:'flex',gap:12,flexWrap:'wrap'}}>
                 <Link href="/signup" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:500,textDecoration:'none'}}>Join Free — 3 Months Free</Link>
                 <Link href="/how-it-works" style={{border:'1px solid #E8E8E8',color:'#E8E8E8',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>How It Works</Link>
