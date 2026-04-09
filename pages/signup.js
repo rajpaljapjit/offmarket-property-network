@@ -37,6 +37,19 @@ export default function Signup() {
     }
   })
 
+  const watchRole = watch('role')
+
+  // Auto-select plan when role changes
+  const handleRoleChange = (e) => {
+    const role = e.target.value
+    setValue('role', role)
+    if (role === 'Buyers Agent') {
+      setValue('plan', 'Buyers Agent')
+    } else {
+      setValue('plan', 'Silver')
+    }
+  }
+
   const checkUsername = async (username) => {
     if (username.length < 3) return
     try {
@@ -146,7 +159,7 @@ export default function Signup() {
                 <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
                   <div>
                     <label style={lab}>I am a</label>
-                    <select {...register('role')} style={{...input,padding:'12px 14px'}}>
+                    <select {...register('role')} onChange={handleRoleChange} style={{...input,padding:'12px 14px'}}>
                       <option>Selling Agent</option>
                       <option>Buyers Agent</option>
                       <option>Both</option>
@@ -165,22 +178,44 @@ export default function Signup() {
             {/* Plan */}
             <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:24}}>
               <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:16}}>Choose your plan</div>
-              <div style={{display:'flex',flexDirection:'column',gap:8}}>
-                {[
-                  ['Buyers Agent','$69/month — Browse, save, enquire','Buyers Agent'],
-                  ['Silver','$39/month — 1 listing per month','Silver'],
-                  ['Gold','$79/month — 5 listings per month','Gold'],
-                  ['Platinum','POA — Principal agents with 5+ agents','Platinum'],
-                ].map(([label,desc,val])=>(
-                  <label key={val} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 16px',background:s.bg2,border:`1px solid ${s.border}`,cursor:'pointer'}}>
-                    <input type="radio" value={val} {...register('plan')} style={{accentColor:s.gold}}/>
+              {watchRole === 'Buyers Agent' ? (
+                <div>
+                  <label style={{display:'flex',alignItems:'center',gap:12,padding:'16px',background:s.bg2,border:`1px solid ${s.gold}`,cursor:'pointer'}}>
+                    <input type="radio" value="Buyers Agent" {...register('plan')} style={{accentColor:s.gold}} defaultChecked/>
                     <div>
-                      <div style={{fontSize:13,color:s.gold,fontWeight:500}}>{label}</div>
-                      <div style={{fontSize:11,color:s.muted}}>{desc}</div>
+                      <div style={{fontSize:14,color:s.gold,fontWeight:600}}>Buyers Agent Plan</div>
+                      <div style={{fontSize:12,color:s.muted,marginTop:2}}>$69/month — Browse all listings, save, enquire, message agents</div>
                     </div>
                   </label>
-                ))}
-              </div>
+                  <div style={{background:'rgba(201,168,76,0.06)',border:`1px solid rgba(201,168,76,0.2)`,padding:'12px 16px',marginTop:8}}>
+                    <div style={{fontSize:11,color:s.gold}}>✓ Browse all off market listings</div>
+                    <div style={{fontSize:11,color:s.gold,marginTop:4}}>✓ Save listings & favourite agents</div>
+                    <div style={{fontSize:11,color:s.gold,marginTop:4}}>✓ Send enquiries & direct messaging</div>
+                    <div style={{fontSize:11,color:s.gold,marginTop:4}}>✓ 3 months free — no credit card required</div>
+                  </div>
+                </div>
+              ) : (
+                <div style={{display:'flex',flexDirection:'column',gap:8}}>
+                  <div style={{fontSize:11,color:s.muted,marginBottom:4}}>Select your selling agent plan:</div>
+                  {[
+                    ['Silver','$39/month','1 listing per month','Silver'],
+                    ['Gold','$79/month','5 listings per month — Most popular','Gold'],
+                    ['Platinum','POA','Principal agents with 5+ agents','Platinum'],
+                  ].map(([label,price,desc,val])=>(
+                    <label key={val} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 16px',background:s.bg2,border:`1px solid ${s.border}`,cursor:'pointer'}}>
+                      <input type="radio" value={val} {...register('plan')} style={{accentColor:s.gold}}/>
+                      <div style={{flex:1}}>
+                        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                          <div style={{fontSize:13,color:s.gold,fontWeight:600}}>{label}</div>
+                          <div style={{fontSize:13,color:s.mid,fontWeight:600}}>{price}</div>
+                        </div>
+                        <div style={{fontSize:11,color:s.muted,marginTop:2}}>{desc}</div>
+                      </div>
+                    </label>
+                  ))}
+                  <div style={{fontSize:11,color:s.muted,marginTop:4}}>✓ All plans include 3 months free — no credit card required</div>
+                </div>
+              )}
             </div>
 
             {/* Account */}
