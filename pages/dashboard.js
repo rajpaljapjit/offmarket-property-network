@@ -1,3 +1,4 @@
+import { format, formatDistanceToNow } from 'date-fns'
 import Nav from '../components/Nav'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
@@ -212,7 +213,7 @@ export default function Dashboard() {
       </div>
       <div style={{display:'flex',flexDirection:'column',gap:8,alignItems:'flex-end'}}>
         <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',padding:'3px 10px',border:`1px solid`,color:l.status==='sold'?s.muted:s.gold,borderColor:l.status==='sold'?s.border:'#8A6A1F'}}>{l.status}</div>
-        <div style={{fontSize:11,color:s.muted}}>{new Date(l.created_at).toLocaleDateString('en-AU')}</div>
+        <div style={{fontSize:11,color:s.muted}}>{l.created_at ? format(new Date(l.created_at), 'dd MMM yyyy') : 'N/A'}</div>
         <Link href={`/listings/edit/${l.id}`} style={{fontSize:11,color:s.gold,textDecoration:'none',border:`1px solid ${s.border}`,padding:'4px 10px'}}>Edit →</Link>
       </div>
     </div>

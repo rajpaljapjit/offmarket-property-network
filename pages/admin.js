@@ -1,3 +1,4 @@
+import { format, formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { useEffect, useState } from 'react'
@@ -101,7 +102,7 @@ export default function Admin() {
       </div>
       <div>
         <div style={{fontSize:11,color:s.muted,marginBottom:4}}>License: {m.license_number}</div>
-        <div style={{fontSize:11,color:s.muted}}>Joined: {m.trial_start?new Date(m.trial_start).toLocaleDateString('en-AU'):'N/A'}</div>
+        <div style={{fontSize:11,color:s.muted}}>Joined: {m.trial_start?m.trial_start ? format(new Date(m.trial_start), 'dd MMM yyyy') : 'N/A':'N/A'}</div>
         <div style={{display:'inline-block',fontSize:9,letterSpacing:'0.15em',textTransform:'uppercase',padding:'3px 8px',border:`1px solid`,marginTop:6,
           color:m.status==='active'?s.green:m.status==='pending'?s.gold:s.red,
           borderColor:m.status==='active'?s.green:m.status==='pending'?s.gold:s.red
