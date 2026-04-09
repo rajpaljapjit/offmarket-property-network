@@ -130,7 +130,7 @@ export default function Admin() {
       <div style={{background:s.bg2,borderBottom:`1px solid ${s.border}`,padding:'0 20px'}}>
         <div style={{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',height:64}}>
           <div style={{display:'flex',alignItems:'center',gap:16}}>
-            <img src="/Offmarketproplogo1.png" alt="OMPN" style={{height:36}}/>
+            <img src="/Offmarketproplogo2.png" alt="OMPN" style={{height:36}}/>
             <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase'}}>Admin Panel</div>
           </div>
           <div style={{display:'flex',gap:12,alignItems:'center'}}>
