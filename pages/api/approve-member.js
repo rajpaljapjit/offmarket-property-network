@@ -33,7 +33,12 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           from: 'Off Market Property Network <notifications@offmarketpropertynetwork.com.au>',
           to: [member.email],
-          subject: "You're verified! Your Off Market Property Network account is now active",
+          reply_to: 'support@offmarketpropertynetwork.com.au',
+          subject: "Your Off Market Property Network account is now active",
+          headers: {
+            'X-Entity-Ref-ID': member.id,
+            'List-Unsubscribe': '<mailto:support@offmarketpropertynetwork.com.au>',
+          },
           html: `
             <html>
             <body style="margin:0;padding:0;background:#1B2A1B;font-family:Arial,sans-serif;">
