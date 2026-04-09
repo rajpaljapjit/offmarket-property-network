@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#A8B4CC',mid:'#E8E8E8',border:'#2D4A2D',red:'#E24B4A',green:'#4CAF50'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#E8E8E8',mid:'#E8E8E8',border:'#2D4A2D',red:'#E24B4A',green:'#4CAF50'}
 const ADMIN_USERNAME = 'ompnadminlogin'
 const SB_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
 const SB_KEY = process.env.SUPABASE_SECRET_KEY
@@ -65,7 +65,7 @@ export default function Admin() {
               from: 'Off Market Property Network <welcome@offmarketpropertynetwork.com.au>',
               to: m.email,
               subject: "You're verified! Your account is now active",
-              html: `<html><body style="background:#0A0F1E;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#0F1628;padding:40px;"><h1 style="color:#F5F3EE;">You're verified, ${m.first_name}!</h1><p style="color:#A8B4CC;">Your account is now active. Sign in to access the platform.</p><a href="https://offmarketpropertynetwork.com.au/login" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;margin-top:24px;">Sign in now →</a></div></body></html>`
+              html: `<html><body style="background:#1B2A1B;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#162016;padding:40px;"><h1 style="color:#C9A84C;">You're verified, ${m.first_name}!</h1><p style="color:#E8E8E8;">Your account is now active. Sign in to access the platform.</p><a href="https://offmarketpropertynetwork.com.au/login" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;margin-top:24px;">Sign in now →</a></div></body></html>`
             })
           })
         } catch(e) { console.error(e) }

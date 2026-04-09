@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import Link from 'next/link'
 import { useState } from 'react'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',white:'#F5F3EE',muted:'#6B7A99',border:'#1E2A45',red:'#E24B4A'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D',red:'#E24B4A'}
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('')

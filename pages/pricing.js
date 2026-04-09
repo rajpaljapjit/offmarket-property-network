@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45',silver:'#A8B4CC'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D',silver:'#E8E8E8'}
 
 const buyersPlan = {
   name:'Buyers Agent',
@@ -95,7 +95,7 @@ export default function Pricing() {
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
       <style>{`
-        .seller-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1E2A45;}
+        .seller-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2D4A2D;}
         .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
         @media(max-width:900px){.seller-grid{grid-template-columns:1fr;}}
         @media(max-width:600px){.faq-grid{grid-template-columns:1fr;}}

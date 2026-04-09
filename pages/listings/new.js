@@ -2,7 +2,7 @@ import Nav from '../../components/Nav'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',border:'#1E2A45',red:'#E24B4A'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D',red:'#E24B4A'}
 
 export default function NewListing() {
   const router = useRouter()
@@ -121,10 +121,10 @@ export default function NewListing() {
     <div style={{background:s.bg,minHeight:'100vh',color:s.white}}>
       <Nav/>
       <style>{`
-        .pac-container { background:#151D35 !important; border:1px solid #1E2A45 !important; font-family:inherit !important; }
-        .pac-item { color:#A8B4CC !important; padding:8px 12px !important; cursor:pointer !important; border-top:1px solid #1E2A45 !important; }
-        .pac-item:hover { background:#1A2340 !important; }
-        .pac-item-query { color:#F5F3EE !important; }
+        .pac-container { background:#1F2E1F !important; border:1px solid #2D4A2D !important; font-family:inherit !important; }
+        .pac-item { color:#E8E8E8 !important; padding:8px 12px !important; cursor:pointer !important; border-top:1px solid #2D4A2D !important; }
+        .pac-item:hover { background:#243524 !important; }
+        .pac-item-query { color:#C9A84C !important; }
         .pac-matched { color:#C9A84C !important; }
       `}</style>
       <div style={{maxWidth:800,margin:'0 auto',padding:'48px 20px'}}>

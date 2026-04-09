@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D'}
 
 export default function Home() {
   const [realListings, setRealListings] = useState([])
@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
-      <div style={{width:'100%',textAlign:'center',background:'#0A0F1E',lineHeight:0}}>
+      <div style={{width:'100%',textAlign:'center',background:'#1B2A1B',lineHeight:0}}>
         <img src="/Offmarketprop.png" alt="Off Market Property Network" style={{width:'100%',height:'auto',display:'block'}}/>
       </div>
 
@@ -39,17 +39,17 @@ export default function Home() {
       <style>{`
         .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
         .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);}
-        .stat-item{padding:0 24px;border-right:1px solid #1E2A45;text-align:center;}
+        .stat-item{padding:0 24px;border-right:1px solid #2D4A2D;text-align:center;}
         .stat-item:last-child{border-right:none;}
-        .listings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1E2A45;}
-        .who-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#1E2A45;}
+        .listings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2D4A2D;}
+        .who-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#2D4A2D;}
         .hero-visual{display:block;}
         @media(max-width:768px){
           .hero-grid{grid-template-columns:1fr;gap:32px;}
           .hero-visual{display:none;}
           .stats-grid{grid-template-columns:repeat(2,1fr);}
-          .stat-item{padding:16px;border-right:none;border-bottom:1px solid #1E2A45;}
-          .stat-item:nth-child(odd){border-right:1px solid #1E2A45;}
+          .stat-item{padding:16px;border-right:none;border-bottom:1px solid #2D4A2D;}
+          .stat-item:nth-child(odd){border-right:1px solid #2D4A2D;}
           .listings-grid{grid-template-columns:1fr;}
           .who-grid{grid-template-columns:1fr;}
         }
@@ -65,7 +65,7 @@ export default function Home() {
               <p style={{color:s.mid,fontSize:16,marginBottom:32,lineHeight:1.7}}>A members-only network connecting selling agents and buyers agents. Share hidden opportunities. Close quietly. No public portals.</p>
               <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
                 <Link href="/signup" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:500,textDecoration:'none'}}>Join Free — 3 Months Free</Link>
-                <Link href="/how-it-works" style={{border:'1px solid #A8B4CC',color:'#A8B4CC',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>How It Works</Link>
+                <Link href="/how-it-works" style={{border:'1px solid #E8E8E8',color:'#E8E8E8',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>How It Works</Link>
               </div>
             </div>
             <div className="hero-visual" style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32}}>
@@ -107,7 +107,7 @@ export default function Home() {
               <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:8}}>Members only showcase</div>
               <h2 style={{fontSize:'clamp(24px,4vw,36px)',color:s.white,fontWeight:600}}>Current opportunities</h2>
             </div>
-            <Link href="/listings" style={{border:`1px solid ${s.border}`,color:'#A8B4CC',padding:'8px 16px',fontSize:13,textDecoration:'none'}}>View all →</Link>
+            <Link href="/listings" style={{border:`1px solid ${s.border}`,color:'#E8E8E8',padding:'8px 16px',fontSize:13,textDecoration:'none'}}>View all →</Link>
           </div>
           <div className="listings-grid">
             {(realListings.length >= 3 ? realListings : [

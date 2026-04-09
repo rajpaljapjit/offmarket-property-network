@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45',red:'#E24B4A'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D',red:'#E24B4A'}
 
 function FavouriteAgents({member, s}) {
   const [favs, setFavs] = useState([])
@@ -219,7 +219,7 @@ export default function Dashboard() {
       <style>{`
         .mobile-nav{display:none;}
         @media(max-width:768px){
-          .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#0F1628;border-top:1px solid #1E2A45;z-index:100;padding:8px 0;}
+          .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#162016;border-top:1px solid #2D4A2D;z-index:100;padding:8px 0;}
           .mobile-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;cursor:pointer;border:none;background:none;}
           .main-content{padding-bottom:80px !important;}
         }

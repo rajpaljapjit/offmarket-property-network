@@ -2,7 +2,7 @@ import Nav from '../../components/Nav'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',border:'#1E2A45',red:'#E24B4A'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D',red:'#E24B4A'}
 
 export default function ChangePassword() {
   const router = useRouter()

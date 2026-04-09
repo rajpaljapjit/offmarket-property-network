@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D'}
 
 const steps=[
   {num:'01',title:'Verify and join',desc:'Apply for membership by submitting your agent license details. We cross-check against state-based regulatory registers within 24 hours.',details:['License number verification via state register','Agency details and ABN confirmation','Profile goes live within 24–48 hours','Professionals only — 3 months free to start']},
@@ -16,7 +16,7 @@ export default function HowItWorks() {
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
       <style>{`
-        .step-row{display:grid;grid-template-columns:60px 1fr 1fr;gap:32px;align-items:start;padding:40px 0;border-top:1px solid #1E2A45;}
+        .step-row{display:grid;grid-template-columns:60px 1fr 1fr;gap:32px;align-items:start;padding:40px 0;border-top:1px solid #2D4A2D;}
         @media(max-width:768px){.step-row{grid-template-columns:1fr;gap:16px;}.step-num{font-size:36px !important;}}
       `}</style>
       <div style={{maxWidth:1200,margin:'0 auto',padding:'60px 20px 40px'}}>
@@ -47,7 +47,7 @@ export default function HowItWorks() {
           <p style={{color:s.muted,marginBottom:24,lineHeight:1.7}}>3 months completely free for all verified agents. No credit card required.</p>
           <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
             <Link href="/signup" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:500,textDecoration:'none'}}>Join Free</Link>
-            <Link href="/pricing" style={{border:'1px solid #A8B4CC',color:'#A8B4CC',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>View Pricing</Link>
+            <Link href="/pricing" style={{border:'1px solid #E8E8E8',color:'#E8E8E8',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>View Pricing</Link>
           </div>
         </div>
       </section>

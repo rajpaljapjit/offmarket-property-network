@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',bg4:'#1A2340',white:'#F5F3EE',muted:'#6B7A99',mid:'#A8B4CC',border:'#1E2A45'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D'}
 
 export default function Listings() {
   const router = useRouter()
@@ -69,7 +69,7 @@ export default function Listings() {
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
       <style>{`
-        .listings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1E2A45;}
+        .listings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2D4A2D;}
         .filter-bar{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px;}
         @media(max-width:900px){.listings-grid{grid-template-columns:repeat(2,1fr);}}
         @media(max-width:600px){.listings-grid{grid-template-columns:1fr;}.filter-bar{grid-template-columns:1fr;}}

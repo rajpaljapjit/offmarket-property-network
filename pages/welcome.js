@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#0A0F1E',bg2:'#0F1628',bg3:'#151D35',white:'#F5F3EE',muted:'#6B7A99',border:'#1E2A45'}
+const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D'}
 
 export default function Welcome() {
   const router = useRouter()
@@ -33,7 +33,7 @@ export default function Welcome() {
         </div>
         <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
           <Link href="/" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Back to home</Link>
-          <Link href="/listings" style={{border:`1px solid #A8B4CC`,color:'#A8B4CC',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>Browse listings</Link>
+          <Link href="/listings" style={{border:`1px solid #E8E8E8`,color:'#E8E8E8',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>Browse listings</Link>
         </div>
       </div>
     </div>
