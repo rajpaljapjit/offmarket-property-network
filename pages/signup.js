@@ -93,7 +93,7 @@ export default function Signup() {
             </div>
             <div style={{display:'flex',flexDirection:'column',gap:6}}>
               <label style={lab}>Real estate license number *</label>
-              <input name="licenseNumber" value={form.licenseNumber} onChange={handleChange} type="text" placeholder="e.g. QLD-1234567" style={input} required/>
+              <input name="licenseNumber" value={form.licenseNumber} onChange={handleChange} type="text" placeholder="e.g. QLD-1234567" style={input} autoComplete="off" required/>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
               <div style={{display:'flex',flexDirection:'column',gap:6}}>
@@ -125,11 +125,11 @@ export default function Signup() {
             </div>
             <div style={{display:'flex',flexDirection:'column',gap:6}}>
               <label style={lab}>Username *</label>
-              <input name="username" value={form.username} onChange={handleChange} type="text" placeholder="e.g. janesmith" style={input} required/>
+              <input name="username" autoComplete="new-password" value={form.username} onChange={handleChange} type="text" placeholder="e.g. janesmith" style={input} required/>
             </div>
             <div style={{display:'flex',flexDirection:'column',gap:6}}>
               <label style={lab}>Password *</label>
-              <input name="password" value={form.password} onChange={handleChange} type="password" placeholder="Min. 8 characters" style={input} required/>
+              <input name="password" autoComplete="new-password" value={form.password} onChange={handleChange} type="password" placeholder="Min. 8 characters" style={input} required/>
             </div>
             <button type="submit" disabled={loading} style={{background:loading?'#8A6A1F':s.gold,border:'none',color:'#000',fontSize:15,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',marginTop:4,opacity:loading?0.8:1}}>
               {loading ? 'Submitting...' : 'Apply for Free Membership →'}
