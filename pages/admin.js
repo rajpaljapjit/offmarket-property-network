@@ -53,25 +53,15 @@ export default function Admin() {
   }
 
   const updateMemberStatus = async (id, status) => {
-    const db = await getSupabase()
-    await db.from('members').update({status}).eq('id', id)
-    if (status === 'active') {
-      const m = members.find(m=>m.id===id)
-      if (m) {
-        try {
-          await fetch('https://api.resend.com/emails', {
-            method: 'POST',
-            headers:{'Authorization':'Bearer re_bmLA4KoW_HFXWiJj5w7yu27hwHkeb5hBd','Content-Type':'application/json'},
-            body: JSON.stringify({
-              from: 'Off Market Property Network <welcome@offmarketpropertynetwork.com.au>',
-              to: m.email,
-              subject: "You're verified! Your account is now active",
-              html: `<html><body style="background:#1B2A1B;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#162016;padding:40px;"><h1 style="color:#C9A84C;">You're verified, ${m.first_name}!</h1><p style="color:#E8E8E8;">Your account is now active. Sign in to access the platform.</p><a href="https://offmarketpropertynetwork.com.au/login" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;margin-top:24px;">Sign in now →</a></div></body></html>`
-            })
-          })
-        } catch(e) { console.error(e) }
-      }
-    }
+    try {
+      const res = await fetch('/api/approve-member', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ memberId: id, status })
+      })
+      const data = await res.json()
+      console.log('Status update result:', data)
+    } catch(e) { console.error('Status update error:', e) }
     await fetchAll()
   }
 
