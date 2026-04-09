@@ -20,7 +20,7 @@ export default function Nav() {
   }
 
   return (
-    <nav style={{position:'sticky',top:0,zIndex:100,background:'rgba(10,15,30,0.99)',borderBottom:'1px solid #2D4A2D'}}>
+    <nav style={{position:'sticky',top:0,zIndex:100,background:'rgba(27,42,27,0.99)',borderBottom:'1px solid #2D4A2D'}}>
       <style>{`
         @media(max-width:768px){
           .nav-links{display:none !important;}
