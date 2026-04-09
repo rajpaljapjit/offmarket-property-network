@@ -1,5 +1,5 @@
 import Nav from '../components/Nav'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { GoldButton, SilverButton, MagneticButton } from '../components/Button'
 import CountUp from 'react-countup'
 import Typewriter from 'typewriter-effect'
