@@ -34,6 +34,7 @@ export default function Login() {
           setError('Your application was not approved. Please contact support@offmarketpropertynetwork.com.au')
         } else {
           localStorage.setItem('member', JSON.stringify(data.member))
+        localStorage.setItem('sessionTime', Date.now().toString())
           router.push('/dashboard')
         }
       }

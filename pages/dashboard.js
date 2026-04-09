@@ -81,6 +81,16 @@ export default function Dashboard() {
   useEffect(() => {
     const stored = localStorage.getItem('member')
     if (!stored) { router.push('/login'); return }
+    
+    // Session expiry - 8 hours
+    const sessionTime = localStorage.getItem('sessionTime')
+    const EIGHT_HOURS = 8 * 60 * 60 * 1000
+    if (sessionTime && Date.now() - parseInt(sessionTime) > EIGHT_HOURS) {
+      localStorage.removeItem('member')
+      localStorage.removeItem('sessionTime')
+      router.push('/login')
+      return
+    }
     const m = JSON.parse(stored)
     setMember(m)
     fetchAll(m)

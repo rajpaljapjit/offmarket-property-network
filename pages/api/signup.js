@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs'
+import { sanitise, sanitiseEmail, sanitiseNumber } from './sanitise'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -8,7 +9,17 @@ export default async function handler(req, res) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SECRET_KEY
 
-  const { firstName, lastName, email, mobile, username, password, agency, role, state, licenseNumber, plan } = req.body
+  const { firstName: _fn, lastName: _ln, email: _em, mobile: _mob, username: _un, password, agency: _ag, role: _role, state: _state, licenseNumber: _lic, plan: _plan } = req.body
+  const firstName = sanitise(_fn)
+  const lastName = sanitise(_ln)
+  const email = sanitiseEmail(_em)
+  const mobile = sanitiseNumber(_mob)
+  const username = sanitise(_un)
+  const agency = sanitise(_ag)
+  const role = sanitise(_role)
+  const state = sanitise(_state)
+  const licenseNumber = sanitise(_lic)
+  const plan = sanitise(_plan)
 
   if (!firstName || !lastName || !email || !agency || !licenseNumber || !username || !password) {
     return res.status(400).json({ error: 'Please fill in all required fields.' })

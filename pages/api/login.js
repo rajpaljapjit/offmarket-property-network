@@ -1,5 +1,28 @@
 import bcrypt from 'bcryptjs'
 
+// Simple in-memory rate limiter
+const loginAttempts = {}
+const MAX_ATTEMPTS = 5
+const WINDOW_MS = 15 * 60 * 1000 // 15 minutes
+
+function isRateLimited(ip) {
+  const now = Date.now()
+  if (!loginAttempts[ip]) {
+    loginAttempts[ip] = { count: 1, first: now }
+    return false
+  }
+  if (now - loginAttempts[ip].first > WINDOW_MS) {
+    loginAttempts[ip] = { count: 1, first: now }
+    return false
+  }
+  loginAttempts[ip].count++
+  return loginAttempts[ip].count > MAX_ATTEMPTS
+}
+
+function clearAttempts(ip) {
+  delete loginAttempts[ip]
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -7,6 +30,12 @@ export default async function handler(req, res) {
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SECRET_KEY
+
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown'
+  
+  if (isRateLimited(ip)) {
+    return res.status(429).json({ error: 'Too many login attempts. Please try again in 15 minutes.' })
+  }
 
   const { username, password } = req.body
 
@@ -33,6 +62,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Invalid username or password.' })
     }
 
+    clearAttempts(ip)
     return res.status(200).json({ success: true, member: {
       id: member.id,
       firstName: member.first_name,
