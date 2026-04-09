@@ -56,8 +56,6 @@ export default function Home() {
   const [realListings, setRealListings] = useState([])
   const { scrollY } = useScroll()
   const heroY = useTransform(scrollY, [0, 500], [0, -100])
-  const { scrollY } = useScroll()
-  const heroY = useTransform(scrollY, [0, 500], [0, -100])
 
   useEffect(() => {
     fetchListings()
