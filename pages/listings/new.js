@@ -30,7 +30,7 @@ export default function NewListing() {
   const loadGoogleMaps = () => {
     if (window.google) { initAutocomplete(); return }
     const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_KEY || 'AIzaSyDm4l8a0tljgjwEMjMm_SL14xL-b43tLUo'}&libraries=places`
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_KEY || 'AIzaSyCyHs0C98RsaaMnmsntVxsUUhQJ3FeZl4U'}&libraries=places`
     script.async = true
     script.onload = initAutocomplete
     document.head.appendChild(script)
