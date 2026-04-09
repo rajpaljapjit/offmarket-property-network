@@ -32,7 +32,7 @@ export default function Home() {
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
       <div style={{width:'100%',textAlign:'center',background:'#1B2A1B',lineHeight:0}}>
-        <img src="/Offmarketprop.png" alt="Off Market Property Network" style={{width:'100%',height:'auto',display:'block'}}/>
+        <img src="/Offmarketproplogo.png" alt="Off Market Property Network" style={{width:'100%',height:'auto',display:'block'}}/>
       </div>
 
 
