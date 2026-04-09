@@ -31,6 +31,9 @@ export default function Home() {
   return (
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
+      <div style={{width:'100%',textAlign:'center',background:'#0A0F1E',lineHeight:0}}>
+        <img src="/ompnherofilelogo.png" alt="Off Market Property Network" style={{width:'100%',height:'auto',display:'block'}}/>
+      </div>
 
 
       <style>{`
