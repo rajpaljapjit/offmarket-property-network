@@ -1,9 +1,43 @@
 import toast from 'react-hot-toast'
+import { useDropzone } from 'react-dropzone'
 import Nav from '../../components/Nav'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
 const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D',red:'#E24B4A'}
+
+function DropZoneUploader({ onUpload, uploading }) {
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {'image/*': []},
+    multiple: true,
+    onDrop: files => {
+      const event = { target: { files } }
+      onUpload(event)
+    }
+  })
+
+  return (
+    <div {...getRootProps()} style={{
+      border:`2px dashed ${isDragActive ? '#C9A84C' : '#2D4A2D'}`,
+      padding:'48px 20px',
+      textAlign:'center',
+      cursor:'pointer',
+      background: isDragActive ? 'rgba(201,168,76,0.05)' : 'transparent',
+      transition:'all 0.2s ease'
+    }}>
+      <input {...getInputProps()}/>
+      <div style={{fontSize:36,marginBottom:12}}>📸</div>
+      {isDragActive ? (
+        <div style={{fontSize:14,color:'#C9A84C',fontWeight:500}}>Drop photos here...</div>
+      ) : (
+        <>
+          <div style={{fontSize:14,color:'#C9A84C',marginBottom:6,fontWeight:500}}>{uploading ? 'Uploading...' : 'Drag & drop photos here'}</div>
+          <div style={{fontSize:12,color:'#8BA888'}}>or click to browse · JPG, PNG up to 10MB each</div>
+        </>
+      )}
+    </div>
+  )
+}
 
 export default function NewListing() {
   const router = useRouter()
