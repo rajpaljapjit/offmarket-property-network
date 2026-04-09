@@ -1,4 +1,5 @@
 import Nav from '../components/Nav'
+import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import Footer from '../components/Footer'
 import Link from 'next/link'
@@ -63,10 +64,10 @@ export default function Home() {
               <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>Australia&apos;s Private Property Network</div>
               <h1 style={{fontSize:'clamp(32px, 5vw, 52px)',lineHeight:1.1,color:s.white,marginBottom:20,fontWeight:600}}>Where agents move property <em style={{color:s.gold,fontStyle:'italic'}}>off market</em></h1>
               <p style={{color:s.mid,fontSize:16,marginBottom:32,lineHeight:1.7}}>A members-only network connecting selling agents and buyers agents. Share hidden opportunities. Close quietly. No public portals.</p>
-              <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+              <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.4}} style={{display:'flex',gap:12,flexWrap:'wrap'}}>
                 <Link href="/signup" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:500,textDecoration:'none'}}>Join Free — 3 Months Free</Link>
                 <Link href="/how-it-works" style={{border:'1px solid #E8E8E8',color:'#E8E8E8',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>How It Works</Link>
-              </div>
+              </motion.div>
             </div>
             <div className="hero-visual" style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32}}>
               <div style={{fontSize:9,letterSpacing:'0.35em',color:s.gold,textTransform:'uppercase'}}>Hope Island · Gold Coast</div>
