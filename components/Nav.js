@@ -43,7 +43,7 @@ export default function Nav() {
       {/* NAV ROW - links + buttons */}
       <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px',display:'flex',alignItems:'center',justifyContent:'space-between',height:44}}>
         <div className="nav-links" style={{display:'flex',gap:4}}>
-          {[['/', 'Home'],['/how-it-works','How It Works'],['/listings','Listings'],['/pricing','Pricing']].map(([href,label])=>(
+          {[['/', 'Home'],['/how-it-works','How It Works'],['/pricing','Pricing']].map(([href,label])=>(
             <Link key={href} href={href} style={{color:'#8BA888',fontSize:13,padding:'6px 12px',textDecoration:'none'}}>{label}</Link>
           ))}
         </div>
@@ -70,7 +70,7 @@ export default function Nav() {
       {/* Mobile menu */}
       {open && (
         <div style={{background:'#162016',borderTop:'1px solid #2D4A2D',padding:'16px 20px',display:'flex',flexDirection:'column',gap:0}}>
-          {[['/', 'Home'],['/how-it-works','How It Works'],['/listings','Listings'],['/pricing','Pricing']].map(([href,label])=>(
+          {[['/', 'Home'],['/how-it-works','How It Works'],['/pricing','Pricing']].map(([href,label])=>(
             <Link key={href} href={href} onClick={()=>setOpen(false)} style={{color:'#C9A84C',fontSize:15,padding:'14px 0',textDecoration:'none',borderBottom:'1px solid #2D4A2D'}}>{label}</Link>
           ))}
           {member ? (
