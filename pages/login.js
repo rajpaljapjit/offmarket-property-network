@@ -1,6 +1,6 @@
 import Nav from '../components/Nav'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D',red:'#E24B4A'}
