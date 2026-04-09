@@ -43,7 +43,7 @@ export default function Signup() {
   const handleRoleChange = (e) => {
     const role = e.target.value
     setValue('role', role)
-    if (role === 'Buyers Agent') {
+    if (role === 'Buyers Agent' || role === 'Both') {
       setValue('plan', 'Buyers Agent')
     } else {
       setValue('plan', 'Silver')
@@ -178,19 +178,20 @@ export default function Signup() {
             {/* Plan */}
             <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:24}}>
               <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:16}}>Choose your plan</div>
-              {watchRole === 'Buyers Agent' ? (
+              {watchRole === 'Buyers Agent' || watchRole === 'Both' ? (
                 <div>
                   <label style={{display:'flex',alignItems:'center',gap:12,padding:'16px',background:s.bg2,border:`1px solid ${s.gold}`,cursor:'pointer'}}>
                     <input type="radio" value="Buyers Agent" {...register('plan')} style={{accentColor:s.gold}} defaultChecked/>
                     <div>
-                      <div style={{fontSize:14,color:s.gold,fontWeight:600}}>Buyers Agent Plan</div>
-                      <div style={{fontSize:12,color:s.muted,marginTop:2}}>$69/month — Browse all listings, save, enquire, message agents</div>
+                      <div style={{fontSize:14,color:s.gold,fontWeight:600}}>{watchRole === 'Both' ? 'Buyers & Selling Agent Plan' : 'Buyers Agent Plan'}</div>
+                      <div style={{fontSize:12,color:s.muted,marginTop:2}}>$69/month — Browse all listings, save, enquire, message agents{watchRole === 'Both' ? ' + 1 free listing per month' : ''}</div>
                     </div>
                   </label>
                   <div style={{background:'rgba(201,168,76,0.06)',border:`1px solid rgba(201,168,76,0.2)`,padding:'12px 16px',marginTop:8}}>
                     <div style={{fontSize:11,color:s.gold}}>✓ Browse all off market listings</div>
                     <div style={{fontSize:11,color:s.gold,marginTop:4}}>✓ Save listings & favourite agents</div>
                     <div style={{fontSize:11,color:s.gold,marginTop:4}}>✓ Send enquiries & direct messaging</div>
+                    {watchRole === 'Both' && <div style={{fontSize:11,color:s.gold,marginTop:4}}>✓ 1 free listing per month included</div>}
                     <div style={{fontSize:11,color:s.gold,marginTop:4}}>✓ 3 months free — no credit card required</div>
                   </div>
                 </div>
