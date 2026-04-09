@@ -115,7 +115,7 @@ export default function Home() {
       </div>
 
       {/* STATS */}
-      <FadeUp><div style={{borderTop:`1px solid ${s.border}`,borderBottom:`1px solid ${s.border}`,padding:'28px 0',margin:'40px 0'}}>
+      <div style={{borderTop:`1px solid ${s.border}`,borderBottom:`1px solid ${s.border}`,padding:'28px 0',margin:'40px 0'}}>
         <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px'}}>
           <div className="stats-grid">
             {[['2,400+','Verified agents'],['$1.8B','In off market value'],['97%','Member satisfaction'],['48hrs','Avg time to enquiry']].map(([num,label])=>(
