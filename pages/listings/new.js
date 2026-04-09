@@ -55,11 +55,24 @@ export default function NewListing() {
         if (types.includes('administrative_area_level_1')) state = component.short_name
         if (types.includes('postal_code')) postcode = component.long_name
       })
+      // Map full state names to abbreviations
+      const stateMap = {
+        'New South Wales': 'NSW',
+        'Victoria': 'VIC',
+        'Queensland': 'QLD',
+        'Western Australia': 'WA',
+        'South Australia': 'SA',
+        'Tasmania': 'TAS',
+        'Australian Capital Territory': 'ACT',
+        'Northern Territory': 'NT'
+      }
+      const stateAbbr = stateMap[state] || state
+
       setForm(prev => ({
         ...prev,
         streetAddress: `${streetNumber} ${streetName}`.trim(),
         suburb,
-        state,
+        state: stateAbbr,
         postcode
       }))
     })
