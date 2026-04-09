@@ -1,4 +1,7 @@
 import Nav from '../../components/Nav'
+import toast from 'react-hot-toast'
+import Lightbox from 'yet-another-react-lightbox'
+import 'yet-another-react-lightbox/styles.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Zoom } from 'swiper/modules'
 import 'swiper/css'
@@ -20,6 +23,8 @@ export default function ListingDetail() {
   const [enquirySent, setEnquirySent] = useState(false)
   const [enquiryLoading, setEnquiryLoading] = useState(false)
   const [activePhoto, setActivePhoto] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState(0)
 
   useEffect(() => {
     const stored = localStorage.getItem('member')
@@ -63,7 +68,7 @@ export default function ListingDetail() {
           enquirerMobile: member.mobile,
         })
       })
-      if (res.ok) setEnquirySent(true)
+      if (res.ok) { setEnquirySent(true); toast.success('Enquiry sent! The agent will be in touch.') } else { toast.error('Failed to send enquiry.') }
     } catch (err) {
       console.error(err)
     }
@@ -165,6 +170,7 @@ export default function ListingDetail() {
           </div>
         </div>
       </div>
+      {lightboxOpen&&listing.images&&<Lightbox open={lightboxOpen} close={()=>setLightboxOpen(false)} index={lightboxIndex} slides={listing.images.map(src=>({src}))} styles={{container:{backgroundColor:'rgba(0,0,0,0.95)'}}}/>}
     </div>
   )
 }
