@@ -16,6 +16,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(true)
   const [member, setMember] = useState(null)
   const [viewMember, setViewMember] = useState(null)
+  const [viewMember, setViewMember] = useState(null)
 
   useEffect(() => {
     const stored = localStorage.getItem('member')
@@ -118,6 +119,7 @@ export default function Admin() {
       </div>
       <div style={{display:'flex',flexDirection:'column',gap:6,minWidth:110}}>
         <button onClick={()=>setViewMember(m)} style={{background:'none',border:`1px solid ${s.gold}`,color:s.gold,fontSize:12,padding:'7px 12px',cursor:'pointer',marginBottom:4}}>View →</button>
+        <button onClick={()=>setViewMember(m)} style={{background:'none',border:`1px solid ${s.gold}`,color:s.gold,fontSize:12,padding:'7px 12px',cursor:'pointer',marginBottom:4}}>View →</button>
         {m.status==='pending'&&<button onClick={()=>updateMemberStatus(m.id,'active')} style={{background:s.green,border:'none',color:'#000',fontSize:12,fontWeight:600,padding:'7px 12px',cursor:'pointer'}}>✓ Approve</button>}
         {m.status==='pending'&&<button onClick={()=>updateMemberStatus(m.id,'rejected')} style={{background:'none',border:`1px solid ${s.red}`,color:s.red,fontSize:12,padding:'7px 12px',cursor:'pointer'}}>✗ Reject</button>}
         {m.status==='active'&&<button onClick={()=>updateMemberStatus(m.id,'suspended')} style={{background:'none',border:`1px solid ${s.red}`,color:s.red,fontSize:12,padding:'7px 12px',cursor:'pointer'}}>Suspend</button>}
@@ -129,6 +131,50 @@ export default function Admin() {
 
   return (
     <div style={{background:s.bg,minHeight:'100vh',color:s.white}}>
+      {/* Member detail modal */}
+      {viewMember && (
+        <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setViewMember(null)}>
+          <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:36,maxWidth:560,width:'100%',maxHeight:'90vh',overflowY:'auto'}} onClick={e=>e.stopPropagation()}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}>
+              <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase'}}>Member application</div>
+              <button onClick={()=>setViewMember(null)} style={{background:'none',border:'none',color:s.muted,fontSize:20,cursor:'pointer'}}>✕</button>
+            </div>
+            <h2 style={{fontSize:22,color:s.gold,marginBottom:4,fontWeight:600}}>{viewMember.first_name} {viewMember.last_name}</h2>
+            <div style={{fontSize:12,color:s.muted,marginBottom:24}}>@{viewMember.username}</div>
+            <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
+              {[
+                ['Full name', `${viewMember.first_name} ${viewMember.last_name}`],
+                ['Email', viewMember.email],
+                ['Mobile', viewMember.mobile || 'Not provided'],
+                ['Agency', viewMember.agency],
+                ['Role', viewMember.role],
+                ['State', viewMember.state],
+                ['License number', viewMember.license_number],
+                ['Plan selected', viewMember.plan],
+                ['Account status', viewMember.status],
+                ['Joined', viewMember.trial_start ? new Date(viewMember.trial_start).toLocaleDateString('en-AU') : 'N/A'],
+              ].map(([label, value]) => (
+                <div key={label} style={{background:s.bg2,display:'flex',justifyContent:'space-between',padding:'12px 16px',gap:20}}>
+                  <span style={{fontSize:12,color:s.muted,minWidth:120}}>{label}</span>
+                  <span style={{fontSize:13,color:s.mid,textAlign:'right',wordBreak:'break-all'}}>{value}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{display:'flex',gap:10,marginTop:24}}>
+              {viewMember.status==='pending'&&(
+                <>
+                  <button onClick={()=>{updateMemberStatus(viewMember.id,'active');setViewMember(null)}} style={{flex:1,background:s.green,border:'none',color:'#000',fontSize:13,fontWeight:600,padding:12,cursor:'pointer'}}>✓ Approve</button>
+                  <button onClick={()=>{updateMemberStatus(viewMember.id,'rejected');setViewMember(null)}} style={{flex:1,background:'none',border:`1px solid ${s.red}`,color:s.red,fontSize:13,padding:12,cursor:'pointer'}}>✗ Reject</button>
+                </>
+              )}
+              {viewMember.status==='active'&&(
+                <button onClick={()=>{updateMemberStatus(viewMember.id,'suspended');setViewMember(null)}} style={{flex:1,background:'none',border:`1px solid ${s.red}`,color:s.red,fontSize:13,padding:12,cursor:'pointer'}}>Suspend</button>
+              )}
+              <button onClick={()=>setViewMember(null)} style={{flex:1,background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:13,padding:12,cursor:'pointer'}}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Member detail modal */}
       {viewMember && (
         <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setViewMember(null)}>
