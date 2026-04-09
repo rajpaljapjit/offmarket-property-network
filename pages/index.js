@@ -54,6 +54,8 @@ const FadeUp = ({ children, delay=0 }) => (
 
 export default function Home() {
   const [realListings, setRealListings] = useState([])
+  const { scrollY } = useScroll()
+  const heroY = useTransform(scrollY, [0, 500], [0, -100])
 
   useEffect(() => {
     fetchListings()
@@ -78,9 +80,9 @@ export default function Home() {
   return (
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
-      <div style={{width:'100%',textAlign:'center',background:'#1B2A1B',lineHeight:0}}>
+      <motion.div style={{width:'100%',textAlign:'center',background:'#1B2A1B',lineHeight:0, y:heroY}}>
         <img src="/Offmarketproplogo5.png" alt="Off Market Property Network" style={{width:'100%',height:'auto',display:'block'}}/>
-      </div>
+      </motion.div>
 
 
       <style>{`
