@@ -1,5 +1,6 @@
 import { format, formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
+import { GoldButton, SilverButton, DangerButton, GreenButton } from '../components/Button'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -109,12 +110,12 @@ export default function Admin() {
         }}>{m.status}</div>
       </div>
       <div className='member-actions' style={{display:'flex',flexDirection:'column',gap:6,minWidth:110}}>
-        <button onClick={()=>setViewMember(m)} style={{background:'none',border:`1px solid ${s.gold}`,color:s.gold,fontSize:12,padding:'7px 12px',cursor:'pointer',marginBottom:4}}>View →</button>
-        {m.status==='pending'&&<button onClick={()=>updateMemberStatus(m.id,'active')} style={{background:s.green,border:'none',color:'#000',fontSize:12,fontWeight:600,padding:'7px 12px',cursor:'pointer'}}>✓ Approve</button>}
-        {m.status==='pending'&&<button onClick={()=>updateMemberStatus(m.id,'rejected')} style={{background:'none',border:`1px solid ${s.red}`,color:s.red,fontSize:12,padding:'7px 12px',cursor:'pointer'}}>✗ Reject</button>}
-        {m.status==='active'&&<button onClick={()=>updateMemberStatus(m.id,'suspended')} style={{background:'none',border:`1px solid ${s.red}`,color:s.red,fontSize:12,padding:'7px 12px',cursor:'pointer'}}>Suspend</button>}
-        {m.status==='suspended'&&<button onClick={()=>updateMemberStatus(m.id,'active')} style={{background:'none',border:`1px solid ${s.green}`,color:s.green,fontSize:12,padding:'7px 12px',cursor:'pointer'}}>Reinstate</button>}
-        <button onClick={()=>deleteMember(m.id)} style={{background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:12,padding:'7px 12px',cursor:'pointer'}}>Delete</button>
+        <GoldButton size='sm' onClick={()=>setViewMember(m)}>View →</GoldButton>
+        {m.status==='pending'&&<GreenButton size='sm' onClick={()=>updateMemberStatus(m.id,'active')}>✓ Approve</GreenButton>}
+        {m.status==='pending'&&<DangerButton size='sm' onClick={()=>updateMemberStatus(m.id,'rejected')}>✗ Reject</DangerButton>}
+        {m.status==='active'&&<DangerButton size='sm' onClick={()=>updateMemberStatus(m.id,'suspended')}>Suspend</DangerButton>}
+        {m.status==='suspended'&&<GreenButton size='sm' onClick={()=>updateMemberStatus(m.id,'active')}>Reinstate</GreenButton>}
+        <SilverButton size='sm' onClick={()=>deleteMember(m.id)}>Delete</SilverButton>
       </div>
     </div>
   )
