@@ -4,7 +4,7 @@ import { GoldButton, SilverButton, MagneticButton } from '../components/Button'
 import CountUp from 'react-countup'
 import Typewriter from 'typewriter-effect'
 import { useInView } from 'react-intersection-observer'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 
