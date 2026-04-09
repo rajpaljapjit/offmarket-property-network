@@ -1,7 +1,7 @@
+import bcrypt from 'bcryptjs'
+
 const ADMIN_KEY = 'ompnSecure1609'
 const ADMIN_USERNAME = 'ompnadminlogin'
-
-import bcrypt from 'bcryptjs'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
