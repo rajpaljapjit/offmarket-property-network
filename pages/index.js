@@ -105,6 +105,26 @@ export default function Home() {
       {/* HERO */}
       <section style={{padding:'60px 0 40px',position:'relative',overflow:'hidden'}}>
         <ParticleBackground/>
+        {/* Video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{
+            position:'absolute',
+            top:0,
+            left:0,
+            width:'100%',
+            height:'100%',
+            objectFit:'cover',
+            opacity:0.07,
+            zIndex:0,
+            pointerEvents:'none',
+          }}
+        >
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-modern-city-buildings-seen-from-above-40028-large.mp4" type="video/mp4"/>
+        </video>
         <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px',position:'relative',zIndex:1}}>
           <div className="hero-grid">
             <div>
