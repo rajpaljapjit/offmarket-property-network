@@ -6,6 +6,34 @@ import Link from 'next/link'
 
 const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D'}
 
+const FadeUp = ({ children, delay=0 }) => (
+  <motion.div
+    initial={{opacity:0, y:40}}
+    whileInView={{opacity:1, y:0}}
+    viewport={{once:true}}
+    transition={{duration:0.7, delay, ease:[0.25,0.1,0.25,1]}}
+  >
+    {children}
+  </motion.div>
+)
+
+const FadeIn = ({ children, delay=0 }) => (
+  <motion.div
+    initial={{opacity:0}}
+    whileInView={{opacity:1}}
+    viewport={{once:true}}
+    transition={{duration:0.8, delay}}
+  >
+    {children}
+  </motion.div>
+)
+
+const FadeUp = ({ children, delay=0 }) => (
+  <motion.div initial={{opacity:0,y:40}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-50px'}} transition={{duration:0.7,delay,ease:[0.25,0.1,0.25,1]}}>
+    {children}
+  </motion.div>
+)
+
 export default function Home() {
   const [realListings, setRealListings] = useState([])
 
@@ -61,9 +89,9 @@ export default function Home() {
         <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px'}}>
           <div className="hero-grid">
             <div>
-              <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>Australia&apos;s Private Property Network</div>
-              <h1 style={{fontSize:'clamp(32px, 5vw, 52px)',lineHeight:1.1,color:s.white,marginBottom:20,fontWeight:600}}>Where agents move property <em style={{color:s.gold,fontStyle:'italic'}}>off market</em></h1>
-              <p style={{color:s.mid,fontSize:16,marginBottom:32,lineHeight:1.7}}>A members-only network connecting selling agents and buyers agents. Share hidden opportunities. Close quietly. No public portals.</p>
+              <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.6}} style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>Australia&apos;s Private Property Network</motion.div>
+              <motion.h1 initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.1}} style={{fontSize:'clamp(32px, 5vw, 52px)',lineHeight:1.1,color:s.white,marginBottom:20,fontWeight:600}}>Where agents move property <em style={{color:s.gold,fontStyle:'italic'}}>off market</em></motion.h1>
+              <motion.p initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.2}} style={{color:s.mid,fontSize:16,marginBottom:32,lineHeight:1.7}}>A members-only network connecting selling agents and buyers agents. Share hidden opportunities. Close quietly. No public portals.</motion.p>
               <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.4}} style={{display:'flex',gap:12,flexWrap:'wrap'}}>
                 <Link href="/signup" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:500,textDecoration:'none'}}>Join Free — 3 Months Free</Link>
                 <Link href="/how-it-works" style={{border:'1px solid #E8E8E8',color:'#E8E8E8',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>How It Works</Link>
@@ -87,7 +115,7 @@ export default function Home() {
       </div>
 
       {/* STATS */}
-      <div style={{borderTop:`1px solid ${s.border}`,borderBottom:`1px solid ${s.border}`,padding:'28px 0',margin:'40px 0'}}>
+      <FadeUp><div style={{borderTop:`1px solid ${s.border}`,borderBottom:`1px solid ${s.border}`,padding:'28px 0',margin:'40px 0'}}>
         <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px'}}>
           <div className="stats-grid">
             {[['2,400+','Verified agents'],['$1.8B','In off market value'],['97%','Member satisfaction'],['48hrs','Avg time to enquiry']].map(([num,label])=>(
