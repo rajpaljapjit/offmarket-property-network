@@ -1,5 +1,6 @@
 import { format, formatDistanceToNow } from 'date-fns'
 import Nav from '../components/Nav'
+import { SkeletonCard, SkeletonRow } from '../components/Skeleton'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
