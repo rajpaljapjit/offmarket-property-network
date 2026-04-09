@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import Nav from '../../components/Nav'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
@@ -56,14 +57,14 @@ export default function EditProfile() {
         state: form.state,
       }).eq('id', member.id)
       if (dbError) {
-        setError(dbError.message)
+        toast.error(dbError.message)
       } else {
         const updated = {...member, firstName:form.firstName, lastName:form.lastName, email:form.email, mobile:form.mobile, agency:form.agency, role:form.role, state:form.state}
         localStorage.setItem('member', JSON.stringify(updated))
         setMember(updated)
-        setSuccess('Profile updated successfully!')
+        toast.success('Profile updated successfully!')
       }
-    } catch { setError('Something went wrong.') }
+    } catch { toast.error('Something went wrong.') }
     setLoading(false)
   }
 

@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import Nav from '../../components/Nav'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
@@ -41,8 +42,8 @@ export default function ChangePassword() {
       })
       const data = await res.json()
       if (!res.ok) { setError(data.error||'Something went wrong.') }
-      else { setSuccess('Password changed successfully!'); setForm({currentPassword:'',newPassword:'',confirmPassword:''}) }
-    } catch { setError('Something went wrong. Please try again.') }
+      else { toast.success('Password changed successfully!'); setForm({currentPassword:'',newPassword:'',confirmPassword:''}) }
+    } catch { toast.error('Something went wrong. Please try again.') }
     setLoading(false)
   }
 

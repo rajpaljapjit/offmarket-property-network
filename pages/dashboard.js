@@ -1,4 +1,5 @@
 import Nav from '../components/Nav'
+import toast from 'react-hot-toast'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'

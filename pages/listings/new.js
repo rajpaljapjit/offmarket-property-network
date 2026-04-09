@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast'
 import Nav from '../../components/Nav'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
