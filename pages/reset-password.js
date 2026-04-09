@@ -53,7 +53,7 @@ export default function ResetPassword() {
       <Nav/>
       <div style={{maxWidth:420,margin:'0 auto',padding:'80px 20px'}}>
         <div style={{textAlign:'center',marginBottom:40}}>
-          <img src="/ompnherofilelogo.png" alt="Off Market Property Network" style={{height:48,marginBottom:16}}/>
+          <img src="/Offmarketprop.png" alt="Off Market Property Network" style={{height:48,marginBottom:16}}/>
           <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase'}}>Password reset</div>
         </div>
         <div style={{background:s.bg2,border:`1px solid ${s.border}`,padding:36}}>
