@@ -118,7 +118,6 @@ export default function Admin() {
       </div>
       <div style={{display:'flex',flexDirection:'column',gap:6,minWidth:110}}>
         <button onClick={()=>setViewMember(m)} style={{background:'none',border:`1px solid ${s.gold}`,color:s.gold,fontSize:12,padding:'7px 12px',cursor:'pointer',marginBottom:4}}>View →</button>
-        <button onClick={()=>setViewMember(m)} style={{background:'none',border:`1px solid ${s.gold}`,color:s.gold,fontSize:12,padding:'7px 12px',cursor:'pointer',marginBottom:4}}>View →</button>
         {m.status==='pending'&&<button onClick={()=>updateMemberStatus(m.id,'active')} style={{background:s.green,border:'none',color:'#000',fontSize:12,fontWeight:600,padding:'7px 12px',cursor:'pointer'}}>✓ Approve</button>}
         {m.status==='pending'&&<button onClick={()=>updateMemberStatus(m.id,'rejected')} style={{background:'none',border:`1px solid ${s.red}`,color:s.red,fontSize:12,padding:'7px 12px',cursor:'pointer'}}>✗ Reject</button>}
         {m.status==='active'&&<button onClick={()=>updateMemberStatus(m.id,'suspended')} style={{background:'none',border:`1px solid ${s.red}`,color:s.red,fontSize:12,padding:'7px 12px',cursor:'pointer'}}>Suspend</button>}
