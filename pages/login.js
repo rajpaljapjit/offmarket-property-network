@@ -9,6 +9,12 @@ export default function Login() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    const reason = new URLSearchParams(window.location.search).get('reason')
+    if (reason === 'suspended') setError('Your account has been suspended. Please contact support@offmarketpropertynetwork.com.au')
+    if (reason === 'deleted') setError('Your account no longer exists. Please contact support@offmarketpropertynetwork.com.au')
+  }, [])
   const [form, setForm] = useState({ username: '', password: '' })
   const handleChange = e => setForm({...form, [e.target.name]: e.target.value})
 

@@ -106,23 +106,37 @@ export default function Dashboard() {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
       )
       const { data } = await supabase.from('members').select('*').eq('id', id).single()
-      if (data) {
-        const updated = {
-          id: data.id,
-          firstName: data.first_name,
-          lastName: data.last_name,
-          email: data.email,
-          username: data.username,
-          agency: data.agency,
-          role: data.role,
-          state: data.state,
-          plan: data.plan,
-          status: data.status,
-          mobile: data.mobile,
-        }
-        localStorage.setItem('member', JSON.stringify(updated))
-        setMember(updated)
+      
+      // If member not found or suspended/deleted - kick them out
+      if (!data) {
+        localStorage.removeItem('member')
+        localStorage.removeItem('sessionTime')
+        router.push('/login?reason=deleted')
+        return
       }
+      
+      if (data.status === 'suspended' || data.status === 'rejected') {
+        localStorage.removeItem('member')
+        localStorage.removeItem('sessionTime')
+        router.push('/login?reason=suspended')
+        return
+      }
+
+      const updated = {
+        id: data.id,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        email: data.email,
+        username: data.username,
+        agency: data.agency,
+        role: data.role,
+        state: data.state,
+        plan: data.plan,
+        status: data.status,
+        mobile: data.mobile,
+      }
+      localStorage.setItem('member', JSON.stringify(updated))
+      setMember(updated)
     } catch(err) { console.error('Refresh error:', err) }
   }
 
