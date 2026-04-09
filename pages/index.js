@@ -139,7 +139,7 @@ export default function Home() {
                       'Connect selling agents with buyers agents.',
                       'Share hidden opportunities off market.',
                       'Close quietly. No public portals.',
-                      'Australia's private property network.',
+                      "Australia's private property network.",
                     ],
                     autoStart:true,
                     loop:true,
