@@ -1,4 +1,5 @@
 import Nav from '../../components/Nav'
+import Tilt from 'react-parallax-tilt'
 import Footer from '../../components/Footer'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'

@@ -1,6 +1,6 @@
 import Nav from '../components/Nav'
 import { motion } from 'framer-motion'
-import { GoldButton, SilverButton } from '../components/Button'
+import { GoldButton, SilverButton, MagneticButton } from '../components/Button'
 import CountUp from 'react-countup'
 import { useInView } from 'react-intersection-observer'
 import { useState, useEffect } from 'react'
@@ -15,6 +15,33 @@ const StatNumber = ({ value, suffix='' }) => {
     <span ref={ref}>
       {inView ? <CountUp end={value} duration={2.5} separator="," suffix={suffix}/> : '0'}
     </span>
+  )
+}
+
+const ParticleBackground = () => {
+  const particlesInit = useCallback(async engine => {
+    await loadSlim(engine)
+  }, [])
+
+  return (
+    <Particles
+      id="tsparticles"
+      init={particlesInit}
+      style={{position:'absolute',top:0,left:0,width:'100%',height:'100%',zIndex:0}}
+      options={{
+        background: { color: { value: 'transparent' } },
+        fpsLimit: 60,
+        particles: {
+          color: { value: '#C9A84C' },
+          links: { color: '#C9A84C', distance: 150, enable: true, opacity: 0.1, width: 1 },
+          move: { enable: true, speed: 0.5, direction: 'none', random: true, outModes: 'bounce' },
+          number: { density: { enable: true, area: 800 }, value: 40 },
+          opacity: { value: 0.15 },
+          size: { value: { min: 1, max: 3 } },
+        },
+        detectRetina: true,
+      }}
+    />
   )
 }
 
@@ -75,19 +102,20 @@ export default function Home() {
       `}</style>
 
       {/* HERO */}
-      <section style={{padding:'60px 0 40px'}}>
-        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px'}}>
+      <section style={{padding:'60px 0 40px',position:'relative',overflow:'hidden'}}>
+        <ParticleBackground/>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 20px',position:'relative',zIndex:1}}>
           <div className="hero-grid">
             <div>
               <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.6}} style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>Australia&apos;s Private Property Network</motion.div>
-              <motion.h1 initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.1}} style={{fontSize:'clamp(32px, 5vw, 52px)',lineHeight:1.1,color:s.white,marginBottom:20,fontWeight:600}}>Where agents move property <em style={{color:s.gold,fontStyle:'italic'}}>off market</em></motion.h1>
+              <motion.h1 initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.1}} style={{fontSize:'clamp(32px, 5vw, 52px)',lineHeight:1.1,color:s.white,marginBottom:20,fontWeight:600}}>Where agents move property <em style={{fontStyle:'italic',background:'linear-gradient(135deg, #C9A84C 0%, #E8C96A 50%, #C9A84C 100%)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text'}}>off market</em></motion.h1>
               <motion.p initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.2}} style={{color:s.mid,fontSize:16,marginBottom:32,lineHeight:1.7}}>A members-only network connecting selling agents and buyers agents. Share hidden opportunities. Close quietly. No public portals.</motion.p>
               <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,delay:0.4}} style={{display:'flex',gap:12,flexWrap:'wrap'}}>
                 <Link href="/signup" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:500,textDecoration:'none'}}>Join Free — 3 Months Free</Link>
                 <Link href="/how-it-works" style={{border:'1px solid #E8E8E8',color:'#E8E8E8',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>How It Works</Link>
               </motion.div>
             </div>
-            <div className="hero-visual" style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32}}>
+            <div className="hero-visual" style={{background:'rgba(31,46,31,0.6)',backdropFilter:'blur(20px)',WebkitBackdropFilter:'blur(20px)',border:'1px solid rgba(201,168,76,0.2)',padding:32,boxShadow:'0 8px 32px rgba(0,0,0,0.3)'}}>
               <div style={{fontSize:9,letterSpacing:'0.35em',color:s.gold,textTransform:'uppercase'}}>Hope Island · Gold Coast</div>
               <div style={{fontSize:22,color:s.white,margin:'8px 0',fontWeight:600}}>Prestige waterfront opportunity</div>
               <div style={{fontSize:11,color:s.muted}}>4 bed · 3 bath · Private listing</div>

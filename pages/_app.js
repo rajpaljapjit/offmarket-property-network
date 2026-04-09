@@ -1,11 +1,13 @@
 import { Toaster } from 'react-hot-toast'
 import { motion, AnimatePresence } from 'framer-motion'
+import ScrollProgress from '../components/ScrollProgress'
 import { useRouter } from 'next/router'
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()
   return (
     <>
+      <ScrollProgress/>
       <AnimatePresence mode="wait">
         <motion.div
           key={router.pathname}
