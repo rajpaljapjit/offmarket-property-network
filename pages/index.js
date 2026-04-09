@@ -7,28 +7,6 @@ import Link from 'next/link'
 const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D'}
 
 const FadeUp = ({ children, delay=0 }) => (
-  <motion.div
-    initial={{opacity:0, y:40}}
-    whileInView={{opacity:1, y:0}}
-    viewport={{once:true}}
-    transition={{duration:0.7, delay, ease:[0.25,0.1,0.25,1]}}
-  >
-    {children}
-  </motion.div>
-)
-
-const FadeIn = ({ children, delay=0 }) => (
-  <motion.div
-    initial={{opacity:0}}
-    whileInView={{opacity:1}}
-    viewport={{once:true}}
-    transition={{duration:0.8, delay}}
-  >
-    {children}
-  </motion.div>
-)
-
-const FadeUp = ({ children, delay=0 }) => (
   <motion.div initial={{opacity:0,y:40}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-50px'}} transition={{duration:0.7,delay,ease:[0.25,0.1,0.25,1]}}>
     {children}
   </motion.div>
