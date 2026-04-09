@@ -18,6 +18,13 @@ export default function Signup() {
   const handleSubmit = async e => {
     e.preventDefault()
     setError('')
+    
+    // Validate license number - must contain letters and numbers
+    const licenseRegex = /^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9\-]{4,20}$/
+    if (!licenseRegex.test(form.licenseNumber.toUpperCase())) {
+      setError('License number must contain both letters and numbers (e.g. QLD-1234567)')
+      return
+    }
     if (form.password.length < 8) { setError('Password must be at least 8 characters.'); return }
     setLoading(true)
     try {
@@ -93,7 +100,7 @@ export default function Signup() {
             </div>
             <div style={{display:'flex',flexDirection:'column',gap:6}}>
               <label style={lab}>Real estate license number *</label>
-              <input name="licenseNumber" value={form.licenseNumber} onChange={handleChange} type="text" placeholder="e.g. QLD-1234567" style={input} autoComplete="off" required/>
+              <input name="licenseNumber" value={form.licenseNumber} onChange={e=>setForm({...form,licenseNumber:e.target.value.toUpperCase()})} type="text" placeholder="e.g. QLD-1234567" style={input} autoComplete="off" maxLength={20} required/>
             </div>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
               <div style={{display:'flex',flexDirection:'column',gap:6}}>
