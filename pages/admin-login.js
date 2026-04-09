@@ -37,7 +37,7 @@ export default function AdminLogin() {
     <div style={{background:s.bg,minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:20}}>
       <div style={{width:'100%',maxWidth:420}}>
         <div style={{textAlign:'center',marginBottom:40}}>
-          <img src="/Offmarketproplogo2.png" alt="Off Market Property Network" style={{height:48,marginBottom:16}}/>
+          <img src="/Offmarketproplogo3.png" alt="Off Market Property Network" style={{height:48,marginBottom:16}}/>
           <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase'}}>Admin access</div>
         </div>
         <div style={{background:s.bg2,border:`1px solid ${s.border}`,padding:36}}>
