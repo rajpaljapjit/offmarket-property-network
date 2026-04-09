@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
@@ -288,23 +289,60 @@ export default function Admin() {
               ))
           ) : (
             <div style={{padding:32}}>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
-                {[
-                  ['Members by state',members.reduce((acc,m)=>{acc[m.state]=(acc[m.state]||0)+1;return acc},{})],
-                  ['Members by plan',members.reduce((acc,m)=>{acc[m.plan]=(acc[m.plan]||0)+1;return acc},{})],
-                  ['Members by role',members.reduce((acc,m)=>{acc[m.role]=(acc[m.role]||0)+1;return acc},{})],
-                  ['Listings by state',listings.reduce((acc,l)=>{acc[l.state]=(acc[l.state]||0)+1;return acc},{})],
-                ].map(([title,data])=>(
-                  <div key={title} style={{background:s.bg3,border:`1px solid ${s.border}`,padding:20}}>
-                    <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:16}}>{title}</div>
-                    {Object.entries(data).sort((a,b)=>b[1]-a[1]).map(([key,val])=>(
-                      <div key={key} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 0',borderBottom:`1px solid ${s.border}`}}>
-                        <span style={{fontSize:13,color:s.mid}}>{key}</span>
-                        <span style={{fontSize:14,color:s.white,fontWeight:600}}>{val}</span>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:24}}>
+                {/* Members by State Bar Chart */}
+                <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:24}}>
+                  <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Members by state</div>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={Object.entries(members.reduce((acc,m)=>{acc[m.state]=(acc[m.state]||0)+1;return acc},{})).map(([k,v])=>({name:k,count:v}))}>
+                      <XAxis dataKey="name" tick={{fill:'#A8B4CC',fontSize:11}} axisLine={{stroke:'#2D4A2D'}}/>
+                      <YAxis tick={{fill:'#A8B4CC',fontSize:11}} axisLine={{stroke:'#2D4A2D'}}/>
+                      <Tooltip contentStyle={{background:'#1F2E1F',border:'1px solid #2D4A2D',color:'#C9A84C'}}/>
+                      <Bar dataKey="count" fill="#C9A84C" radius={[4,4,0,0]}/>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Members by Plan Pie Chart */}
+                <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:24}}>
+                  <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Members by plan</div>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <PieChart>
+                      <Pie data={Object.entries(members.reduce((acc,m)=>{acc[m.plan]=(acc[m.plan]||0)+1;return acc},{})).map(([k,v])=>({name:k,value:v}))} cx="50%" cy="50%" outerRadius={80} dataKey="value" label={({name,value})=>`${name}: ${value}`}>
+                        {Object.entries(members.reduce((acc,m)=>{acc[m.plan]=(acc[m.plan]||0)+1;return acc},{})).map((_,i)=>(
+                          <Cell key={i} fill={['#C9A84C','#A8B4CC','#4CAF50','#E24B4A'][i%4]}/>
+                        ))}
+                      </Pie>
+                      <Tooltip contentStyle={{background:'#1F2E1F',border:'1px solid #2D4A2D',color:'#C9A84C'}}/>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Members by Role Bar Chart */}
+                <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:24}}>
+                  <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Members by role</div>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={Object.entries(members.reduce((acc,m)=>{acc[m.role]=(acc[m.role]||0)+1;return acc},{})).map(([k,v])=>({name:k,count:v}))}>
+                      <XAxis dataKey="name" tick={{fill:'#A8B4CC',fontSize:11}} axisLine={{stroke:'#2D4A2D'}}/>
+                      <YAxis tick={{fill:'#A8B4CC',fontSize:11}} axisLine={{stroke:'#2D4A2D'}}/>
+                      <Tooltip contentStyle={{background:'#1F2E1F',border:'1px solid #2D4A2D',color:'#C9A84C'}}/>
+                      <Bar dataKey="count" fill="#A8B4CC" radius={[4,4,0,0]}/>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Listings by State Bar Chart */}
+                <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:24}}>
+                  <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Listings by state</div>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={Object.entries(listings.reduce((acc,l)=>{acc[l.state]=(acc[l.state]||0)+1;return acc},{})).map(([k,v])=>({name:k,count:v}))}>
+                      <XAxis dataKey="name" tick={{fill:'#A8B4CC',fontSize:11}} axisLine={{stroke:'#2D4A2D'}}/>
+                      <YAxis tick={{fill:'#A8B4CC',fontSize:11}} axisLine={{stroke:'#2D4A2D'}}/>
+                      <Tooltip contentStyle={{background:'#1F2E1F',border:'1px solid #2D4A2D',color:'#C9A84C'}}/>
+                      <Bar dataKey="count" fill="#4CAF50" radius={[4,4,0,0]}/>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
             </div>
           )}
