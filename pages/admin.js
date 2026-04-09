@@ -86,7 +86,7 @@ export default function Admin() {
   const tabs = ['Pending','Active','All members','Listings','Stats']
 
   const MemberRow = ({m}) => (
-    <div style={{background:s.bg2,display:'grid',gridTemplateColumns:'1fr 1fr 1fr auto',gap:16,alignItems:'center',padding:'16px 20px',borderBottom:`1px solid ${s.border}`}}>
+    <div className='member-row' style={{background:s.bg2,display:'grid',gridTemplateColumns:'1fr 1fr 1fr auto',gap:16,alignItems:'center',padding:'16px 20px',borderBottom:`1px solid ${s.border}`}}>
       <div>
         <div style={{fontSize:14,color:s.white,fontWeight:600}}>{m.first_name} {m.last_name}</div>
         <div style={{fontSize:12,color:s.gold}}>@{m.username}</div>
@@ -106,7 +106,7 @@ export default function Admin() {
           borderColor:m.status==='active'?s.green:m.status==='pending'?s.gold:s.red
         }}>{m.status}</div>
       </div>
-      <div style={{display:'flex',flexDirection:'column',gap:6,minWidth:110}}>
+      <div className='member-actions' style={{display:'flex',flexDirection:'column',gap:6,minWidth:110}}>
         <button onClick={()=>setViewMember(m)} style={{background:'none',border:`1px solid ${s.gold}`,color:s.gold,fontSize:12,padding:'7px 12px',cursor:'pointer',marginBottom:4}}>View →</button>
         {m.status==='pending'&&<button onClick={()=>updateMemberStatus(m.id,'active')} style={{background:s.green,border:'none',color:'#000',fontSize:12,fontWeight:600,padding:'7px 12px',cursor:'pointer'}}>✓ Approve</button>}
         {m.status==='pending'&&<button onClick={()=>updateMemberStatus(m.id,'rejected')} style={{background:'none',border:`1px solid ${s.red}`,color:s.red,fontSize:12,padding:'7px 12px',cursor:'pointer'}}>✗ Reject</button>}
@@ -119,6 +119,16 @@ export default function Admin() {
 
   return (
     <div style={{background:s.bg,minHeight:'100vh',color:s.white}}>
+      <style>{`
+        @media(max-width:768px){
+          .admin-stats{grid-template-columns:1fr 1fr !important;}
+          .admin-tabs{overflow-x:auto;display:flex;white-space:nowrap;}
+          .member-row{grid-template-columns:1fr !important;gap:12px !important;}
+          .member-actions{display:flex;flex-direction:row !important;flex-wrap:wrap;gap:6px !important;}
+          .admin-header{flex-direction:column;gap:12px;align-items:flex-start !important;}
+          .listings-row{grid-template-columns:1fr !important;}
+        }
+      `}</style>
       {/* Member detail modal */}
       {viewMember && (
         <div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.8)',zIndex:1000,display:'flex',alignItems:'center',justifyContent:'center',padding:20}} onClick={()=>setViewMember(null)}>
@@ -208,7 +218,7 @@ export default function Admin() {
         </div>
       )}
       <div style={{background:s.bg2,borderBottom:`1px solid ${s.border}`,padding:'0 20px'}}>
-        <div style={{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',height:64}}>
+        <div className='admin-header' style={{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',height:64,padding:'12px 20px'}}>
           <div style={{display:'flex',alignItems:'center',gap:16}}>
             <img src="/Offmarketproplogo5.png" alt="OMPN" style={{height:36}}/>
             <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase'}}>Admin Panel</div>
@@ -226,7 +236,7 @@ export default function Admin() {
           <p style={{fontSize:13,color:s.muted}}>Manage members, listings and platform activity</p>
         </div>
 
-        <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:32}}>
+        <div className='admin-stats' style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:32}}>
           {[['Total members',stats.total,s.mid],['Pending approval',stats.pending,s.gold],['Active members',stats.active,s.green],['Total listings',stats.listings,s.gold]].map(([label,val,color])=>(
             <div key={label} style={{background:s.bg3,border:`1px solid ${s.border}`,padding:24}}>
               <div style={{fontSize:10,letterSpacing:'0.25em',color:s.muted,textTransform:'uppercase',marginBottom:8}}>{label}</div>
@@ -235,7 +245,7 @@ export default function Admin() {
           ))}
         </div>
 
-        <div style={{display:'flex',gap:1,background:s.border,marginBottom:1}}>
+        <div className='admin-tabs' style={{display:'flex',gap:1,background:s.border,marginBottom:1}}>
           {tabs.map(tab=>(
             <button key={tab} onClick={()=>setActiveTab(tab)} style={{background:tab===activeTab?s.bg3:s.bg2,border:'none',color:tab===activeTab?s.gold:s.muted,fontSize:13,padding:'12px 24px',cursor:'pointer',display:'flex',alignItems:'center',gap:6}}>
               {tab}
