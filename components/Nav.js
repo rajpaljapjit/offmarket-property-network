@@ -79,7 +79,7 @@ export default function Nav() {
             src="/goOffmarketlogo1.png"
             alt="Off Market Property Network"
             className="nav-logo"
-            style={{ height: 140, width: 'auto', objectFit: 'contain', display: 'block', marginTop: 25 }}
+            style={{ height: 182, width: 'auto', objectFit: 'contain', display: 'block', marginTop: 25 }}
           />
         </Link>
 
