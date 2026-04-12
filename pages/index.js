@@ -151,6 +151,7 @@ export default function Home() {
 
       <style>{`
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .hero-video { display: block; }
         .hg  { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; }
         .sg  { display:grid; grid-template-columns:repeat(4,1fr); }
         .stg { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
@@ -171,16 +172,18 @@ export default function Home() {
       `}</style>
 
       {/* ─── HERO ─────────────────────────────────────────── */}
-      <section style={{ position: 'relative', minHeight: '94vh', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '40px 0 60px' }}>
-        {/* Video background */}
+      <section style={{ position: 'relative', minHeight: '94vh', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '40px 0 60px', backgroundImage: 'url(/Heroimage.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        {/* Video background — hidden on mobile via CSS, fallback to Heroimage.png above */}
         <video
           autoPlay
           muted
           loop
           playsInline
+          poster="/Heroimage.png"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
+          className="hero-video"
         >
-          <source src="/video.mp4" type="video/mp4" />
+          <source src="/Video.mp4" type="video/mp4" />
         </video>
         {/* Dark overlay to keep text readable */}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,10,26,0.82) 0%, rgba(13,10,26,0.65) 60%, rgba(13,10,26,0.78) 100%)', pointerEvents: 'none' }} />
