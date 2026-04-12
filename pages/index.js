@@ -158,6 +158,7 @@ export default function Home() {
         .lg  { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
         .feat{ display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
         @media(max-width:900px){
+          .hero-logo-wrap { display:none !important; }
           .hg  { grid-template-columns:1fr; gap:40px; }
           .dash-hide { display:none !important; }
           .sg  { grid-template-columns:repeat(2,1fr); }
@@ -201,6 +202,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 style={{ marginBottom: 0 }}
+                className="hero-logo-wrap"
               >
                 <img
                   src="/goOffmarketlogo1.png"
