@@ -1,56 +1,63 @@
 import crypto from 'crypto'
+import { rateLimit, getIp } from '../../lib/rate-limit'
+import { getSupabase } from '../../lib/supabase-server'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
+  // Rate limit: max 3 requests per IP per 15 minutes
+  const ip = getIp(req)
+  if (rateLimit(`forgot:${ip}`, 3)) {
+    return res.status(429).json({ error: 'Too many requests. Please try again later.' })
+  }
+
   const { email } = req.body
   if (!email) return res.status(400).json({ error: 'Email is required.' })
 
   try {
-    const { createClient } = await import('@supabase/supabase-js')
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-      process.env.SUPABASE_SECRET_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-    )
+    const supabase = getSupabase()
 
-    // Check if member exists
     const { data: member, error } = await supabase
       .from('members')
-      .select('id, email, first_name')
+      .select('id, email, first_name, reset_token_expires')
       .eq('email', email)
       .single()
 
+    // Always return 200 to avoid revealing whether email exists
     if (error || !member) {
-      // Don't reveal if email exists or not
       return res.status(200).json({ success: true })
     }
 
-    // Generate reset token
+    // DB-level throttle: don't send another email if a token was issued less than 5 minutes ago
+    if (member.reset_token_expires) {
+      const expiresAt = new Date(member.reset_token_expires)
+      const fiveMinutesFromNow = new Date(Date.now() + 55 * 60 * 1000) // token lasts 1hr, throttle after <5min
+      if (expiresAt > fiveMinutesFromNow) {
+        return res.status(200).json({ success: true }) // silently ignore
+      }
+    }
+
     const token = crypto.randomBytes(32).toString('hex')
     const expires = new Date(Date.now() + 3600000).toISOString() // 1 hour
 
-    // Save token to database
     await supabase.from('members').update({
       reset_token: token,
-      reset_token_expires: expires
+      reset_token_expires: expires,
     }).eq('id', member.id)
 
-    // Send reset email
+    const resendKey = process.env.RESEND_API_KEY || 're_bmLA4KoW_HFXWiJj5w7yu27hwHkeb5hBd'
+
     await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY || 're_bmLA4KoW_HFXWiJj5w7yu27hwHkeb5hBd'}`,
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: 'Off Market Property Network <noreply@offmarketpropertynetwork.com.au>',
         to: email,
         subject: 'Reset your Off Market Property Network password',
         html: `
-          <html>
-          <body style="margin:0;padding:0;background:#0A0F1E;font-family:Arial,sans-serif;">
+          <html><body style="margin:0;padding:0;background:#0A0F1E;font-family:Arial,sans-serif;">
             <div style="max-width:600px;margin:0 auto;background:#0F1628;">
               <div style="padding:32px 40px;border-bottom:1px solid #1E2A45;">
                 <img src="https://offmarketpropertynetwork.com.au/gooffmarketlogo.png" alt="Off Market Property Network" style="height:40px;"/>
@@ -67,15 +74,14 @@ export default async function handler(req, res) {
                 <p style="font-size:11px;color:#6B7A99;margin:0;text-align:center;">Off Market Property Network · Australia-wide · Verified professionals only</p>
               </div>
             </div>
-          </body>
-          </html>
+          </body></html>
         `
       })
     })
 
     return res.status(200).json({ success: true })
 
-  } catch (err) {
+  } catch {
     return res.status(500).json({ error: 'An unexpected error occurred.' })
   }
 }

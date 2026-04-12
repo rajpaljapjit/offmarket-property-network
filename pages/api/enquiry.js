@@ -1,6 +1,15 @@
+import { rateLimit, getIp } from '../../lib/rate-limit'
+import { getSupabase } from '../../lib/supabase-server'
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  // Rate limit: max 10 enquiries per IP per 15 minutes
+  const ip = getIp(req)
+  if (rateLimit(`enquiry:${ip}`, 10)) {
+    return res.status(429).json({ error: 'Too many requests. Please try again later.' })
   }
 
   const { listingId, listingTitle, listingMemberId, listingMemberEmail, enquirerId, enquirerName, enquirerAgency, enquirerUsername, enquirerEmail, enquirerMobile } = req.body
@@ -10,13 +19,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { createClient } = await import('@supabase/supabase-js')
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-      process.env.SUPABASE_SECRET_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-    )
+    const supabase = getSupabase()
 
-    // Save enquiry to database
+    // Verify the enquirer is a real, active member — prevents anonymous/spoofed enquiries
+    const { data: enquirer, error: enquirerError } = await supabase
+      .from('members')
+      .select('id, status')
+      .eq('id', enquirerId)
+      .single()
+
+    if (enquirerError || !enquirer || enquirer.status !== 'active') {
+      return res.status(401).json({ error: 'You must be a verified member to enquire.' })
+    }
+
     const { error: dbError } = await supabase.from('enquiries').insert([{
       listing_id: listingId,
       listing_title: listingTitle,
@@ -26,22 +41,19 @@ export default async function handler(req, res) {
       enquirer_agency: enquirerAgency,
       enquirer_username: enquirerUsername,
       status: 'pending',
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
     }])
 
     if (dbError) {
-      return res.status(500).json({ error: dbError.message })
+      return res.status(500).json({ error: 'Failed to save data.' })
     }
 
-    // Send email notification to listing agent
     if (listingMemberEmail) {
       try {
+        const resendKey = process.env.RESEND_API_KEY || 're_bmLA4KoW_HFXWiJj5w7yu27hwHkeb5hBd'
         await fetch('https://api.resend.com/emails', {
           method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${process.env.RESEND_API_KEY || 're_bmLA4KoW_HFXWiJj5w7yu27hwHkeb5hBd'}`,
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
             from: 'Off Market Property Network <notifications@offmarketpropertynetwork.com.au>',
             to: listingMemberEmail,
@@ -56,7 +68,7 @@ export default async function handler(req, res) {
                   </div>
                   <div style="padding:40px;">
                     <h1 style="font-size:24px;color:#F5F3EE;margin:0 0 8px;font-weight:600;">New enquiry received</h1>
-                    <p style="font-size:15px;color:#C9A84C;margin:0 0 24px;text-transform:uppercase;letter-spacing:0.1em;font-size:11px;">Someone is interested in your listing</p>
+                    <p style="font-size:11px;color:#C9A84C;margin:0 0 24px;text-transform:uppercase;letter-spacing:0.1em;">Someone is interested in your listing</p>
                     <div style="background:#151D35;border:1px solid #1E2A45;padding:24px;margin:0 0 24px;">
                       <div style="font-size:10px;letter-spacing:0.3em;color:#C9A84C;text-transform:uppercase;margin-bottom:12px;">Listing</div>
                       <div style="font-size:16px;color:#F5F3EE;font-weight:600;">${listingTitle}</div>
@@ -91,7 +103,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ success: true })
 
-  } catch (err) {
+  } catch {
     return res.status(500).json({ error: 'An unexpected error occurred.' })
   }
 }

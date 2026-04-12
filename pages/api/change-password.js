@@ -1,8 +1,16 @@
 import bcrypt from 'bcryptjs'
+import { rateLimit, getIp } from '../../lib/rate-limit'
+import { getSupabase } from '../../lib/supabase-server'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  // Rate limit: max 5 attempts per IP per 15 minutes
+  const ip = getIp(req)
+  if (rateLimit(`changepw:${ip}`, 5)) {
+    return res.status(429).json({ error: 'Too many requests. Please try again later.' })
   }
 
   const { memberId, currentPassword, newPassword } = req.body
@@ -15,14 +23,13 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'New password must be at least 8 characters.' })
   }
 
-  try {
-    const { createClient } = await import('@supabase/supabase-js')
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-      process.env.SUPABASE_SECRET_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-    )
+  if (currentPassword === newPassword) {
+    return res.status(400).json({ error: 'New password must be different from your current password.' })
+  }
 
-    // Verify current password
+  try {
+    const supabase = getSupabase()
+
     const { data: member, error } = await supabase
       .from('members')
       .select('id, password')
@@ -38,22 +45,20 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Current password is incorrect.' })
     }
 
-    // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10)
 
-    // Update password
     const { error: updateError } = await supabase
       .from('members')
       .update({ password: hashedPassword })
-      .eq('id', memberId)
+      .eq('id', member.id)
 
     if (updateError) {
-      return res.status(500).json({ error: updateError.message })
+      return res.status(500).json({ error: 'An unexpected error occurred.' })
     }
 
     return res.status(200).json({ success: true })
 
-  } catch (err) {
+  } catch {
     return res.status(500).json({ error: 'An unexpected error occurred.' })
   }
 }
