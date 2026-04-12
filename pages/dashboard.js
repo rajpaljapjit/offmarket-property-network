@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D',red:'#E24B4A'}
+const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',bg4:'#221E46',white:'#FFFFFF',muted:'#8888BB',mid:'#D4CFFF',border:'rgba(155,109,255,0.15)',error:'#FF9500'}
 
 function FavouriteAgents({member, s}) {
   const [favs, setFavs] = useState([])
@@ -39,14 +39,14 @@ function FavouriteAgents({member, s}) {
     <>
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:28}}>
         <h2 style={{fontSize:22,color:s.white,fontWeight:600}}>Favourite agents</h2>
-        <Link href="/agents" style={{background:s.gold,color:'#000',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>Browse agents</Link>
+        <Link href="/agents" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>Browse agents</Link>
       </div>
       {favs.length === 0 ? (
         <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
           <div style={{fontSize:32,marginBottom:16}}>⭐</div>
           <div style={{fontSize:14,color:s.white,fontWeight:600,marginBottom:8}}>No favourite agents yet</div>
           <div style={{fontSize:13,color:s.muted,marginBottom:20}}>Browse the agent directory and star agents you work with frequently.</div>
-          <Link href="/agents" style={{background:s.gold,color:'#000',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse agents</Link>
+          <Link href="/agents" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse agents</Link>
         </div>
       ) : (
         <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
@@ -213,7 +213,7 @@ export default function Dashboard() {
         {l.price_guide&&<div style={{fontSize:13,color:s.gold,marginTop:6}}>{l.price_guide}</div>}
       </div>
       <div style={{display:'flex',flexDirection:'column',gap:8,alignItems:'flex-end'}}>
-        <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',padding:'3px 10px',border:`1px solid`,color:l.status==='sold'?s.muted:s.gold,borderColor:l.status==='sold'?s.border:'#8A6A1F'}}>{l.status}</div>
+        <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',padding:'3px 10px',border:`1px solid`,color:l.status==='sold'?s.muted:s.gold,borderColor:l.status==='sold'?s.border:'rgba(155,109,255,0.5)'}}>{l.status}</div>
         <div style={{fontSize:11,color:s.muted}}>{l.created_at ? format(new Date(l.created_at), 'dd MMM yyyy') : 'N/A'}</div>
         <Link href={`/listings/edit/${l.id}`} style={{fontSize:11,color:s.gold,textDecoration:'none',border:`1px solid ${s.border}`,padding:'4px 10px'}}>Edit →</Link>
       </div>
@@ -271,7 +271,7 @@ export default function Dashboard() {
                   <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:4}}>Member dashboard</div>
                   <h2 style={{fontSize:22,color:s.white,fontWeight:600}}>Welcome back, {member.firstName}</h2>
                 </div>
-                <Link href="/listings/new" style={{background:s.gold,color:'#000',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>+ New Listing</Link>
+                <Link href="/listings/new" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>+ New Listing</Link>
               </div>
               <div className="metrics-grid" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:28}}>
                 {[['My listings',listings.length],['Saved',saved.length],['Enquiries sent',enquiriesSent.length],['Enquiries received',enquiriesReceived.length]].map(([label,val])=>(
@@ -294,7 +294,7 @@ export default function Dashboard() {
               ) : (
                 <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center',marginBottom:28}}>
                   <div style={{fontSize:14,color:s.white,marginBottom:12,fontWeight:600}}>No listings yet</div>
-                  <Link href="/listings/new" style={{background:s.gold,color:'#000',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Upload a listing</Link>
+                  <Link href="/listings/new" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Upload a listing</Link>
                 </div>
               )}
               {enquiriesReceived.length > 0 && (
@@ -318,12 +318,12 @@ export default function Dashboard() {
             <>
               <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:28}}>
                 <h2 style={{fontSize:22,color:s.white,fontWeight:600}}>My listings</h2>
-                <Link href="/listings/new" style={{background:s.gold,color:'#000',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>+ New Listing</Link>
+                <Link href="/listings/new" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>+ New Listing</Link>
               </div>
               {listings.length === 0 ? (
                 <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
                   <div style={{fontSize:14,color:s.white,marginBottom:12}}>No listings yet</div>
-                  <Link href="/listings/new" style={{background:s.gold,color:'#000',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Upload a listing</Link>
+                  <Link href="/listings/new" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Upload a listing</Link>
                 </div>
               ) : (
                 <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
@@ -337,7 +337,7 @@ export default function Dashboard() {
             <div>
               <h2 style={{fontSize:22,color:s.white,fontWeight:600,marginBottom:16}}>Browse feed</h2>
               <p style={{color:s.muted,marginBottom:24,fontSize:14}}>Search and browse all active off market listings from verified members.</p>
-              <Link href="/listings" style={{display:'inline-block',background:s.gold,color:'#000',padding:'12px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Open full browse feed →</Link>
+              <Link href="/listings" style={{display:'inline-block',background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'12px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Open full browse feed →</Link>
             </div>
           )}
 
@@ -347,7 +347,7 @@ export default function Dashboard() {
               {saved.length === 0 ? (
                 <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
                   <div style={{fontSize:14,color:s.white,marginBottom:12}}>No saved listings yet</div>
-                  <Link href="/listings" style={{background:s.gold,color:'#000',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse listings</Link>
+                  <Link href="/listings" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse listings</Link>
                 </div>
               ) : (
                 <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
@@ -393,7 +393,7 @@ export default function Dashboard() {
               {enquiriesSent.length === 0 ? (
                 <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
                   <div style={{fontSize:14,color:s.white,marginBottom:12}}>No enquiries sent yet</div>
-                  <Link href="/listings" style={{background:s.gold,color:'#000',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse listings</Link>
+                  <Link href="/listings" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse listings</Link>
                 </div>
               ) : (
                 <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
@@ -441,7 +441,7 @@ export default function Dashboard() {
                   </div>
                   <div style={{padding:16,borderTop:`1px solid ${s.border}`,display:'flex',gap:12}}>
                     <input value={messageText} onChange={e=>setMessageText(e.target.value)} onKeyDown={e=>e.key==='Enter'&&sendMessage()} placeholder="Type a message..." style={{...input,flex:1}}/>
-                    <button onClick={sendMessage} style={{background:s.gold,border:'none',color:'#000',fontSize:13,fontWeight:600,padding:'0 20px',cursor:'pointer'}}>Send</button>
+                    <button onClick={sendMessage} style={{background:s.gold,border:'none',color:'#fff',fontSize:13,fontWeight:600,padding:'0 20px',cursor:'pointer'}}>Send</button>
                   </div>
                 </div>
               )}

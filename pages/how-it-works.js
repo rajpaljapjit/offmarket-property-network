@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D'}
+const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',white:'#FFFFFF',muted:'#8888BB',mid:'#D4CFFF',border:'rgba(155,109,255,0.15)'}
 
 const steps=[
   {num:'01',title:'Verify and join',desc:'Apply for membership by submitting your agent license details. We cross-check against state-based regulatory registers within 24 hours.',details:['License number verification via state register','Agency details and ABN confirmation','Profile goes live within 24–48 hours','Professionals only — 3 months free to start']},
@@ -46,8 +46,8 @@ export default function HowItWorks() {
           <h2 style={{fontSize:'clamp(22px,4vw,32px)',color:s.white,marginBottom:12,fontWeight:600}}>Ready to join the network?</h2>
           <p style={{color:s.muted,marginBottom:24,lineHeight:1.7}}>3 months completely free for all verified agents. No credit card required.</p>
           <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
-            <Link href="/signup" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:500,textDecoration:'none'}}>Join Free</Link>
-            <Link href="/pricing" style={{border:'1px solid #E8E8E8',color:'#E8E8E8',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>View Pricing</Link>
+            <Link href="/signup" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'14px 28px',fontSize:14,fontWeight:500,textDecoration:'none'}}>Join Free</Link>
+            <Link href="/pricing" style={{border:'1px solid #E8E8E8',color:'#D4CFFF',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>View Pricing</Link>
           </div>
         </div>
       </section>

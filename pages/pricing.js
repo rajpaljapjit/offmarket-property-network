@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import Footer from '../components/Footer'
 import Link from 'next/link'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D',silver:'#E8E8E8'}
+const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',bg4:'#221E46',white:'#FFFFFF',muted:'#8888BB',mid:'#D4CFFF',border:'rgba(155,109,255,0.15)',silver:'#D4CFFF'}
 
 const buyersPlan = {
   name:'Buyers Agent',
@@ -113,7 +113,7 @@ export default function Pricing() {
             <div style={{fontSize:12,color:s.muted,textTransform:'uppercase',letterSpacing:'0.1em',marginBottom:20}}>Browse & connect</div>
             <div style={{fontSize:48,color:s.gold,fontWeight:700,marginBottom:4}}>$69<span style={{fontSize:16,fontWeight:400,color:s.muted}}>/mo</span></div>
             <div style={{fontSize:12,color:s.muted,marginBottom:24}}>3 months free trial · No credit card required</div>
-            <Link href="/signup" style={{display:'inline-block',padding:'12px 28px',fontSize:13,textDecoration:'none',background:s.gold,color:'#000',fontWeight:600}}>Start Free Trial</Link>
+            <Link href="/signup" style={{display:'inline-block',padding:'12px 28px',fontSize:13,textDecoration:'none',background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',fontWeight:600}}>Start Free Trial</Link>
           </div>
           <div>
             <ul style={{listStyle:'none',display:'flex',flexDirection:'column',gap:10}}>
@@ -130,8 +130,8 @@ export default function Pricing() {
         <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:16}}>Selling agent plans</div>
         <div className="seller-grid" style={{marginBottom:48}}>
           {sellerPlans.map(p=>(
-            <div key={p.name} style={{background:p.featured?s.bg3:s.bg2,padding:p.featured?'44px 28px 28px':'28px',position:'relative',display:'flex',flexDirection:'column'}}>
-              {p.featured&&<div style={{position:'absolute',top:0,left:0,right:0,background:s.gold,color:'#000',fontSize:9,letterSpacing:'0.3em',textTransform:'uppercase',textAlign:'center',padding:'5px 0',fontWeight:500}}>Most Popular</div>}
+            <div key={p.name} style={{background:p.featured?'#1A1638':s.bg2,padding:p.featured?'44px 28px 28px':'28px',position:'relative',display:'flex',flexDirection:'column'}}>
+              {p.featured&&<div style={{position:'absolute',top:0,left:0,right:0,background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',fontSize:9,letterSpacing:'0.3em',textTransform:'uppercase',textAlign:'center',padding:'5px 0',fontWeight:500}}>Most Popular</div>}
               <div style={{fontSize:22,color:p.featured?s.gold:s.silver,marginBottom:4,fontWeight:600}}>{p.name}</div>
               <div style={{fontSize:11,color:s.muted,textTransform:'uppercase',marginBottom:20,letterSpacing:'0.1em'}}>{p.sub}</div>
               <div style={{fontSize:p.price==='POA'?28:40,color:s.gold,fontWeight:700,marginBottom:4}}>{p.price}{p.price!=='POA'&&<span style={{fontSize:14,fontWeight:400,color:s.muted}}>/mo</span>}</div>
@@ -144,7 +144,7 @@ export default function Pricing() {
                 ))}
               </ul>
               {p.name==='Platinum' ? (
-                <a href="mailto:support@offmarketpropertynetwork.com.au" style={{display:'block',padding:'12px',fontSize:13,textDecoration:'none',textAlign:'center',background:s.gold,color:'#000',fontWeight:600}}>{p.cta}</a>
+                <a href="mailto:support@offmarketpropertynetwork.com.au" style={{display:'block',padding:'12px',fontSize:13,textDecoration:'none',textAlign:'center',background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',fontWeight:600}}>{p.cta}</a>
               ) : (
                 <Link href="/signup" style={{display:'block',padding:'12px',fontSize:13,textDecoration:'none',textAlign:'center',background:p.featured?s.gold:'none',border:p.featured?'none':`1px solid ${s.border}`,color:p.featured?'#000':s.silver,fontWeight:p.featured?600:400}}>{p.cta}</Link>
               )}
@@ -159,7 +159,7 @@ export default function Pricing() {
             <div style={{fontSize:14,color:s.gold,fontWeight:600,marginBottom:4}}>Principal agent with a team of 5 or more agents?</div>
             <div style={{fontSize:13,color:s.muted,lineHeight:1.6}}>We offer custom office-wide pricing for principal agents managing multiple agents. Get in touch and we'll tailor a package for your office.</div>
           </div>
-          <a href="mailto:support@offmarketpropertynetwork.com.au" style={{flexShrink:0,background:s.gold,color:'#000',padding:'10px 20px',fontSize:13,fontWeight:600,textDecoration:'none'}}>Get in touch</a>
+          <a href="mailto:support@offmarketpropertynetwork.com.au" style={{flexShrink:0,background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 20px',fontSize:13,fontWeight:600,textDecoration:'none'}}>Get in touch</a>
         </div>
 
         <div style={{padding:'20px 0',borderTop:`1px solid ${s.border}`,textAlign:'center',marginBottom:48}}>

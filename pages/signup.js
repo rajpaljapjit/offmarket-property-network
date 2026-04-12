@@ -7,7 +7,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import toast from 'react-hot-toast'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D',red:'#E24B4A',mid:'#E8E8E8'}
+const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',white:'#FFFFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)',error:'#FF9500',mid:'#D4CFFF'}
 
 const schema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
@@ -94,14 +94,14 @@ export default function Signup() {
   const input = {background:s.bg3,border:`1px solid ${s.border}`,color:s.mid,fontSize:14,padding:'12px 14px',width:'100%',boxSizing:'border-box',outline:'none'}
   const errorInput = {...input, border:`1px solid ${s.red}`}
   const lab = {fontSize:11,letterSpacing:'0.2em',color:s.muted,textTransform:'uppercase',marginBottom:6,display:'block'}
-  const errMsg = {fontSize:11,color:s.red,marginTop:4}
+  const errMsg = {fontSize:11,color:s.error,marginTop:4}
 
   return (
     <div style={{background:s.bg,minHeight:'100vh',color:s.mid}}>
       <Nav/>
       <div style={{maxWidth:640,margin:'0 auto',padding:'48px 20px 80px'}}>
         <div style={{textAlign:'center',marginBottom:40}}>
-          <img src="/Offmarketproplogo5.png" alt="Off Market Property Network" style={{height:60,width:'auto',objectFit:'contain',marginBottom:16}}/>
+          <img src="/gooffmarketlogo-transparent.png" alt="Off Market Property Network" style={{height:105,width:'auto',objectFit:'contain',marginBottom:16}}/>
           <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase'}}>Join the network</div>
         </div>
 
@@ -230,7 +230,7 @@ export default function Signup() {
                       onChange={e => { setValue('username', e.target.value.toLowerCase()); checkUsername(e.target.value) }}
                       style={errors.username?errorInput:input}/>
                     {usernameAvailable===true&&<span style={{position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',color:'#4CAF50',fontSize:12}}>✓ Available</span>}
-                    {usernameAvailable===false&&<span style={{position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',color:s.red,fontSize:12}}>✗ Taken</span>}
+                    {usernameAvailable===false&&<span style={{position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',color:s.error,fontSize:12}}>✗ Taken</span>}
                   </div>
                   {errors.username&&<div style={errMsg}>⚠ {errors.username.message}</div>}
                 </div>
@@ -246,7 +246,7 @@ export default function Signup() {
               By applying you agree to our <Link href="/terms" style={{color:s.gold,textDecoration:'none'}}>Terms of Use</Link> and <Link href="/privacy" style={{color:s.gold,textDecoration:'none'}}>Privacy Policy</Link>. All applications are subject to license verification.
             </div>
 
-            <button type="submit" disabled={loading} style={{background:loading?'#5a4a1f':s.gold,border:'none',color:'#000',fontSize:15,fontWeight:600,padding:16,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
+            <button type="submit" disabled={loading} style={{background:loading?'#5a4a1f':s.gold,border:'none',color:'#fff',fontSize:15,fontWeight:600,padding:16,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
               {loading?'Submitting application...':'Submit application →'}
             </button>
 

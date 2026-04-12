@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import Link from 'next/link'
 import { useState } from 'react'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D',red:'#E24B4A'}
+const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',white:'#FFFFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)',error:'#FF9500'}
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('')
@@ -34,7 +34,7 @@ export default function ForgotPassword() {
       <Nav/>
       <div style={{maxWidth:420,margin:'0 auto',padding:'80px 20px'}}>
         <div style={{textAlign:'center',marginBottom:40}}>
-          <img src="/Offmarketproplogo5.png" alt="Off Market Property Network" style={{height:48,marginBottom:16}}/>
+          <img src="/gooffmarketlogo-transparent.png" alt="Off Market Property Network" style={{height:62,marginBottom:16}}/>
           <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase'}}>Password reset</div>
         </div>
         <div style={{background:s.bg2,border:`1px solid ${s.border}`,padding:36}}>
@@ -49,13 +49,13 @@ export default function ForgotPassword() {
             <>
               <h2 style={{fontSize:20,color:s.white,fontWeight:600,marginBottom:4}}>Forgot password?</h2>
               <p style={{fontSize:13,color:s.muted,marginBottom:24}}>Enter your email and we'll send you a reset link.</p>
-              {error&&<div style={{background:'rgba(226,75,74,0.1)',border:'1px solid rgba(226,75,74,0.3)',padding:'12px 16px',marginBottom:20,fontSize:13,color:s.red,borderRadius:2}}>{error}</div>}
+              {error&&<div style={{background:'rgba(255,149,0,0.08)',border:'1px solid rgba(255,149,0,0.25)',padding:'12px 16px',marginBottom:20,fontSize:13,color:s.error,borderRadius:2}}>{error}</div>}
               <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:16}}>
                 <div>
                   <label style={{fontSize:11,letterSpacing:'0.2em',color:s.muted,textTransform:'uppercase',marginBottom:6,display:'block'}}>Email address *</label>
                   <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="jane@agency.com.au" style={input} required/>
                 </div>
-                <button type="submit" disabled={loading} style={{background:loading?'#8A6A1F':s.gold,border:'none',color:'#000',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
+                <button type="submit" disabled={loading} style={{background:loading?'rgba(155,109,255,0.5)':s.gold,border:'none',color:'#fff',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
                   {loading?'Sending...':'Send reset link →'}
                 </button>
                 <div style={{textAlign:'center'}}>

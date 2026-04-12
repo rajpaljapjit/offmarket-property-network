@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D',red:'#E24B4A'}
+const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',white:'#FFFFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)',error:'#FF9500'}
 
 export default function AdminLogin() {
   const router = useRouter()
@@ -37,13 +37,13 @@ export default function AdminLogin() {
     <div style={{background:s.bg,minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:20}}>
       <div style={{width:'100%',maxWidth:420}}>
         <div style={{textAlign:'center',marginBottom:40}}>
-          <img src="/Offmarketproplogo5.png" alt="Off Market Property Network" style={{height:48,marginBottom:16}}/>
+          <img src="/gooffmarketlogo-transparent.png" alt="Off Market Property Network" style={{height:62,marginBottom:16}}/>
           <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase'}}>Admin access</div>
         </div>
         <div style={{background:s.bg2,border:`1px solid ${s.border}`,padding:36}}>
           <h2 style={{fontSize:20,color:s.white,fontWeight:600,marginBottom:4}}>Admin sign in</h2>
           <p style={{fontSize:13,color:s.muted,marginBottom:24}}>Restricted access. Authorised personnel only.</p>
-          {error&&<div style={{background:'rgba(226,75,74,0.1)',border:'1px solid rgba(226,75,74,0.3)',padding:'12px 16px',marginBottom:20,fontSize:13,color:s.red,borderRadius:2}}>{error}</div>}
+          {error&&<div style={{background:'rgba(255,149,0,0.08)',border:'1px solid rgba(255,149,0,0.25)',padding:'12px 16px',marginBottom:20,fontSize:13,color:s.error,borderRadius:2}}>{error}</div>}
           <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:16}}>
             <div>
               <label style={lab}>Admin key *</label>
@@ -57,7 +57,7 @@ export default function AdminLogin() {
               <label style={lab}>Password *</label>
               <input name="password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} type="password" placeholder="••••••••" style={input} required/>
             </div>
-            <button type="submit" disabled={loading} style={{background:loading?'#8A6A1F':s.gold,border:'none',color:'#000',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',marginTop:4,opacity:loading?0.8:1}}>
+            <button type="submit" disabled={loading} style={{background:loading?'rgba(155,109,255,0.5)':s.gold,border:'none',color:'#fff',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',marginTop:4,opacity:loading?0.8:1}}>
               {loading?'Signing in...':'Access admin panel →'}
             </button>
           </form>

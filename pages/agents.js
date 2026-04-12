@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',mid:'#E8E8E8',border:'#2D4A2D',silver:'#E8E8E8',red:'#E24B4A'}
+const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',bg4:'#221E46',white:'#FFFFFF',muted:'#8888BB',mid:'#D4CFFF',border:'rgba(155,109,255,0.15)',silver:'#D4CFFF',error:'#FF9500'}
 
 export default function Agents() {
   const [member, setMember] = useState(null)
@@ -96,7 +96,7 @@ export default function Agents() {
             <h2 style={{fontSize:22,color:s.white,marginBottom:12,fontWeight:600}}>Members only</h2>
             <p style={{color:s.muted,marginBottom:24,maxWidth:400,margin:'0 auto 24px'}}>The agent directory is exclusively available to verified members.</p>
             <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
-              <Link href="/login" style={{background:s.gold,color:'#000',padding:'14px 28px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Sign in to view agents</Link>
+              <Link href="/login" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'14px 28px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Sign in to view agents</Link>
               <Link href="/signup" style={{border:`1px solid ${s.silver}`,color:s.silver,padding:'14px 28px',fontSize:14,textDecoration:'none'}}>Join free</Link>
             </div>
           </div>

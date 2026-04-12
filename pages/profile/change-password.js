@@ -3,7 +3,7 @@ import Nav from '../../components/Nav'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D',red:'#E24B4A'}
+const s={gold:'#FFD166',bg:'#0D0A1A',bg3:'#1A1638',bg4:'#221E46',white:'#FFFFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)',error:'#FF9500'}
 
 export default function ChangePassword() {
   const router = useRouter()
@@ -59,7 +59,7 @@ export default function ChangePassword() {
           <button onClick={()=>router.push('/dashboard')} style={{background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:13,padding:'8px 16px',cursor:'pointer'}}>← Back</button>
         </div>
 
-        {error&&<div style={{background:'rgba(226,75,74,0.1)',border:'1px solid rgba(226,75,74,0.3)',padding:'12px 16px',marginBottom:24,fontSize:13,color:s.red,borderRadius:2}}>{error}</div>}
+        {error&&<div style={{background:'rgba(255,149,0,0.08)',border:'1px solid rgba(255,149,0,0.25)',padding:'12px 16px',marginBottom:24,fontSize:13,color:s.error,borderRadius:2}}>{error}</div>}
         {success&&<div style={{background:'rgba(201,168,76,0.1)',border:'1px solid rgba(201,168,76,0.3)',padding:'12px 16px',marginBottom:24,fontSize:13,color:s.gold,borderRadius:2}}>{success}</div>}
 
         <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:16}}>
@@ -80,7 +80,7 @@ export default function ChangePassword() {
           </div>
           <div style={{display:'flex',gap:12}}>
             <button type="button" onClick={()=>router.push('/dashboard')} style={{flex:1,background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:14,padding:14,cursor:'pointer'}}>Cancel</button>
-            <button type="submit" disabled={loading} style={{flex:2,background:loading?'#8A6A1F':s.gold,border:'none',color:'#000',fontSize:15,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
+            <button type="submit" disabled={loading} style={{flex:2,background:loading?'rgba(155,109,255,0.5)':s.gold,border:'none',color:'#fff',fontSize:15,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
               {loading?'Updating...':'Change password →'}
             </button>
           </div>
