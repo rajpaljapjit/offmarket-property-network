@@ -75,27 +75,28 @@ export default function Nav() {
         {/* Logo */}
         <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
           <img
-            src="/gooffmarketlogo-transparent.png"
+            src="/goOffmarketlogo1.png"
             alt="Off Market Property Network"
-            style={{ height: 52, width: 'auto', objectFit: 'contain', display: 'block' }}
+            style={{ height: 140, width: 'auto', objectFit: 'contain', display: 'block', marginTop: 25 }}
           />
         </Link>
 
-        {/* Desktop links */}
-        <div className="nav-links" style={{ gap: 2 }}>
-          {links.map(([href, label]) => (
-            <Link
-              key={href}
-              href={href}
-              className={`nav-link${router.pathname === href ? ' nav-link-active' : ''}`}
-            >
-              {label}
-            </Link>
-          ))}
-        </div>
+        {/* Spacer */}
+        <div style={{ flex: 1 }} />
 
-        {/* Desktop CTAs */}
+        {/* Desktop links + CTAs grouped on the right */}
         <div className="nav-cta" style={{ alignItems: 'center', gap: 10 }}>
+          <div className="nav-links" style={{ gap: 2, marginRight: 8 }}>
+            {links.map(([href, label]) => (
+              <Link
+                key={href}
+                href={href}
+                className={`nav-link${router.pathname === href ? ' nav-link-active' : ''}`}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
           {member ? (
             <>
               <Link href="/dashboard" style={{ fontSize: 13, color: n.cream, textDecoration: 'none', padding: '7px 16px', border: `1px solid ${n.border}`, borderRadius: 8, background: 'rgba(155,109,255,0.08)' }}>

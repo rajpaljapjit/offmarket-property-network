@@ -53,14 +53,14 @@ const Stat = ({ value, suffix = '', prefix = '', label }) => {
 
 const DashboardPreview = () => (
   <div style={{
-    background: c.bg2,
-    border: `1px solid ${c.border}`,
+    background: 'transparent',
+    border: 'none',
     borderRadius: 16,
     overflow: 'hidden',
-    boxShadow: '0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04)',
+    boxShadow: 'none',
   }}>
     {/* Window chrome */}
-    <div style={{ background: c.bg3, padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 8, borderBottom: `1px solid ${c.border}` }}>
+    <div style={{ background: 'transparent', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 8, borderBottom: 'none' }}>
       <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#FF9500' }} />
       <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#FEBC2E' }} />
       <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#28C840' }} />
@@ -69,7 +69,7 @@ const DashboardPreview = () => (
 
     <div style={{ display: 'flex', height: 400 }}>
       {/* Sidebar */}
-      <div style={{ width: 52, background: c.bg3, borderRight: `1px solid ${c.border}`, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 0', gap: 18 }}>
+      <div style={{ width: 52, background: 'transparent', borderRight: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 0', gap: 18 }}>
         {[
           { icon: '⊞', active: true },
           { icon: '♡', active: false },
@@ -95,8 +95,8 @@ const DashboardPreview = () => (
           { suburb: 'Toorak', state: 'VIC', type: 'Prestige Estate', price: '$8.8M', beds: 5, baths: 4 },
           { suburb: 'Mosman', state: 'NSW', type: 'Harbour Views', price: '$6.5M', beds: 4, baths: 3 },
         ].map((l, i) => (
-          <div key={i} style={{ background: c.bg3, border: `1px solid ${c.border}`, borderRadius: 8, padding: '10px 12px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 36, height: 36, background: c.bg4, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>🔒</div>
+          <div key={i} style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${c.border}`, borderRadius: 8, padding: '10px 12px', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 36, height: 36, background: 'rgba(255,255,255,0.06)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>🔒</div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: c.white, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{l.suburb}, {l.state}</div>
               <div style={{ fontSize: 10, color: c.muted, marginTop: 2 }}>{l.type} · {l.beds}bd {l.baths}ba</div>
@@ -172,12 +172,21 @@ export default function Home() {
 
       {/* ─── HERO ─────────────────────────────────────────── */}
       <section style={{ position: 'relative', minHeight: '94vh', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '40px 0 60px' }}>
-        {/* Background glows */}
-        <div style={{ position: 'absolute', top: '-20%', left: '-10%', width: '60%', height: '70%', background: 'radial-gradient(ellipse, rgba(155,109,255,0.18) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: '0%', right: '-5%', width: '50%', height: '60%', background: 'radial-gradient(ellipse, rgba(0,229,160,0.12) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', top: '40%', left: '30%', width: '40%', height: '40%', background: 'radial-gradient(ellipse, rgba(255,209,102,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
-        {/* Dot grid */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(155,109,255,0.08) 1px, transparent 1px)', backgroundSize: '30px 30px', pointerEvents: 'none' }} />
+        {/* Video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
+        >
+          <source src="/video.mp4" type="video/mp4" />
+        </video>
+        {/* Dark overlay to keep text readable */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,10,26,0.82) 0%, rgba(13,10,26,0.65) 60%, rgba(13,10,26,0.78) 100%)', pointerEvents: 'none' }} />
+        {/* Subtle colour tint glows on top of video */}
+        <div style={{ position: 'absolute', top: '-20%', left: '-10%', width: '60%', height: '70%', background: 'radial-gradient(ellipse, rgba(155,109,255,0.14) 0%, transparent 65%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '0%', right: '-5%', width: '50%', height: '60%', background: 'radial-gradient(ellipse, rgba(0,229,160,0.08) 0%, transparent 65%)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', width: '100%', position: 'relative', zIndex: 1 }}>
           <div className="hg">
@@ -188,12 +197,12 @@ export default function Home() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                style={{ marginBottom: 28 }}
+                style={{ marginBottom: 0 }}
               >
                 <img
-                  src="/gooffmarketlogo-transparent.png"
+                  src="/goOffmarketlogo1.png"
                   alt="Off Market Property Network"
-                  style={{ height: 130, width: 'auto', objectFit: 'contain', display: 'block' }}
+                  style={{ height: 300, width: 'auto', objectFit: 'contain', display: 'block', marginBottom: -110, marginLeft: -60 }}
                 />
               </motion.div>
 

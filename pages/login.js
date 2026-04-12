@@ -60,7 +60,7 @@ export default function Login() {
       <div className="auth-grid">
         <div className="auth-left" style={{background:s.bg3,borderRight:`1px solid ${s.border}`,padding:'48px 40px',flexDirection:'column',justifyContent:'space-between'}}>
           <Link href="/" style={{textDecoration:'none'}}>
-            <img src="/gooffmarketlogo-transparent.png" alt="Off Market Property Network" style={{height:86,width:'auto',objectFit:'contain'}}/>
+            <img src="/goOffmarketlogo1.png" alt="Off Market Property Network" style={{height:86,width:'auto',objectFit:'contain'}}/>
           </Link>
           <div>
             <p style={{fontSize:22,color:s.white,lineHeight:1.4,marginBottom:16,fontWeight:600}}>&ldquo;The only platform where I can share a prestige listing and know it&apos;s in front of qualified buyers agents.&rdquo;</p>

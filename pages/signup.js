@@ -101,7 +101,7 @@ export default function Signup() {
       <Nav/>
       <div style={{maxWidth:640,margin:'0 auto',padding:'48px 20px 80px'}}>
         <div style={{textAlign:'center',marginBottom:40}}>
-          <img src="/gooffmarketlogo-transparent.png" alt="Off Market Property Network" style={{height:105,width:'auto',objectFit:'contain',marginBottom:16}}/>
+          <img src="/goOffmarketlogo1.png" alt="Off Market Property Network" style={{height:105,width:'auto',objectFit:'contain',marginBottom:16}}/>
           <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase'}}>Join the network</div>
         </div>
 

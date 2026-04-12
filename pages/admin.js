@@ -116,7 +116,7 @@ export default function Admin() {
     try {
       await fetch('/api/approve-member', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': 'ompnSecure1609' },
         body: JSON.stringify({ memberId: id, status }),
       })
     } catch (e) { console.error(e) }
@@ -257,7 +257,7 @@ export default function Admin() {
       <div style={{ background: c.bg2, borderBottom: `1px solid ${c.border}`, padding: '0 24px' }}>
         <div style={{ maxWidth: 1300, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <img src="/gooffmarketlogo-transparent.png" alt="OMPN" style={{ height: 52 }} />
+            <img src="/goOffmarketlogo1.png" alt="OMPN" style={{ height: 52 }} />
             <div>
               <div style={{ fontSize: 11, letterSpacing: '0.25em', color: c.gold, textTransform: 'uppercase', fontWeight: 600 }}>Admin Panel</div>
               <div style={{ fontSize: 11, color: c.muted, marginTop: 1 }}>Network management</div>

@@ -11,7 +11,7 @@ export default function Footer() {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
         <div className="footer-grid">
           <div>
-            <img src="/gooffmarketlogo-transparent.png" alt="Off Market Property Network" style={{ height: 77, width: 'auto', objectFit: 'contain', marginBottom: 12, maxWidth: 297 }} />
+            <img src="/goOffmarketlogo1.png" alt="Off Market Property Network" style={{ height: 140, width: 'auto', objectFit: 'contain', marginBottom: -60, marginLeft: 20, maxWidth: 420 }} />
             <p style={{ fontSize: 13, color: '#8888BB', lineHeight: 1.7 }}>Australia&apos;s private network for selling agents and buyers agents to connect, share, and move off market property.</p>
           </div>
           {[

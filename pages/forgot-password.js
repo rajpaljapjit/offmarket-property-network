@@ -34,7 +34,7 @@ export default function ForgotPassword() {
       <Nav/>
       <div style={{maxWidth:420,margin:'0 auto',padding:'80px 20px'}}>
         <div style={{textAlign:'center',marginBottom:40}}>
-          <img src="/gooffmarketlogo-transparent.png" alt="Off Market Property Network" style={{height:62,marginBottom:16}}/>
+          <img src="/goOffmarketlogo1.png" alt="Off Market Property Network" style={{height:62,marginBottom:16}}/>
           <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase'}}>Password reset</div>
         </div>
         <div style={{background:s.bg2,border:`1px solid ${s.border}`,padding:36}}>
