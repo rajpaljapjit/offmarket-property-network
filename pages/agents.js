@@ -25,40 +25,23 @@ export default function Agents() {
     }
   }, [])
 
-  const getSupabase = async () => {
-    const { createClient } = await import('@supabase/supabase-js')
-    return createClient('https://jmjtcmfjknmdnlgxudfk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo')
-  }
-
   const fetchAgents = async (memberId) => {
     try {
-      const db = await getSupabase()
-      const [agentsRes, favsRes] = await Promise.all([
-        db.from('members').select('id,first_name,last_name,agency,role,state,plan,username').eq('status','active').neq('username','ompnadminlogin'),
-        db.from('favourite_agents').select('agent_id').eq('member_id', memberId)
-      ])
-      setAgents(agentsRes.data||[])
-      setFavourites((favsRes.data||[]).map(f=>f.agent_id))
+      const res = await fetch(`/api/agents${memberId ? `?memberId=${memberId}` : ''}`)
+      const data = await res.json()
+      setAgents(data.agents || [])
+      setFavourites(data.favourites || [])
     } catch(err) { console.error(err) }
     setLoading(false)
   }
 
   const toggleFavourite = async (agent) => {
     if (!member) return
-    const db = await getSupabase()
     if (favourites.includes(agent.id)) {
-      await db.from('favourite_agents').delete().eq('member_id', member.id).eq('agent_id', agent.id)
-      setFavourites(favourites.filter(id=>id!==agent.id))
+      await fetch('/api/agents', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ memberId: member.id, agentId: agent.id }) })
+      setFavourites(favourites.filter(id => id !== agent.id))
     } else {
-      await db.from('favourite_agents').insert([{
-        member_id: member.id,
-        agent_id: agent.id,
-        agent_name: `${agent.first_name} ${agent.last_name}`,
-        agent_username: agent.username,
-        agent_agency: agent.agency,
-        agent_role: agent.role,
-        agent_state: agent.state,
-      }])
+      await fetch('/api/agents', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ memberId: member.id, agent }) })
       setFavourites([...favourites, agent.id])
     }
   }

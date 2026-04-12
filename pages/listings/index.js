@@ -57,38 +57,29 @@ export default function Listings() {
     setFiltered(results)
   }, [search, filterState, filterType, filterBeds, listings])
 
-  const getSupabase = async () => {
-    const { createClient } = await import('@supabase/supabase-js')
-    return createClient(
-      'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-    )
-  }
-
   const fetchListings = async () => {
-    const db = await getSupabase()
-    const { data } = await db.from('listings').select('*').eq('status', 'active').order('created_at', { ascending: false })
-    setListings(data || [])
-    setFiltered(data || [])
+    const res = await fetch('/api/listings')
+    const data = await res.json()
+    setListings(data.listings || [])
+    setFiltered(data.listings || [])
     setLoading(false)
   }
 
   const fetchSaved = async (memberId) => {
-    const db = await getSupabase()
-    const { data } = await db.from('saved_listings').select('listing_id').eq('member_id', memberId)
-    setSaved((data || []).map(s => s.listing_id))
+    const res = await fetch(`/api/saved?memberId=${memberId}`)
+    const data = await res.json()
+    setSaved(data.saved || [])
   }
 
   const toggleSave = async (listingId, e) => {
     e.preventDefault()
     e.stopPropagation()
     if (!member) { router.push('/login'); return }
-    const db = await getSupabase()
     if (saved.includes(listingId)) {
-      await db.from('saved_listings').delete().eq('member_id', member.id).eq('listing_id', listingId)
+      await fetch('/api/saved', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ memberId: member.id, listingId }) })
       setSaved(saved.filter(id => id !== listingId))
     } else {
-      await db.from('saved_listings').insert([{ member_id: member.id, listing_id: listingId }])
+      await fetch('/api/saved', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ memberId: member.id, listingId }) })
       setSaved([...saved, listingId])
     }
   }

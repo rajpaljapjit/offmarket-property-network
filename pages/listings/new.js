@@ -113,11 +113,6 @@ export default function NewListing() {
     })
   }
 
-  const getSupabase = async () => {
-    const { createClient } = await import('@supabase/supabase-js')
-    return createClient('https://jmjtcmfjknmdnlgxudfk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo')
-  }
-
   const handleChange = e => setForm({...form, [e.target.name]: e.target.value})
 
   const handleImageUpload = async e => {
@@ -125,17 +120,23 @@ export default function NewListing() {
     if (!files.length) return
     setUploading(true)
     try {
-      const db = await getSupabase()
       const uploaded = []
       for (const file of files) {
-        const fileName = `${Date.now()}-${file.name.replace(/\s/g,'-')}`
-        const { error } = await db.storage.from('listing-images').upload(fileName, file)
-        if (!error) {
-          const { data } = db.storage.from('listing-images').getPublicUrl(fileName)
-          uploaded.push(data.publicUrl)
-        }
+        const urlRes = await fetch('/api/listings/upload-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileName: file.name.replace(/\s/g, '-') }),
+        })
+        const { signedUrl, publicUrl } = await urlRes.json()
+        if (!signedUrl) continue
+        const uploadRes = await fetch(signedUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': file.type, 'x-upsert': 'true' },
+          body: file,
+        })
+        if (uploadRes.ok) uploaded.push(publicUrl)
       }
-      setImages(prev=>[...prev,...uploaded])
+      setImages(prev => [...prev, ...uploaded])
     } catch { setError('Image upload failed.') }
     setUploading(false)
   }

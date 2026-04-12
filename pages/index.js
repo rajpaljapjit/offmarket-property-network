@@ -133,18 +133,9 @@ export default function Home() {
 
   const fetchListings = async () => {
     try {
-      const { createClient } = await import('@supabase/supabase-js')
-      const supabase = createClient(
-        'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-      )
-      const { data } = await supabase
-        .from('listings')
-        .select('*')
-        .eq('status', 'active')
-        .order('created_at', { ascending: false })
-        .limit(3)
-      if (data && data.length >= 3) setRealListings(data)
+      const res = await fetch('/api/listings?limit=3')
+      const data = await res.json()
+      if (data.listings && data.listings.length >= 3) setRealListings(data.listings)
     } catch (err) { console.error(err) }
   }
 

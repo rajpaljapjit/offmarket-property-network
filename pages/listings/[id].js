@@ -42,18 +42,10 @@ export default function ListingDetail() {
     if (id) fetchListing()
   }, [id])
 
-  const getSupabase = async () => {
-    const { createClient } = await import('@supabase/supabase-js')
-    return createClient(
-      'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-    )
-  }
-
   const fetchListing = async () => {
-    const db = await getSupabase()
-    const { data, error } = await db.from('listings').select('*').eq('id', id).single()
-    if (!error) setListing(data)
+    const res = await fetch(`/api/listings/${id}`)
+    const data = await res.json()
+    if (data.listing) setListing(data.listing)
     setLoading(false)
   }
 
@@ -61,8 +53,9 @@ export default function ListingDetail() {
     if (!member) { router.push('/login'); return }
     setEnquiryLoading(true)
     try {
-      const db = await getSupabase()
-      const { data: listingMember } = await db.from('members').select('email, mobile').eq('id', listing.member_id).single()
+      const memberRes = await fetch(`/api/listings/${listing.id}?withMember=1`)
+      const memberData = await memberRes.json()
+      const listingMember = memberData.member
       const res = await fetch('/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

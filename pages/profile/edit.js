@@ -18,10 +18,6 @@ export default function EditProfile() {
   const input = {background:s.bg3,border:`1px solid ${s.border}`,color:s.white,fontSize:14,padding:'12px 14px',width:'100%',boxSizing:'border-box'}
   const lab = {fontSize:11,letterSpacing:'0.2em',color:s.muted,textTransform:'uppercase',marginBottom:6,display:'block'}
 
-  const getSupabase = async () => {
-    const { createClient } = await import('@supabase/supabase-js')
-    return createClient('https://jmjtcmfjknmdnlgxudfk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo')
-  }
 
   useEffect(() => {
     const stored = localStorage.getItem('member')
@@ -46,18 +42,14 @@ export default function EditProfile() {
     setError(''); setSuccess('')
     setLoading(true)
     try {
-      const db = await getSupabase()
-      const { error: dbError } = await db.from('members').update({
-        first_name: form.firstName,
-        last_name: form.lastName,
-        email: form.email,
-        mobile: form.mobile,
-        agency: form.agency,
-        role: form.role,
-        state: form.state,
-      }).eq('id', member.id)
-      if (dbError) {
-        toast.error(dbError.message)
+      const res = await fetch('/api/member', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: member.id, ...form }),
+      })
+      const result = await res.json()
+      if (!res.ok) {
+        toast.error(result.error || 'Update failed')
       } else {
         const updated = {...member, firstName:form.firstName, lastName:form.lastName, email:form.email, mobile:form.mobile, agency:form.agency, role:form.role, state:form.state}
         localStorage.setItem('member', JSON.stringify(updated))

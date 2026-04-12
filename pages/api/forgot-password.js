@@ -76,6 +76,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true })
 
   } catch (err) {
-    return res.status(500).json({ error: `Unexpected error: ${err.message}` })
+    return res.status(500).json({ error: 'An unexpected error occurred.' })
   }
 }

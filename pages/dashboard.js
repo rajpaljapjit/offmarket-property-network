@@ -18,19 +18,16 @@ function FavouriteAgents({member, s}) {
 
   const fetchFavs = async () => {
     try {
-      const { createClient } = await import('@supabase/supabase-js')
-      const supabase = createClient('https://jmjtcmfjknmdnlgxudfk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo')
-      const { data } = await supabase.from('favourite_agents').select('*').eq('member_id', member.id)
-      setFavs(data||[])
+      const res = await fetch(`/api/agents?memberId=${member.id}`)
+      const data = await res.json()
+      setFavs(data.agents || [])
     } catch(err) { console.error(err) }
     setLoading(false)
   }
 
   const removeFav = async (agentId) => {
-    const { createClient } = await import('@supabase/supabase-js')
-    const supabase = createClient('https://jmjtcmfjknmdnlgxudfk.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo')
-    await supabase.from('favourite_agents').delete().eq('member_id', member.id).eq('agent_id', agentId)
-    setFavs(favs.filter(f=>f.agent_id!==agentId))
+    await fetch('/api/agents', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ memberId: member.id, agentId }) })
+    setFavs(favs.filter(f => f.agent_id !== agentId))
   }
 
   if (loading) return <div style={{color:s.muted,padding:40,textAlign:'center'}}>Loading...</div>
@@ -103,66 +100,33 @@ export default function Dashboard() {
 
   const refreshMember = async (id) => {
     try {
-      const { createClient } = await import('@supabase/supabase-js')
-      const supabase = createClient(
-        'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-      )
-      const { data } = await supabase.from('members').select('*').eq('id', id).single()
-      
-      // If member not found or suspended/deleted - kick them out
-      if (!data) {
+      const res = await fetch(`/api/member?id=${id}`)
+      if (res.status === 404) {
         localStorage.removeItem('member')
         localStorage.removeItem('sessionTime')
         router.push('/login?reason=deleted')
         return
       }
-      
-      if (data.status === 'suspended' || data.status === 'rejected') {
+      const data = await res.json()
+      if (!data.member) return
+      if (data.member.status === 'suspended' || data.member.status === 'rejected') {
         localStorage.removeItem('member')
         localStorage.removeItem('sessionTime')
         router.push('/login?reason=suspended')
         return
       }
-
-      const updated = {
-        id: data.id,
-        firstName: data.first_name,
-        lastName: data.last_name,
-        email: data.email,
-        username: data.username,
-        agency: data.agency,
-        role: data.role,
-        state: data.state,
-        plan: data.plan,
-        status: data.status,
-        mobile: data.mobile,
-      }
-      localStorage.setItem('member', JSON.stringify(updated))
-      setMember(updated)
+      localStorage.setItem('member', JSON.stringify(data.member))
+      setMember(data.member)
     } catch(err) { console.error('Refresh error:', err) }
   }
 
-  const getSupabase = async () => {
-    const { createClient } = await import('@supabase/supabase-js')
-    return createClient(
-      'https://jmjtcmfjknmdnlgxudfk.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
-    )
-  }
-
   const fetchAll = async (m) => {
-    const db = await getSupabase()
-    const [l, sv, es, er] = await Promise.all([
-      db.from('listings').select('*').eq('member_id', m.id).order('created_at', { ascending: false }),
-      db.from('saved_listings').select('*, listings(*)').eq('member_id', m.id),
-      db.from('enquiries').select('*').eq('enquirer_id', m.id).order('created_at', { ascending: false }),
-      db.from('enquiries').select('*').eq('listing_member_id', m.id).order('created_at', { ascending: false }),
-    ])
-    setListings(l.data || [])
-    setSaved(sv.data || [])
-    setEnquiriesSent(es.data || [])
-    setEnquiriesReceived(er.data || [])
+    const res = await fetch(`/api/dashboard-data?memberId=${m.id}`)
+    const data = await res.json()
+    setListings(data.listings || [])
+    setSaved(data.saved || [])
+    setEnquiriesSent(data.enquiriesSent || [])
+    setEnquiriesReceived(data.enquiriesReceived || [])
   }
 
   const fetchMessages = async (enquiryId) => {
