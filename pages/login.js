@@ -58,17 +58,36 @@ export default function Login() {
       <Nav/>
       <style>{`.auth-grid{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 64px);}.auth-left{display:flex;}@media(max-width:768px){.auth-grid{grid-template-columns:1fr;}.auth-left{display:none;}}`}</style>
       <div className="auth-grid">
-        <div className="auth-left" style={{background:s.bg3,borderRight:`1px solid ${s.border}`,padding:'48px 40px',flexDirection:'column',justifyContent:'space-between'}}>
-          <Link href="/" style={{textDecoration:'none'}}>
-            <img src="/goOffmarketlogo1.png" alt="Off Market Property Network" style={{height:86,width:'auto',objectFit:'contain'}}/>
-          </Link>
-          <div>
-            <p style={{fontSize:22,color:s.white,lineHeight:1.4,marginBottom:16,fontWeight:600}}>&ldquo;The only platform where I can share a prestige listing and know it&apos;s in front of qualified buyers agents.&rdquo;</p>
-            <span style={{fontSize:12,color:s.muted}}>Sarah H. · Selling agent · Gold Coast</span>
-          </div>
-          <div style={{display:'flex',gap:40}}>
-            <div><div style={{fontSize:28,color:s.gold,fontWeight:600}}>2,400+</div><div style={{fontSize:10,letterSpacing:'0.2em',color:s.muted,textTransform:'uppercase'}}>Verified members</div></div>
-            <div><div style={{fontSize:28,color:s.gold,fontWeight:600}}>$1.8B</div><div style={{fontSize:10,letterSpacing:'0.2em',color:s.muted,textTransform:'uppercase'}}>Off market value</div></div>
+        <div className="auth-left" style={{position:'relative',overflow:'hidden',flexDirection:'column',justifyContent:'space-between'}}>
+          {/* Video background */}
+          <video autoPlay muted loop playsInline poster="/Heroimage.png"
+            style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover',pointerEvents:'none'}}>
+            <source src="/video3.mp4" type="video/mp4"/>
+          </video>
+          {/* Dark overlay */}
+          <div style={{position:'absolute',inset:0,background:'linear-gradient(160deg,rgba(13,10,26,0.85) 0%,rgba(13,10,26,0.60) 50%,rgba(13,10,26,0.80) 100%)'}}/>
+          {/* Colour glow */}
+          <div style={{position:'absolute',top:'-10%',left:'-10%',width:'70%',height:'60%',background:'radial-gradient(ellipse,rgba(155,109,255,0.18) 0%,transparent 65%)',pointerEvents:'none'}}/>
+          {/* Content overlaid on video */}
+          <div style={{position:'relative',zIndex:1,padding:'48px 40px',display:'flex',flexDirection:'column',justifyContent:'space-between',height:'100%'}}>
+            <Link href="/" style={{textDecoration:'none'}}>
+              <img src="/goOffmarketlogo1.png" alt="Off Market Property Network" style={{height:86,width:'auto',objectFit:'contain'}}/>
+            </Link>
+            <div>
+              <div style={{fontSize:11,letterSpacing:'0.15em',color:s.gold,textTransform:'uppercase',marginBottom:14,opacity:0.9}}>Member review</div>
+              <p style={{fontSize:22,color:s.white,lineHeight:1.5,marginBottom:16,fontWeight:600}}>&ldquo;The only platform where I can share a prestige listing and know it&apos;s in front of qualified buyers agents.&rdquo;</p>
+              <span style={{fontSize:12,color:'rgba(212,207,255,0.7)'}}>Sarah H. · Selling agent · Gold Coast</span>
+            </div>
+            <div style={{display:'flex',gap:40}}>
+              <div>
+                <div style={{fontSize:28,color:s.gold,fontWeight:700,textShadow:'0 0 20px rgba(255,209,102,0.4)'}}>2,400+</div>
+                <div style={{fontSize:10,letterSpacing:'0.2em',color:'rgba(136,136,187,0.8)',textTransform:'uppercase',marginTop:4}}>Verified members</div>
+              </div>
+              <div>
+                <div style={{fontSize:28,color:s.gold,fontWeight:700,textShadow:'0 0 20px rgba(255,209,102,0.4)'}}>$1.8B</div>
+                <div style={{fontSize:10,letterSpacing:'0.2em',color:'rgba(136,136,187,0.8)',textTransform:'uppercase',marginTop:4}}>Off market value</div>
+              </div>
+            </div>
           </div>
         </div>
         <div style={{padding:'48px 40px',display:'flex',flexDirection:'column',justifyContent:'center'}}>

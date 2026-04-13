@@ -187,7 +187,7 @@ export default function Home() {
           <source src="/Video.mp4" type="video/mp4" />
         </video>
         {/* Dark overlay to keep text readable */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,10,26,0.82) 0%, rgba(13,10,26,0.65) 60%, rgba(13,10,26,0.78) 100%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,10,26,0.92) 0%, rgba(13,10,26,0.80) 60%, rgba(13,10,26,0.90) 100%)', pointerEvents: 'none' }} />
         {/* Subtle colour tint glows on top of video */}
         <div style={{ position: 'absolute', top: '-20%', left: '-10%', width: '60%', height: '70%', background: 'radial-gradient(ellipse, rgba(155,109,255,0.14) 0%, transparent 65%)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '0%', right: '-5%', width: '50%', height: '60%', background: 'radial-gradient(ellipse, rgba(0,229,160,0.08) 0%, transparent 65%)', pointerEvents: 'none' }} />
@@ -225,7 +225,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                style={{ fontSize: 'clamp(36px, 5.5vw, 60px)', lineHeight: 1.05, fontWeight: 700, letterSpacing: '-0.03em', color: c.white, marginBottom: 24 }}
+                style={{ fontSize: 'clamp(36px, 5.5vw, 60px)', lineHeight: 1.05, fontWeight: 800, letterSpacing: '-0.03em', color: '#FFFFFF', marginBottom: 24, textShadow: '0 2px 24px rgba(0,0,0,0.6)' }}
               >
                 Where elite agents<br />move property{' '}
                 <span style={{ background: `linear-gradient(130deg, ${c.violet} 0%, ${c.gold} 45%, ${c.emerald} 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
@@ -237,7 +237,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.2 }}
-                style={{ fontSize: 17, color: c.cream, lineHeight: 1.75, marginBottom: 36, maxWidth: 430 }}
+                style={{ fontSize: 17, color: '#FFFFFF', lineHeight: 1.75, marginBottom: 36, maxWidth: 430, textShadow: '0 1px 12px rgba(0,0,0,0.5)' }}
               >
                 Connect selling agents with buyers agents. Share hidden opportunities quietly. No public portals. Professionals only.
               </motion.p>

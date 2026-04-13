@@ -28,9 +28,7 @@ const c = {
 }
 
 const CHART_TOOLTIP = { background: c.bg3, border: `1px solid ${c.border}`, color: c.gold, borderRadius: 8, fontSize: 12 }
-const ADMIN_USERNAME = 'ompnadminlogin'
-const SB_URL = 'https://jmjtcmfjknmdnlgxudfk.supabase.co'
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptanRjbWZqa25tZG5sZ3h1ZGZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM1NzAyMSwiZXhwIjoyMDkwOTMzMDIxfQ.EUTszvE0OEN7mD5XvzRIr9NQJhdXVzKGlPNnG__ksuo'
+const ADMIN_USERNAME = process.env.NEXT_PUBLIC_ADMIN_USERNAME || 'admin'
 
 // ── helpers ──────────────────��───────────────────────────
 const groupBy = (arr, key) =>
@@ -116,7 +114,7 @@ export default function Admin() {
     try {
       await fetch('/api/approve-member', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-admin-key': 'ompnSecure1609' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': process.env.NEXT_PUBLIC_ADMIN_KEY || '' },
         body: JSON.stringify({ memberId: id, status }),
       })
     } catch (e) { console.error(e) }
