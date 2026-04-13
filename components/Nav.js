@@ -68,7 +68,7 @@ export default function Nav() {
         }
         .nav-link:hover { color: ${n.white}; background: rgba(155,109,255,0.08); }
         .nav-link-active { color: ${n.white} !important; }
-        @media (max-width: 768px) { .nav-logo { margin-top: 0 !important; height: 80px !important; } }
+        @media (max-width: 768px) { .nav-logo { margin-top: 0 !important; height: 98px !important; } }
       `}</style>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
@@ -79,7 +79,7 @@ export default function Nav() {
             src="/goOffmarketlogo1.png"
             alt="Off Market Property Network"
             className="nav-logo"
-            style={{ height: 182, width: 'auto', objectFit: 'contain', display: 'block', marginTop: 25 }}
+            style={{ height: 98, width: 'auto', objectFit: 'contain', display: 'block', marginTop: 20 }}
           />
         </Link>
 

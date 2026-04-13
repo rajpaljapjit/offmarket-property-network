@@ -173,7 +173,7 @@ export default function Home() {
       `}</style>
 
       {/* ─── HERO ─────────────────────────────────────────── */}
-      <section style={{ position: 'relative', minHeight: '94vh', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '40px 0 60px', backgroundImage: 'url(/Heroimage.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <section style={{ position: 'relative', minHeight: '94vh', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '0px 0 60px', backgroundImage: 'url(/Heroimage.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
         {/* Video background — hidden on mobile via CSS, fallback to Heroimage.png above */}
         <video
           autoPlay
