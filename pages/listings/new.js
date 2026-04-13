@@ -4,7 +4,7 @@ import Nav from '../../components/Nav'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#C9A84C',bg:'#1B2A1B',bg2:'#162016',bg3:'#1F2E1F',bg4:'#243524',white:'#C9A84C',muted:'#8BA888',border:'#2D4A2D',red:'#E24B4A'}
+const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',bg4:'#221E46',white:'#FFFFFF',cream:'#D4CFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)',borderGold:'rgba(255,209,102,0.25)',violet:'#9B6DFF',emerald:'#00E5A0',red:'#FF6B6B'}
 
 function DropZoneUploader({ onUpload, uploading }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -18,21 +18,22 @@ function DropZoneUploader({ onUpload, uploading }) {
 
   return (
     <div {...getRootProps()} style={{
-      border:`2px dashed ${isDragActive ? '#C9A84C' : '#2D4A2D'}`,
+      border:`2px dashed ${isDragActive ? '#FFD166' : 'rgba(155,109,255,0.3)'}`,
+      borderRadius: 10,
       padding:'48px 20px',
       textAlign:'center',
       cursor:'pointer',
-      background: isDragActive ? 'rgba(201,168,76,0.05)' : 'transparent',
+      background: isDragActive ? 'rgba(255,209,102,0.05)' : 'rgba(155,109,255,0.04)',
       transition:'all 0.2s ease'
     }}>
       <input {...getInputProps()}/>
       <div style={{fontSize:36,marginBottom:12}}>📸</div>
       {isDragActive ? (
-        <div style={{fontSize:14,color:'#C9A84C',fontWeight:500}}>Drop photos here...</div>
+        <div style={{fontSize:14,color:'#FFD166',fontWeight:500}}>Drop photos here...</div>
       ) : (
         <>
-          <div style={{fontSize:14,color:'#C9A84C',marginBottom:6,fontWeight:500}}>{uploading ? 'Uploading...' : 'Drag & drop photos here'}</div>
-          <div style={{fontSize:12,color:'#8BA888'}}>or click to browse · JPG, PNG up to 10MB each</div>
+          <div style={{fontSize:14,color:'#D4CFFF',marginBottom:6,fontWeight:500}}>{uploading ? 'Uploading...' : 'Drag & drop photos here'}</div>
+          <div style={{fontSize:12,color:'#8888BB'}}>or click to browse · JPG, PNG up to 10MB each</div>
         </>
       )}
     </div>
@@ -52,7 +53,7 @@ export default function NewListing() {
   const addressRef = useRef(null)
   const autocompleteRef = useRef(null)
 
-  const input = {background:s.bg3,border:`1px solid ${s.border}`,color:s.white,fontSize:14,padding:'12px 14px',width:'100%',boxSizing:'border-box'}
+  const input = {background:s.bg3,border:`1px solid ${s.border}`,borderRadius:8,color:s.white,fontSize:14,padding:'12px 14px',width:'100%',boxSizing:'border-box',outline:'none'}
   const lab = {fontSize:11,letterSpacing:'0.2em',color:s.muted,textTransform:'uppercase',marginBottom:6,display:'block'}
 
   useEffect(() => {
@@ -170,11 +171,13 @@ export default function NewListing() {
     <div style={{background:s.bg,minHeight:'100vh',color:s.white}}>
       <Nav/>
       <style>{`
-        .pac-container { background:#1F2E1F !important; border:1px solid #2D4A2D !important; font-family:inherit !important; }
-        .pac-item { color:#E8E8E8 !important; padding:8px 12px !important; cursor:pointer !important; border-top:1px solid #2D4A2D !important; }
-        .pac-item:hover { background:#243524 !important; }
-        .pac-item-query { color:#C9A84C !important; }
-        .pac-matched { color:#C9A84C !important; }
+        .pac-container { background:#1A1638 !important; border:1px solid rgba(155,109,255,0.25) !important; font-family:inherit !important; border-radius:8px !important; }
+        .pac-item { color:#D4CFFF !important; padding:8px 12px !important; cursor:pointer !important; border-top:1px solid rgba(155,109,255,0.1) !important; }
+        .pac-item:hover { background:#221E46 !important; }
+        .pac-item-query { color:#FFD166 !important; }
+        .pac-matched { color:#FFD166 !important; }
+        input::placeholder, textarea::placeholder { color:#8888BB; }
+        select option { background:#1A1638; }
       `}</style>
       <div style={{maxWidth:800,margin:'0 auto',padding:'48px 20px'}}>
         <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>New listing</div>
@@ -184,7 +187,7 @@ export default function NewListing() {
         {error&&<div style={{background:'rgba(226,75,74,0.1)',border:'1px solid rgba(226,75,74,0.3)',padding:'12px 16px',marginBottom:24,fontSize:13,color:s.red,borderRadius:2}}>{error}</div>}
 
         <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:28}}>
-          <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:28}}>
+          <div style={{background:s.bg2,border:`1px solid ${s.border}`,borderRadius:12,padding:28}}>
             <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Property details</div>
             <div style={{display:'flex',flexDirection:'column',gap:16}}>
               <div><label style={lab}>Listing title *</label><input name="title" value={form.title} onChange={handleChange} type="text" placeholder="e.g. Prestige waterfront opportunity" style={input} required/></div>
@@ -206,7 +209,7 @@ export default function NewListing() {
             </div>
           </div>
 
-          <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:28}}>
+          <div style={{background:s.bg2,border:`1px solid ${s.border}`,borderRadius:12,padding:28}}>
             <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:8}}>Property address</div>
             <p style={{fontSize:12,color:s.muted,marginBottom:20}}>Start typing the address and select from the suggestions.</p>
             <div style={{display:'flex',flexDirection:'column',gap:16}}>
@@ -234,10 +237,10 @@ export default function NewListing() {
             </div>
           </div>
 
-          <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:28}}>
+          <div style={{background:s.bg2,border:`1px solid ${s.border}`,borderRadius:12,padding:28}}>
             <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Photos</div>
             <input type="file" accept="image/*" multiple onChange={handleImageUpload} style={{display:'none'}} id="imageUpload"/>
-            <label htmlFor="imageUpload" style={{display:'block',border:`2px dashed ${s.border}`,padding:'32px',textAlign:'center',cursor:'pointer',marginBottom:16}}>
+            <label htmlFor="imageUpload" style={{display:'block',border:`2px dashed rgba(155,109,255,0.3)`,borderRadius:10,padding:'32px',textAlign:'center',cursor:'pointer',marginBottom:16,background:'rgba(155,109,255,0.04)'}}>
               <div style={{fontSize:32,marginBottom:8}}>📷</div>
               <div style={{fontSize:14,color:s.white,marginBottom:4}}>{uploading?'Uploading...':'Click to upload photos'}</div>
               <div style={{fontSize:12,color:s.muted}}>JPG, PNG up to 10MB each. Multiple allowed.</div>
@@ -254,7 +257,7 @@ export default function NewListing() {
             )}
           </div>
 
-          <button type="submit" disabled={loading} style={{background:loading?'#8A6A1F':s.gold,border:'none',color:'#000',fontSize:15,fontWeight:600,padding:16,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
+          <button type="submit" disabled={loading} style={{background:`linear-gradient(135deg, ${s.violet}, ${s.gold})`,border:'none',color:s.white,fontSize:15,fontWeight:700,padding:16,cursor:loading?'not-allowed':'pointer',opacity:loading?0.7:1,borderRadius:10,boxShadow:'0 0 32px rgba(155,109,255,0.35)'}}>
             {loading?'Uploading listing...':'Publish Listing →'}
           </button>
         </form>
