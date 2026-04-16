@@ -65,10 +65,11 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to save data.' })
     }
 
-    const resendKey = process.env.RESEND_API_KEY || 're_bmLA4KoW_HFXWiJj5w7yu27hwHkeb5hBd'
+    const resendKey = process.env.RESEND_API_KEY
+    console.log('[signup] resendKey present:', !!resendKey, 'length:', resendKey ? resendKey.length : 0)
 
     try {
-      await fetch('https://api.resend.com/emails', {
+      const welcomeRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -78,12 +79,14 @@ export default async function handler(req, res) {
           html: `<html><body style="background:#1B2A1B;font-family:Arial;"><div style="max-width:600px;margin:0 auto;background:#162016;padding:40px;"><h1 style="color:#C9A84C;">Welcome, ${firstName}!</h1><p style="color:#A8B4CC;">Thank you for applying to Off Market Hub. We are verifying your real estate license — this typically takes 24-48 hours. Once approved you will receive an email with full access to the platform.</p><a href="https://offmarkethub.com.au" style="display:inline-block;background:#C9A84C;color:#000;padding:14px 32px;text-decoration:none;font-weight:600;margin-top:24px;">Visit the Network</a></div></body></html>`
         })
       })
+      const welcomeData = await welcomeRes.json()
+      console.log('[signup] welcome email status:', welcomeRes.status, JSON.stringify(welcomeData))
     } catch (emailError) {
-      console.error('Welcome email error:', emailError)
+      console.error('[signup] Welcome email error:', emailError)
     }
 
     try {
-      await fetch('https://api.resend.com/emails', {
+      const adminRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -93,7 +96,9 @@ export default async function handler(req, res) {
           html: `<html><body style="background:#1B2A1B;font-family:Arial,sans-serif;"><div style="max-width:600px;margin:0 auto;background:#162016;padding:40px;"><h1 style="color:#C9A84C;font-size:22px;">New member signup</h1><p style="color:#A8B4CC;">A new agent has signed up and is awaiting approval.</p><div style="background:#1F2E1F;border:1px solid #2D4A2D;padding:20px;margin:20px 0;"><table style="width:100%;font-size:13px;"><tr><td style="color:#6B7A99;padding:6px 0;">Name</td><td style="color:#C9A84C;text-align:right;">${firstName} ${lastName}</td></tr><tr><td style="color:#6B7A99;padding:6px 0;">Email</td><td style="color:#C9A84C;text-align:right;">${email}</td></tr><tr><td style="color:#6B7A99;padding:6px 0;">Agency</td><td style="color:#C9A84C;text-align:right;">${agency}</td></tr><tr><td style="color:#6B7A99;padding:6px 0;">Role</td><td style="color:#C9A84C;text-align:right;">${role}</td></tr><tr><td style="color:#6B7A99;padding:6px 0;">State</td><td style="color:#C9A84C;text-align:right;">${state}</td></tr><tr><td style="color:#6B7A99;padding:6px 0;">License</td><td style="color:#C9A84C;text-align:right;">${licenseNumber}</td></tr></table></div><a href="https://offmarkethub.com.au/admin-login" style="display:inline-block;background:#C9A84C;color:#000;padding:12px 24px;text-decoration:none;font-weight:600;font-size:13px;">Review in admin panel →</a></div></body></html>`
         })
       })
-    } catch(e) { console.error('Admin notify error:', e) }
+      const adminData = await adminRes.json()
+      console.log('[signup] admin email status:', adminRes.status, JSON.stringify(adminData))
+    } catch(e) { console.error('[signup] Admin notify error:', e) }
 
     return res.status(200).json({ success: true })
 
