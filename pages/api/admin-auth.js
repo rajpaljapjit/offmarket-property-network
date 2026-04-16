@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   }
 
   if (key.trim() !== expectedKey) {
-    return res.status(401).json({ error: 'Invalid admin key.' })
+    return res.status(401).json({ error: `Invalid admin key. Expected length: ${expectedKey.length}, got length: ${key.trim().length}` })
   }
 
   if (username.trim() !== expectedUsername) {
