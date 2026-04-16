@@ -477,7 +477,7 @@ export default function Dashboard() {
                   ))}
                 </div>
               </div>
-              <div style={{fontSize:13,color:s.muted}}>To change your plan contact <a href="mailto:support@offmarketpropertynetwork.com.au" style={{color:s.gold,textDecoration:'none'}}>support@offmarketpropertynetwork.com.au</a></div>
+              <div style={{fontSize:13,color:s.muted}}>To change your plan contact <a href="mailto:support@offmarkethub.com.au" style={{color:s.gold,textDecoration:'none'}}>support@offmarkethub.com.au</a></div>
             </>
           )}
 

@@ -23,7 +23,7 @@ export default function Terms() {
           {title:'8. Limitation of liability',body:`Off Market Property Network is a connection platform only. We are not a party to any property transaction between members. We make no representations or warranties regarding the accuracy of listings or the outcome of any transaction. To the maximum extent permitted by law, we exclude all liability for loss or damage arising from use of the Platform.`},
           {title:'9. Changes to these terms',body:`We may update these Terms of Use at any time. Continued use of the Platform after any changes constitutes your acceptance of the updated terms. We will notify members of material changes via email.`},
           {title:'10. Governing law',body:`These Terms of Use are governed by the laws of Queensland, Australia. Any disputes arising from these terms or your use of the Platform will be subject to the exclusive jurisdiction of the courts of Queensland.`},
-          {title:'11. Contact',body:`For any questions regarding these terms, please contact us at legal@offmarketpropertynetwork.com.au`},
+          {title:'11. Contact',body:`For any questions regarding these terms, please contact us at legal@offmarkethub.com.au`},
         ].map(section=>(
           <div key={section.title} style={{marginBottom:40}}>
             <h2 style={{fontSize:18,color:s.gold,marginBottom:12,fontWeight:600}}>{section.title}</h2>

@@ -55,7 +55,7 @@ export default async function handler(req, res) {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            from: 'Off Market Property Network <notifications@offmarketpropertynetwork.com.au>',
+            from: 'Off Market Hub <notifications@offmarkethub.com.au>',
             to: listingMemberEmail,
             subject: `New enquiry on your listing: ${listingTitle}`,
             html: `
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
               <body style="margin:0;padding:0;background:#0A0F1E;font-family:Arial,sans-serif;">
                 <div style="max-width:600px;margin:0 auto;background:#0F1628;">
                   <div style="padding:32px 40px;border-bottom:1px solid #1E2A45;">
-                    <img src="https://offmarketpropertynetwork.com.au/gooffmarketlogo.png" alt="Off Market Property Network" style="height:40px;"/>
+                    <img src="https://offmarkethub.com.au/gooffmarketlogo.png" alt="Off Market Hub" style="height:40px;"/>
                   </div>
                   <div style="padding:40px;">
                     <h1 style="font-size:24px;color:#F5F3EE;margin:0 0 8px;font-weight:600;">New enquiry received</h1>
@@ -84,11 +84,11 @@ export default async function handler(req, res) {
                       </table>
                     </div>
                     <div style="text-align:center;">
-                      <a href="https://offmarketpropertynetwork.com.au/dashboard" style="display:inline-block;background:#C9A84C;color:#000;font-size:14px;font-weight:600;padding:14px 32px;text-decoration:none;">View in dashboard →</a>
+                      <a href="https://offmarkethub.com.au/dashboard" style="display:inline-block;background:#C9A84C;color:#000;font-size:14px;font-weight:600;padding:14px 32px;text-decoration:none;">View in dashboard →</a>
                     </div>
                   </div>
                   <div style="padding:24px 40px;border-top:1px solid #1E2A45;">
-                    <p style="font-size:11px;color:#6B7A99;margin:0;text-align:center;">Off Market Property Network · Australia-wide · Verified professionals only</p>
+                    <p style="font-size:11px;color:#6B7A99;margin:0;text-align:center;">Off Market Hub · Australia-wide · Verified professionals only</p>
                   </div>
                 </div>
               </body>

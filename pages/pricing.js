@@ -144,7 +144,7 @@ export default function Pricing() {
                 ))}
               </ul>
               {p.name==='Platinum' ? (
-                <a href="mailto:support@offmarketpropertynetwork.com.au" style={{display:'block',padding:'12px',fontSize:13,textDecoration:'none',textAlign:'center',background:'#B8923A',color:'#fff',fontWeight:600}}>{p.cta}</a>
+                <a href="mailto:support@offmarkethub.com.au" style={{display:'block',padding:'12px',fontSize:13,textDecoration:'none',textAlign:'center',background:'#B8923A',color:'#fff',fontWeight:600}}>{p.cta}</a>
               ) : (
                 <Link href="/signup" style={{display:'block',padding:'12px',fontSize:13,textDecoration:'none',textAlign:'center',background:p.featured?s.gold:'none',border:p.featured?'none':`1px solid ${s.border}`,color:p.featured?'#F8F6F1':s.silver,fontWeight:p.featured?600:400}}>{p.cta}</Link>
               )}
@@ -159,7 +159,7 @@ export default function Pricing() {
             <div style={{fontSize:14,color:s.gold,fontWeight:600,marginBottom:4}}>Principal agent with a team of 5 or more agents?</div>
             <div style={{fontSize:13,color:s.muted,lineHeight:1.6}}>We offer custom office-wide pricing for principal agents managing multiple agents. Get in touch and we'll tailor a package for your office.</div>
           </div>
-          <a href="mailto:support@offmarketpropertynetwork.com.au" style={{flexShrink:0,background:'#B8923A',color:'#fff',padding:'10px 20px',fontSize:13,fontWeight:600,textDecoration:'none'}}>Get in touch</a>
+          <a href="mailto:support@offmarkethub.com.au" style={{flexShrink:0,background:'#B8923A',color:'#fff',padding:'10px 20px',fontSize:13,fontWeight:600,textDecoration:'none'}}>Get in touch</a>
         </div>
 
         <div style={{padding:'20px 0',borderTop:`1px solid ${s.border}`,textAlign:'center',marginBottom:48}}>

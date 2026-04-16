@@ -12,8 +12,8 @@ export default function Login() {
 
   useEffect(() => {
     const reason = new URLSearchParams(window.location.search).get('reason')
-    if (reason === 'suspended') setError('Your account has been suspended. Please contact support@offmarketpropertynetwork.com.au')
-    if (reason === 'deleted') setError('Your account no longer exists. Please contact support@offmarketpropertynetwork.com.au')
+    if (reason === 'suspended') setError('Your account has been suspended. Please contact support@offmarkethub.com.au')
+    if (reason === 'deleted') setError('Your account no longer exists. Please contact support@offmarkethub.com.au')
   }, [])
   const [form, setForm] = useState({ username: '', password: '' })
   const handleChange = e => setForm({...form, [e.target.name]: e.target.value})
@@ -35,9 +35,9 @@ export default function Login() {
         if (data.member.status === 'pending') {
           setError('Your account is awaiting verification. We will notify you by email once approved — this usually takes 24-48 hours.')
         } else if (data.member.status === 'suspended') {
-          setError('Your account has been suspended. Please contact support@offmarketpropertynetwork.com.au')
+          setError('Your account has been suspended. Please contact support@offmarkethub.com.au')
         } else if (data.member.status === 'rejected') {
-          setError('Your application was not approved. Please contact support@offmarketpropertynetwork.com.au')
+          setError('Your application was not approved. Please contact support@offmarkethub.com.au')
         } else {
           localStorage.setItem('member', JSON.stringify(data.member))
         localStorage.setItem('sessionTime', Date.now().toString())
