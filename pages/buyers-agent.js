@@ -109,7 +109,7 @@ export default function BuyersAgent() {
           {/* Stats strip */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
             style={{ display: 'flex', gap: 40, marginTop: 56, flexWrap: 'wrap' }}>
-            {[['100%', 'Off-market only'], ['24hr', 'Verification turnaround'], ['0', 'Public portals involved'], ['3 mo', 'Free to start']].map(([val, label]) => (
+            {[['100%', 'Off-market only'], ['24hr', 'Verification turnaround'], ['0', 'Public portals involved'], ['3 months', 'Free to start']].map(([val, label]) => (
               <div key={label}>
                 <div style={{ fontSize: 'clamp(22px,3vw,32px)', fontWeight: 700, color: c.gold, letterSpacing: '-0.02em' }}>{val}</div>
                 <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>{label}</div>
