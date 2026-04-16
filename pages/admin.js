@@ -105,6 +105,7 @@ export default function Admin() {
         headers: { 'x-admin-key': sessionStorage.getItem('adminKey') || '' }
       })
       const data = await res.json()
+      if (!res.ok) { console.error('Admin data error:', data); return }
       setMembers(data.members || [])
       setListings(data.listings || [])
     } catch (err) { console.error(err) }

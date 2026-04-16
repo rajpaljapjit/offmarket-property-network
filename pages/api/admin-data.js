@@ -11,14 +11,15 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const [{ data: members }, { data: listings }] = await Promise.all([
+      const [mRes, lRes] = await Promise.all([
         supabase.from('members').select('*').neq('username', adminUsername),
         supabase.from('listings').select('*'),
       ])
-      return res.status(200).json({ members: members || [], listings: listings || [] })
+      if (mRes.error) return res.status(500).json({ error: 'Members query failed', detail: mRes.error.message })
+      if (lRes.error) return res.status(500).json({ error: 'Listings query failed', detail: lRes.error.message })
+      return res.status(200).json({ members: mRes.data || [], listings: lRes.data || [] })
     } catch (err) {
-      console.error(err)
-      return res.status(500).json({ error: 'Failed to fetch data' })
+      return res.status(500).json({ error: 'Failed to fetch data', detail: err.message })
     }
   }
 
