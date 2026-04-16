@@ -8,6 +8,12 @@ export default function AdminLogin() {
   const [form, setForm] = useState({username:'',password:'',key:''})
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showKey, setShowKey] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+
+  const EyeIcon = ({ show }) => (
+    <span style={{fontSize:16,userSelect:'none'}}>{show ? '🙈' : '👁'}</span>
+  )
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -47,7 +53,12 @@ export default function AdminLogin() {
           <form onSubmit={handleSubmit} style={{display:'flex',flexDirection:'column',gap:16}}>
             <div>
               <label style={lab}>Admin key *</label>
-              <input name="key" value={form.key} onChange={e=>setForm({...form,key:e.target.value})} type="password" placeholder="Enter admin key" style={input} required/>
+              <div style={{position:'relative'}}>
+                <input name="key" value={form.key} onChange={e=>setForm({...form,key:e.target.value})} type={showKey?'text':'password'} placeholder="Enter admin key" style={{...input,paddingRight:44}} required/>
+                <button type="button" onClick={()=>setShowKey(!showKey)} style={{position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',padding:0,lineHeight:1}}>
+                  <EyeIcon show={showKey}/>
+                </button>
+              </div>
             </div>
             <div>
               <label style={lab}>Username *</label>
@@ -55,7 +66,12 @@ export default function AdminLogin() {
             </div>
             <div>
               <label style={lab}>Password *</label>
-              <input name="password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} type="password" placeholder="••••••••" style={input} required/>
+              <div style={{position:'relative'}}>
+                <input name="password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} type={showPassword?'text':'password'} placeholder="••••••••" style={{...input,paddingRight:44}} required/>
+                <button type="button" onClick={()=>setShowPassword(!showPassword)} style={{position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',padding:0,lineHeight:1}}>
+                  <EyeIcon show={showPassword}/>
+                </button>
+              </div>
             </div>
             <button type="submit" disabled={loading} style={{background:loading?'rgba(201,169,110,0.5)':s.gold,border:'none',color:'#fff',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',marginTop:4,opacity:loading?0.8:1}}>
               {loading?'Signing in...':'Access admin panel →'}
