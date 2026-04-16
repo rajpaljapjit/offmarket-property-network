@@ -467,8 +467,8 @@ export default function Dashboard() {
                 <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:16}}>Current plan</div>
                 <div style={{fontSize:28,color:s.gold,fontWeight:700,marginBottom:4}}>{member.plan}</div>
                 <div style={{fontSize:13,color:s.muted,marginBottom:24}}>3 months free trial · No credit card required</div>
-                <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12}}>
-                  {[['Bronze','$49'],['Silver','$99'],['Gold','$179'],['Platinum','$349']].map(([p,price])=>(
+                <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:12}}>
+                  {[['Silver','$39'],['Gold','$79'],['Platinum','POA'],['Buyers Agent','$69']].map(([p,price])=>(
                     <div key={p} style={{background:p===member.plan?'rgba(201,168,76,0.1)':s.bg4,border:`1px solid ${p===member.plan?s.gold:s.border}`,padding:'16px 12px',textAlign:'center'}}>
                       <div style={{fontSize:14,color:p===member.plan?s.gold:s.white,fontWeight:600,marginBottom:4}}>{p}</div>
                       <div style={{fontSize:11,color:s.muted}}>{price}/mo after trial</div>
