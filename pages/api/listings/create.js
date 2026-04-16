@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Member not found.' })
   }
 
-  if (member.status !== 'approved') {
+  if (member.status !== 'active') {
     return res.status(403).json({ error: 'Your account must be approved before publishing listings.' })
   }
 
