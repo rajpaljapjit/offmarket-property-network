@@ -17,14 +17,14 @@ const c = {
   goldDim:    'rgba(184,146,58,0.1)',
   violet:     '#B8923A',
   violetDim:  'rgba(184,146,58,0.1)',
-  emerald:    '#6B9E82',
-  emeraldDim: 'rgba(107,158,130,0.1)',
-  amber:      '#FF9500',
-  white:      '#FFFFFF',
+  emerald:    '#4A7C5A',
+  emeraldDim: 'rgba(74,124,90,0.1)',
+  amber:      '#CC6600',
+  white:      '#1C1A17',
   cream:      '#4A4640',
   muted:      '#8A8178',
   border:     'rgba(184,146,58,0.2)',
-  borderGold: 'rgba(201,169,110,0.2)',
+  borderGold: 'rgba(184,146,58,0.35)',
 }
 
 const CHART_TOOLTIP = { background: c.bg3, border: `1px solid ${c.border}`, color: c.gold, borderRadius: 8, fontSize: 12 }
