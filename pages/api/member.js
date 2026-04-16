@@ -41,5 +41,13 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true })
   }
 
+  if (req.method === 'PATCH') {
+    const { id, status } = req.body
+    if (!id || !status) return res.status(400).json({ error: 'id and status required' })
+    const { error } = await supabase.from('members').update({ status }).eq('id', id)
+    if (error) return res.status(500).json({ error: 'Update failed' })
+    return res.status(200).json({ success: true })
+  }
+
   return res.status(405).end()
 }

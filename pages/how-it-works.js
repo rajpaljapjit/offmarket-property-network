@@ -4,19 +4,19 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 const s = {
-  gold:       '#FFD166',
-  goldDim:    'rgba(255,209,102,0.1)',
-  bg:         '#0D0A1A',
-  bg2:        '#13102A',
-  bg3:        '#1A1638',
-  white:      '#FFFFFF',
-  muted:      '#8888BB',
-  mid:        '#D4CFFF',
-  border:     'rgba(155,109,255,0.15)',
-  borderGold: 'rgba(255,209,102,0.25)',
-  violet:     '#9B6DFF',
-  violetDim:  'rgba(155,109,255,0.12)',
-  emerald:    '#00E5A0',
+  gold:       '#B8923A',
+  goldDim:    'rgba(184,146,58,0.1)',
+  bg:         '#F8F6F1',
+  bg2:        '#FFFFFF',
+  bg3:        '#F2EFE9',
+  white:      '#1C1A17',
+  muted:      '#8A8178',
+  mid:        '#4A4640',
+  border:     'rgba(184,146,58,0.2)',
+  borderGold: 'rgba(184,146,58,0.35)',
+  violet:     '#B8923A',
+  violetDim:  'rgba(184,146,58,0.1)',
+  emerald:    '#4A7C5A',
 }
 
 const steps = [
@@ -32,7 +32,7 @@ export default function HowItWorks() {
       <Nav />
       <style>{`
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-        .step-row { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 40px; align-items: start; padding: 48px 0; border-top: 1px solid rgba(155,109,255,0.15); }
+        .step-row { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 40px; align-items: start; padding: 48px 0; border-top: 1px solid rgba(184,146,58,0.2); }
         @media(max-width:900px) { .step-row { grid-template-columns: 60px 1fr; } .step-detail { display: none !important; } }
         @media(max-width:600px) { .step-row { grid-template-columns: 1fr; gap: 16px; } .step-num { font-size: 36px !important; } }
       `}</style>
@@ -47,12 +47,12 @@ export default function HowItWorks() {
           backgroundPosition: 'center',
         }} />
         {/* Dark overlay */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(13,10,26,0.88) 0%, rgba(13,10,26,0.65) 60%, rgba(13,10,26,0.85) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(9,9,15,0.88) 0%, rgba(9,9,15,0.65) 60%, rgba(9,9,15,0.85) 100%)' }} />
         {/* Colour glows */}
-        <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '50%', height: '80%', background: 'radial-gradient(ellipse, rgba(155,109,255,0.18) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: '0', right: '0', width: '40%', height: '60%', background: 'radial-gradient(ellipse, rgba(0,229,160,0.1) 0%, transparent 65%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '50%', height: '80%', background: 'radial-gradient(ellipse, rgba(184,146,58,0.18) 0%, transparent 65%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '0', right: '0', width: '40%', height: '60%', background: 'radial-gradient(ellipse, rgba(107,158,130,0.1) 0%, transparent 65%)', pointerEvents: 'none' }} />
         {/* Dot grid */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(155,109,255,0.07) 1px, transparent 1px)', backgroundSize: '30px 30px', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(184,146,58,0.07) 1px, transparent 1px)', backgroundSize: '30px 30px', pointerEvents: 'none' }} />
 
         {/* Hero text */}
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', padding: '80px 24px' }}>
@@ -70,10 +70,10 @@ export default function HowItWorks() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.05 }}
-            style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: 20, maxWidth: 680 }}
+            style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: 20, maxWidth: 680, color: '#FFFFFF' }}
           >
             From hidden opportunity{' '}
-            <span style={{ background: `linear-gradient(130deg, ${s.violet} 0%, ${s.gold} 50%, ${s.emerald} 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            <span style={{ background: `linear-gradient(130deg, ${s.gold} 0%, ${s.gold} 50%, #6B9E82 100%)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               to signed contract
             </span>
           </motion.h1>
@@ -82,7 +82,7 @@ export default function HowItWorks() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            style={{ fontSize: 17, color: s.mid, lineHeight: 1.75, maxWidth: 520, marginBottom: 36 }}
+            style={{ fontSize: 17, color: 'rgba(255,255,255,0.82)', lineHeight: 1.75, maxWidth: 520, marginBottom: 36 }}
           >
             A simple, private process built for selling agents and buyers agents who want to move property without the noise of public portals.
           </motion.p>
@@ -93,10 +93,10 @@ export default function HowItWorks() {
             transition={{ duration: 0.7, delay: 0.25 }}
             style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}
           >
-            <Link href="/signup" style={{ background: `linear-gradient(135deg, ${s.violet}, ${s.gold})`, color: s.white, padding: '13px 28px', fontSize: 14, fontWeight: 700, textDecoration: 'none', borderRadius: 8, boxShadow: '0 0 28px rgba(155,109,255,0.4)', display: 'inline-block' }}>
+            <Link href="/signup" style={{ background: s.gold, color: '#1C1A17', padding: '13px 28px', fontSize: 14, fontWeight: 700, textDecoration: 'none', borderRadius: 8, display: 'inline-block' }}>
               Join Free — 3 Months
             </Link>
-            <Link href="/pricing" style={{ border: `1px solid ${s.border}`, color: s.mid, padding: '13px 28px', fontSize: 14, textDecoration: 'none', borderRadius: 8, background: s.violetDim, display: 'inline-block' }}>
+            <Link href="/pricing" style={{ border: '1px solid rgba(255,255,255,0.3)', color: '#FFFFFF', padding: '13px 28px', fontSize: 14, textDecoration: 'none', borderRadius: 8, background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(6px)', display: 'inline-block' }}>
               View Pricing →
             </Link>
           </motion.div>
@@ -114,7 +114,7 @@ export default function HowItWorks() {
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.6, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="step-num" style={{ fontSize: 52, color: s.gold, lineHeight: 1, fontWeight: 700, letterSpacing: '-0.04em', textShadow: '0 0 24px rgba(255,209,102,0.3)' }}>
+            <div className="step-num" style={{ fontSize: 52, color: s.gold, lineHeight: 1, fontWeight: 700, letterSpacing: '-0.04em', textShadow: '0 0 24px rgba(184,146,58,0.3)' }}>
               {step.num}
             </div>
             <div>
@@ -137,15 +137,15 @@ export default function HowItWorks() {
       <section style={{ position: 'relative', overflow: 'hidden', padding: '80px 24px', textAlign: 'center' }}>
         {/* Background image repeat */}
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/Heroimage.png)', backgroundSize: 'cover', backgroundPosition: 'center bottom' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(13,10,26,0.88)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(9,9,15,0.88)' }} />
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 600, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(22px,4vw,36px)', color: s.white, marginBottom: 12, fontWeight: 700, letterSpacing: '-0.02em' }}>Ready to join the network?</h2>
-          <p style={{ color: s.muted, marginBottom: 28, lineHeight: 1.7 }}>3 months completely free for all verified agents. No credit card required.</p>
+          <h2 style={{ fontSize: 'clamp(22px,4vw,36px)', color: '#FFFFFF', marginBottom: 12, fontWeight: 700, letterSpacing: '-0.02em' }}>Ready to join the network?</h2>
+          <p style={{ color: 'rgba(255,255,255,0.75)', marginBottom: 28, lineHeight: 1.7 }}>3 months completely free for all verified agents. No credit card required.</p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/signup" style={{ background: `linear-gradient(135deg, ${s.violet}, ${s.gold})`, color: s.white, padding: '14px 32px', fontSize: 14, fontWeight: 700, textDecoration: 'none', borderRadius: 8, boxShadow: '0 0 28px rgba(155,109,255,0.4)', display: 'inline-block' }}>
+            <Link href="/signup" style={{ background: s.gold, color: '#1C1A17', padding: '14px 32px', fontSize: 14, fontWeight: 700, textDecoration: 'none', borderRadius: 8, display: 'inline-block' }}>
               Join Free
             </Link>
-            <Link href="/pricing" style={{ border: `1px solid ${s.border}`, color: s.mid, padding: '14px 28px', fontSize: 14, textDecoration: 'none', borderRadius: 8, background: s.violetDim, display: 'inline-block' }}>
+            <Link href="/pricing" style={{ border: '1px solid rgba(255,255,255,0.3)', color: '#FFFFFF', padding: '14px 28px', fontSize: 14, textDecoration: 'none', borderRadius: 8, background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(6px)', display: 'inline-block' }}>
               View Pricing
             </Link>
           </div>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',white:'#FFFFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)',error:'#FF9500'}
+const s={gold:'#B8923A',goldDim:'rgba(184,146,58,0.1)',bg:'#F8F6F1',bg2:'#FFFFFF',bg3:'#F2EFE9',bg4:'#EAE6DE',white:'#1C1A17',cream:'#4A4640',muted:'#8A8178',mid:'#4A4640',border:'rgba(184,146,58,0.2)',borderGold:'rgba(184,146,58,0.35)',error:'#CC3333',silver:'#4A4640'}
 
 export default function AdminLogin() {
   const router = useRouter()
@@ -37,7 +37,7 @@ export default function AdminLogin() {
     <div style={{background:s.bg,minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:20}}>
       <div style={{width:'100%',maxWidth:420}}>
         <div style={{textAlign:'center',marginBottom:40}}>
-          <img src="/goOffmarketlogo1.png" alt="Off Market Property Network" style={{height:62,marginBottom:16}}/>
+          <img src="/offmarkethublogo.png" alt="Off Market Property Network" style={{height:62,marginBottom:16}}/>
           <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase'}}>Admin access</div>
         </div>
         <div style={{background:s.bg2,border:`1px solid ${s.border}`,padding:36}}>
@@ -57,7 +57,7 @@ export default function AdminLogin() {
               <label style={lab}>Password *</label>
               <input name="password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} type="password" placeholder="••••••••" style={input} required/>
             </div>
-            <button type="submit" disabled={loading} style={{background:loading?'rgba(155,109,255,0.5)':s.gold,border:'none',color:'#fff',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',marginTop:4,opacity:loading?0.8:1}}>
+            <button type="submit" disabled={loading} style={{background:loading?'rgba(201,169,110,0.5)':s.gold,border:'none',color:'#fff',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',marginTop:4,opacity:loading?0.8:1}}>
               {loading?'Signing in...':'Access admin panel →'}
             </button>
           </form>

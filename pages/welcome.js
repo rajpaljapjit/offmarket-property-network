@@ -2,7 +2,7 @@ import Nav from '../components/Nav'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',white:'#FFFFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)'}
+const s={gold:'#B8923A',goldDim:'rgba(184,146,58,0.1)',bg:'#F8F6F1',bg2:'#FFFFFF',bg3:'#F2EFE9',bg4:'#EAE6DE',white:'#1C1A17',cream:'#4A4640',muted:'#8A8178',mid:'#4A4640',border:'rgba(184,146,58,0.2)',borderGold:'rgba(184,146,58,0.35)',error:'#CC3333',silver:'#4A4640'}
 
 export default function Welcome() {
   const router = useRouter()
@@ -32,8 +32,8 @@ export default function Welcome() {
           ))}
         </div>
         <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
-          <Link href="/" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'14px 28px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Back to home</Link>
-          <Link href="/listings" style={{border:`1px solid #E8E8E8`,color:'#D4CFFF',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>Browse listings</Link>
+          <Link href="/" style={{background:'#B8923A',color:'#fff',padding:'14px 28px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Back to home</Link>
+          <Link href="/listings" style={{border:`1px solid #E8E8E8`,color:'#4A4640',padding:'14px 28px',fontSize:14,textDecoration:'none'}}>Browse listings</Link>
         </div>
       </div>
     </div>

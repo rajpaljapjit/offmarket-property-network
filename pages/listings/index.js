@@ -6,20 +6,20 @@ import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const c = {
-  bg:         '#0D0A1A',
-  bg2:        '#13102A',
-  bg3:        '#1A1638',
-  bg4:        '#221E46',
-  gold:       '#FFD166',
-  goldDim:    'rgba(255,209,102,0.1)',
-  violet:     '#9B6DFF',
-  violetDim:  'rgba(155,109,255,0.1)',
-  emerald:    '#00E5A0',
+  bg:         '#F8F6F1',
+  bg2:        '#FFFFFF',
+  bg3:        '#F2EFE9',
+  bg4:        '#EAE6DE',
+  gold:       '#B8923A',
+  goldDim:    'rgba(184,146,58,0.1)',
+  violet:     '#B8923A',
+  violetDim:  'rgba(184,146,58,0.1)',
+  emerald:    '#6B9E82',
   white:      '#FFFFFF',
-  cream:      '#D4CFFF',
-  muted:      '#8888BB',
-  border:     'rgba(155,109,255,0.15)',
-  borderGold: 'rgba(255,209,102,0.2)',
+  cream:      '#4A4640',
+  muted:      '#8A8178',
+  border:     'rgba(184,146,58,0.2)',
+  borderGold: 'rgba(201,169,110,0.2)',
 }
 
 export default function Listings() {
@@ -110,7 +110,7 @@ export default function Listings() {
         .listings-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
         .filter-bar    { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:12px; }
         .listing-card:hover .card-img { transform:scale(1.04); }
-        select option  { background:#1A1638; color:#fff; }
+        select option  { background:#F2EFE9; color:#fff; }
         @media(max-width:900px){ .listings-grid{grid-template-columns:repeat(2,1fr);} }
         @media(max-width:600px){ .listings-grid{grid-template-columns:1fr;} .filter-bar{grid-template-columns:1fr;} }
       `}</style>
@@ -126,7 +126,7 @@ export default function Listings() {
             </p>
           </div>
           {member && (
-            <Link href="/listings/new" style={{ background: `linear-gradient(135deg, ${c.violet}, ${c.gold})`, color: '#fff', padding: '10px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none', borderRadius: 8, boxShadow: '0 0 20px rgba(155,109,255,0.3)' }}>
+            <Link href="/listings/new" style={{ background: `c.gold`, color: '#fff', padding: '10px 20px', fontSize: 13, fontWeight: 700, textDecoration: 'none', borderRadius: 8, boxShadow: '0 0 20px rgba(184,146,58,0.3)' }}>
               + New listing
             </Link>
           )}
@@ -164,7 +164,7 @@ export default function Listings() {
               <span style={{ color: c.white, fontWeight: 600 }}>{filtered.length}</span> listing{filtered.length !== 1 ? 's' : ''} found
             </span>
             {activeFilters.map(f => (
-              <span key={f} style={{ fontSize: 11, color: c.violet, background: c.violetDim, border: `1px solid rgba(155,109,255,0.25)`, padding: '2px 10px', borderRadius: 20 }}>
+              <span key={f} style={{ fontSize: 11, color: c.violet, background: c.violetDim, border: `1px solid rgba(184,146,58,0.35)`, padding: '2px 10px', borderRadius: 20 }}>
                 {f}
               </span>
             ))}
@@ -215,7 +215,7 @@ export default function Listings() {
                     style={{
                       position: 'absolute', top: 12, right: 12, zIndex: 2,
                       width: 34, height: 34, borderRadius: '50%',
-                      background: saved.includes(l.id) ? c.goldDim : 'rgba(13,10,26,0.7)',
+                      background: saved.includes(l.id) ? c.goldDim : 'rgba(9,9,15,0.7)',
                       border: `1px solid ${saved.includes(l.id) ? c.gold : 'rgba(255,255,255,0.15)'}`,
                       color: saved.includes(l.id) ? c.gold : c.cream,
                       fontSize: 16, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -244,7 +244,7 @@ export default function Listings() {
                       <div style={{ position: 'absolute', bottom: 10, left: 10, display: 'flex', gap: 6 }}>
                         <span style={{ fontSize: 9, letterSpacing: '0.1em', background: c.goldDim, color: c.gold, border: `1px solid ${c.borderGold}`, padding: '3px 8px', borderRadius: 4, backdropFilter: 'blur(8px)' }}>OFF MARKET</span>
                         {l.property_type && (
-                          <span style={{ fontSize: 9, letterSpacing: '0.1em', background: 'rgba(13,10,26,0.7)', color: c.cream, border: `1px solid ${c.border}`, padding: '3px 8px', borderRadius: 4, backdropFilter: 'blur(8px)' }}>{l.property_type}</span>
+                          <span style={{ fontSize: 9, letterSpacing: '0.1em', background: 'rgba(9,9,15,0.7)', color: c.cream, border: `1px solid ${c.border}`, padding: '3px 8px', borderRadius: 4, backdropFilter: 'blur(8px)' }}>{l.property_type}</span>
                         )}
                       </div>
                     </div>

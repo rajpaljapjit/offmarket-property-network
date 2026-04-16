@@ -6,20 +6,20 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 const c = {
-  bg:         '#0D0A1A',
-  bg2:        '#13102A',
-  bg3:        '#1A1638',
-  bg4:        '#221E46',
-  gold:       '#FFD166',
-  goldDim:    'rgba(255,209,102,0.1)',
-  emerald:    '#00E5A0',
-  violet:     '#9B6DFF',
-  violetDim:  'rgba(155,109,255,0.12)',
-  white:      '#FFFFFF',
-  cream:      '#D4CFFF',
-  muted:      '#8888BB',
-  border:     'rgba(155,109,255,0.15)',
-  borderGold: 'rgba(255,209,102,0.25)',
+  bg:         '#F8F6F1',
+  bg2:        '#FFFFFF',
+  bg3:        '#F2EFE9',
+  bg4:        '#EAE6DE',
+  gold:       '#B8923A',
+  goldDim:    'rgba(184,146,58,0.1)',
+  emerald:    '#4A7C5A',
+  violet:     '#B8923A',
+  violetDim:  'rgba(184,146,58,0.1)',
+  white:      '#1C1A17',
+  cream:      '#4A4640',
+  muted:      '#8A8178',
+  border:     'rgba(184,146,58,0.2)',
+  borderGold: 'rgba(184,146,58,0.35)',
 }
 
 const STATES = ['All States', 'NSW', 'VIC', 'QLD', 'WA', 'SA', 'TAS', 'ACT', 'NT']
@@ -46,8 +46,8 @@ function ListingCard({ listing, member, onEnquire }) {
         transition: 'border-color 0.2s, box-shadow 0.2s',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(155,109,255,0.4)'
-        e.currentTarget.style.boxShadow = '0 8px 32px rgba(155,109,255,0.15)'
+        e.currentTarget.style.borderColor = 'rgba(184,146,58,0.45)'
+        e.currentTarget.style.boxShadow = '0 8px 32px rgba(184,146,58,0.2)'
       }}
       onMouseLeave={e => {
         e.currentTarget.style.borderColor = c.border
@@ -119,14 +119,14 @@ function ListingCard({ listing, member, onEnquire }) {
           {member ? (
             <button
               onClick={() => onEnquire(listing)}
-              style={{ flex: 1, background: `linear-gradient(135deg, ${c.violet}, ${c.gold})`, color: c.white, border: 'none', borderRadius: 8, padding: '9px 0', fontSize: 13, fontWeight: 700, cursor: 'pointer', boxShadow: '0 0 20px rgba(155,109,255,0.3)' }}
+              style={{ flex: 1, background: c.gold, color: '#F8F6F1', border: 'none', borderRadius: 6, padding: '9px 0', fontSize: 13, fontWeight: 700, cursor: 'pointer', boxShadow: 'none' }}
             >
               Enquire
             </button>
           ) : (
             <Link
               href="/login"
-              style={{ flex: 1, background: `linear-gradient(135deg, ${c.violet}, ${c.gold})`, color: c.white, border: 'none', borderRadius: 8, padding: '9px 0', fontSize: 13, fontWeight: 700, cursor: 'pointer', textDecoration: 'none', textAlign: 'center', display: 'block' }}
+              style={{ flex: 1, background: c.gold, color: '#F8F6F1', border: 'none', borderRadius: 6, padding: '9px 0', fontSize: 13, fontWeight: 700, cursor: 'pointer', textDecoration: 'none', textAlign: 'center', display: 'block' }}
             >
               Sign in to enquire
             </Link>
@@ -214,14 +214,14 @@ export default function Listings() {
         .filter-row { display: flex; gap: 12px; flex-wrap: wrap; }
         @media(max-width:900px) { .listings-grid { grid-template-columns: repeat(2,1fr); } }
         @media(max-width:600px) { .listings-grid { grid-template-columns: 1fr; } .filter-row { flex-direction: column; } }
-        input::placeholder { color: #8888BB; }
-        select option { background: #1A1638; }
+        input::placeholder { color: #8A8178; }
+        select option { background: #F8F6F1; color: #1C1A17; }
       `}</style>
 
       {/* ── PAGE HEADER ── */}
       <div style={{ position: 'relative', overflow: 'hidden', padding: '64px 24px 48px', textAlign: 'center' }}>
-        <div style={{ position: 'absolute', top: '-20%', left: '20%', width: '60%', height: '80%', background: 'radial-gradient(ellipse, rgba(155,109,255,0.15) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(155,109,255,0.06) 1px, transparent 1px)', backgroundSize: '30px 30px', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '-20%', left: '20%', width: '60%', height: '80%', background: 'radial-gradient(ellipse, rgba(184,146,58,0.2) 0%, transparent 65%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(184,146,58,0.06) 1px, transparent 1px)', backgroundSize: '30px 30px', pointerEvents: 'none' }} />
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 700, margin: '0 auto' }}>
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -315,7 +315,7 @@ export default function Listings() {
               Join Australia's private property network to enquire on listings, connect with agents, and share your own off-market opportunities.
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/signup" style={{ background: `linear-gradient(135deg, ${c.violet}, ${c.gold})`, color: c.white, padding: '12px 28px', fontSize: 14, fontWeight: 700, textDecoration: 'none', borderRadius: 8, boxShadow: '0 0 24px rgba(155,109,255,0.35)' }}>
+              <Link href="/signup" style={{ background: c.gold, color: c.white, padding: '12px 28px', fontSize: 14, fontWeight: 700, textDecoration: 'none', borderRadius: 8, boxShadow: '0 0 24px rgba(184,146,58,0.35)' }}>
                 Join Free — 3 Months
               </Link>
               <Link href="/login" style={{ border: `1px solid ${c.border}`, color: c.cream, padding: '12px 28px', fontSize: 14, textDecoration: 'none', borderRadius: 8, background: c.violetDim }}>
@@ -343,7 +343,7 @@ export default function Listings() {
                 <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
                 <div style={{ fontSize: 18, fontWeight: 700, color: c.white, marginBottom: 8 }}>Enquiry sent!</div>
                 <div style={{ fontSize: 13, color: c.muted, marginBottom: 24 }}>The listing agent will be in touch shortly.</div>
-                <button onClick={() => { setEnquiring(null); setSent(false) }} style={{ background: `linear-gradient(135deg, ${c.violet}, ${c.gold})`, color: c.white, border: 'none', borderRadius: 8, padding: '10px 28px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
+                <button onClick={() => { setEnquiring(null); setSent(false) }} style={{ background: c.gold, color: '#F8F6F1', border: 'none', borderRadius: 6, padding: '10px 28px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
                   Close
                 </button>
               </div>
@@ -365,7 +365,7 @@ export default function Listings() {
                   <button onClick={() => setEnquiring(null)} style={{ flex: 1, background: c.bg4, border: `1px solid ${c.border}`, color: c.muted, borderRadius: 8, padding: '10px 0', fontSize: 13, cursor: 'pointer' }}>
                     Cancel
                   </button>
-                  <button onClick={sendEnquiry} disabled={sending || !message.trim()} style={{ flex: 2, background: `linear-gradient(135deg, ${c.violet}, ${c.gold})`, color: c.white, border: 'none', borderRadius: 8, padding: '10px 0', fontSize: 13, fontWeight: 700, cursor: sending ? 'wait' : 'pointer', opacity: !message.trim() ? 0.5 : 1 }}>
+                  <button onClick={sendEnquiry} disabled={sending || !message.trim()} style={{ flex: 2, background: c.gold, color: '#F8F6F1', border: 'none', borderRadius: 6, padding: '10px 0', fontSize: 13, fontWeight: 700, cursor: sending ? 'wait' : 'pointer', opacity: !message.trim() ? 0.5 : 1 }}>
                     {sending ? 'Sending...' : 'Send Enquiry'}
                   </button>
                 </div>

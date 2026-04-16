@@ -3,7 +3,7 @@ import Nav from '../../components/Nav'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#FFD166',bg:'#0D0A1A',bg3:'#1A1638',bg4:'#221E46',white:'#FFFFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)',error:'#FF9500'}
+const s={gold:'#B8923A',goldDim:'rgba(184,146,58,0.1)',bg:'#F8F6F1',bg2:'#FFFFFF',bg3:'#F2EFE9',bg4:'#EAE6DE',white:'#1C1A17',cream:'#4A4640',muted:'#8A8178',mid:'#4A4640',border:'rgba(184,146,58,0.2)',borderGold:'rgba(184,146,58,0.35)',error:'#CC3333',silver:'#4A4640'}
 
 export default function ChangePassword() {
   const router = useRouter()
@@ -80,7 +80,7 @@ export default function ChangePassword() {
           </div>
           <div style={{display:'flex',gap:12}}>
             <button type="button" onClick={()=>router.push('/dashboard')} style={{flex:1,background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:14,padding:14,cursor:'pointer'}}>Cancel</button>
-            <button type="submit" disabled={loading} style={{flex:2,background:loading?'rgba(155,109,255,0.5)':s.gold,border:'none',color:'#fff',fontSize:15,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
+            <button type="submit" disabled={loading} style={{flex:2,background:loading?'rgba(201,169,110,0.5)':s.gold,border:'none',color:'#fff',fontSize:15,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
               {loading?'Updating...':'Change password →'}
             </button>
           </div>

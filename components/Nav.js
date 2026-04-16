@@ -4,14 +4,12 @@ import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const n = {
-  bg:         'rgba(13,10,26,0.85)',
-  border:     'rgba(155,109,255,0.15)',
-  violet:     '#9B6DFF',
-  gold:       '#FFD166',
-  emerald:    '#00E5A0',
-  white:      '#FFFFFF',
-  muted:      '#8888BB',
-  cream:      '#D4CFFF',
+  bg:         'rgba(248,246,241,0.96)',
+  border:     'rgba(184,146,58,0.2)',
+  gold:       '#B8923A',
+  white:      '#1C1A17',
+  muted:      '#8A8178',
+  cream:      '#4A4640',
 }
 
 export default function Nav() {
@@ -66,7 +64,7 @@ export default function Nav() {
           border-radius: 6px;
           transition: color 0.2s, background 0.2s;
         }
-        .nav-link:hover { color: ${n.white}; background: rgba(155,109,255,0.08); }
+        .nav-link:hover { color: ${n.white}; background: rgba(184,146,58,0.08); }
         .nav-link-active { color: ${n.white} !important; }
         @media (max-width: 768px) { .nav-logo { margin-top: 0 !important; height: 98px !important; } }
       `}</style>
@@ -74,12 +72,12 @@ export default function Nav() {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
 
         {/* Logo */}
-        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+        <Link href="/" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flexShrink: 0 }}>
           <img
-            src="/goOffmarketlogo1.png"
-            alt="Off Market Property Network"
+            src="/offmarkethublogo.png"
+            alt="Off Market Hub"
             className="nav-logo"
-            style={{ height: 98, width: 'auto', objectFit: 'contain', display: 'block', marginTop: 20 }}
+            style={{ height: 98, width: 'auto', objectFit: 'contain', display: 'block', marginTop: 12 }}
           />
         </Link>
 
@@ -101,19 +99,19 @@ export default function Nav() {
           </div>
           {member ? (
             <>
-              <Link href="/dashboard" style={{ fontSize: 13, color: n.cream, textDecoration: 'none', padding: '7px 16px', border: `1px solid ${n.border}`, borderRadius: 8, background: 'rgba(155,109,255,0.08)' }}>
+              <Link href="/dashboard" style={{ fontSize: 13, color: n.cream, textDecoration: 'none', padding: '7px 16px', border: `1px solid ${n.border}`, borderRadius: 8, background: 'rgba(184,146,58,0.08)' }}>
                 Dashboard
               </Link>
-              <button onClick={handleSignOut} style={{ background: `linear-gradient(135deg, ${n.violet}, ${n.gold})`, color: n.white, fontSize: 13, fontWeight: 700, padding: '7px 16px', border: 'none', borderRadius: 8, cursor: 'pointer', boxShadow: '0 0 20px rgba(155,109,255,0.3)' }}>
+              <button onClick={handleSignOut} style={{ background: n.gold, color: '#1C1A17', fontSize: 13, fontWeight: 600, padding: '7px 16px', border: 'none', borderRadius: 6, cursor: 'pointer', letterSpacing: '0.01em' }}>
                 Sign Out
               </button>
             </>
           ) : (
             <>
-              <Link href="/login" style={{ fontSize: 13, color: n.cream, textDecoration: 'none', padding: '7px 16px', border: `1px solid ${n.border}`, borderRadius: 8, background: 'rgba(155,109,255,0.06)' }}>
+              <Link href="/login" style={{ fontSize: 13, color: n.cream, textDecoration: 'none', padding: '7px 16px', border: `1px solid ${n.border}`, borderRadius: 8, background: 'rgba(184,146,58,0.06)' }}>
                 Sign In
               </Link>
-              <Link href="/signup" style={{ background: `linear-gradient(135deg, ${n.violet}, ${n.gold})`, color: n.white, fontSize: 13, fontWeight: 700, padding: '7px 18px', textDecoration: 'none', borderRadius: 8, boxShadow: '0 0 20px rgba(155,109,255,0.3)', display: 'inline-block' }}>
+              <Link href="/signup" style={{ background: n.gold, color: '#1C1A17', fontSize: 13, fontWeight: 600, padding: '7px 18px', textDecoration: 'none', borderRadius: 6, display: 'inline-block', letterSpacing: '0.01em' }}>
                 Join Free
               </Link>
             </>
@@ -124,7 +122,7 @@ export default function Nav() {
         <button
           onClick={() => setOpen(!open)}
           className="hamburger"
-          style={{ background: 'rgba(155,109,255,0.1)', border: `1px solid ${n.border}`, color: n.violet, padding: '8px 12px', borderRadius: 8, cursor: 'pointer', fontSize: 16, alignItems: 'center', justifyContent: 'center' }}
+          style={{ background: 'rgba(184,146,58,0.08)', border: `1px solid ${n.border}`, color: n.gold, padding: '8px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 16, alignItems: 'center', justifyContent: 'center' }}
         >
           {open ? '✕' : '☰'}
         </button>
@@ -138,7 +136,7 @@ export default function Nav() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            style={{ overflow: 'hidden', borderTop: `1px solid ${n.border}`, background: 'rgba(13,10,26,0.97)' }}
+            style={{ overflow: 'hidden', borderTop: `1px solid ${n.border}`, background: 'rgba(248,246,241,0.98)' }}
           >
             <div style={{ padding: '12px 24px 20px', display: 'flex', flexDirection: 'column', gap: 2 }}>
               {links.map(([href, label]) => (
@@ -149,19 +147,19 @@ export default function Nav() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
                 {member ? (
                   <>
-                    <Link href="/dashboard" onClick={() => setOpen(false)} style={{ textAlign: 'center', padding: '12px', fontSize: 14, color: n.cream, textDecoration: 'none', border: `1px solid ${n.border}`, borderRadius: 8, background: 'rgba(155,109,255,0.08)' }}>
+                    <Link href="/dashboard" onClick={() => setOpen(false)} style={{ textAlign: 'center', padding: '12px', fontSize: 14, color: n.cream, textDecoration: 'none', border: `1px solid ${n.border}`, borderRadius: 8, background: 'rgba(184,146,58,0.08)' }}>
                       Dashboard
                     </Link>
-                    <button onClick={() => { handleSignOut(); setOpen(false) }} style={{ background: `linear-gradient(135deg, ${n.violet}, ${n.gold})`, color: n.white, fontSize: 14, fontWeight: 700, padding: '12px', border: 'none', borderRadius: 8, cursor: 'pointer' }}>
+                    <button onClick={() => { handleSignOut(); setOpen(false) }} style={{ background: n.gold, color: '#1C1A17', fontSize: 14, fontWeight: 600, padding: '12px', border: 'none', borderRadius: 6, cursor: 'pointer' }}>
                       Sign Out
                     </button>
                   </>
                 ) : (
                   <>
-                    <Link href="/login" onClick={() => setOpen(false)} style={{ textAlign: 'center', padding: '12px', fontSize: 14, color: n.cream, textDecoration: 'none', border: `1px solid ${n.border}`, borderRadius: 8, background: 'rgba(155,109,255,0.06)' }}>
+                    <Link href="/login" onClick={() => setOpen(false)} style={{ textAlign: 'center', padding: '12px', fontSize: 14, color: n.cream, textDecoration: 'none', border: `1px solid ${n.border}`, borderRadius: 8, background: 'rgba(184,146,58,0.06)' }}>
                       Sign In
                     </Link>
-                    <Link href="/signup" onClick={() => setOpen(false)} style={{ textAlign: 'center', background: `linear-gradient(135deg, ${n.violet}, ${n.gold})`, color: n.white, fontSize: 14, fontWeight: 700, padding: '12px', textDecoration: 'none', borderRadius: 8, display: 'block' }}>
+                    <Link href="/signup" onClick={() => setOpen(false)} style={{ textAlign: 'center', background: n.gold, color: '#1C1A17', fontSize: 14, fontWeight: 600, padding: '12px', textDecoration: 'none', borderRadius: 6, display: 'block' }}>
                       Join Free — 3 Months Free
                     </Link>
                   </>

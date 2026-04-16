@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',bg4:'#221E46',white:'#FFFFFF',muted:'#8888BB',mid:'#D4CFFF',border:'rgba(155,109,255,0.15)',error:'#FF9500'}
+const s={gold:'#B8923A',goldDim:'rgba(184,146,58,0.1)',bg:'#F8F6F1',bg2:'#FFFFFF',bg3:'#F2EFE9',bg4:'#EAE6DE',white:'#1C1A17',cream:'#4A4640',muted:'#8A8178',mid:'#4A4640',border:'rgba(184,146,58,0.2)',borderGold:'rgba(184,146,58,0.35)',error:'#CC3333',silver:'#4A4640'}
 
 function FavouriteAgents({member, s}) {
   const [favs, setFavs] = useState([])
@@ -36,14 +36,14 @@ function FavouriteAgents({member, s}) {
     <>
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:28}}>
         <h2 style={{fontSize:22,color:s.white,fontWeight:600}}>Favourite agents</h2>
-        <Link href="/agents" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>Browse agents</Link>
+        <Link href="/agents" style={{background:'#B8923A',color:'#fff',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>Browse agents</Link>
       </div>
       {favs.length === 0 ? (
         <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
           <div style={{fontSize:32,marginBottom:16}}>⭐</div>
           <div style={{fontSize:14,color:s.white,fontWeight:600,marginBottom:8}}>No favourite agents yet</div>
           <div style={{fontSize:13,color:s.muted,marginBottom:20}}>Browse the agent directory and star agents you work with frequently.</div>
-          <Link href="/agents" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse agents</Link>
+          <Link href="/agents" style={{background:'#B8923A',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse agents</Link>
         </div>
       ) : (
         <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
@@ -77,6 +77,10 @@ export default function Dashboard() {
   const [activeSection, setActiveSection] = useState('Overview')
   const [activeEnquiry, setActiveEnquiry] = useState(null)
   const [messageText, setMessageText] = useState('')
+  const [emailNotifs, setEmailNotifs] = useState(true)
+  const [profileVisible, setProfileVisible] = useState(true)
+  const [showDeactivateModal, setShowDeactivateModal] = useState(false)
+  const [deactivating, setDeactivating] = useState(false)
 
   useEffect(() => {
     const stored = localStorage.getItem('member')
@@ -96,6 +100,11 @@ export default function Dashboard() {
     fetchAll(m)
     // Refresh member status from Supabase
     refreshMember(m.id)
+    // Load notification/visibility prefs
+    const notifPref = localStorage.getItem('emailNotifs')
+    const visibPref = localStorage.getItem('profileVisible')
+    if (notifPref !== null) setEmailNotifs(notifPref === 'true')
+    if (visibPref !== null) setProfileVisible(visibPref === 'true')
   }, [])
 
   const refreshMember = async (id) => {
@@ -154,6 +163,25 @@ export default function Dashboard() {
     router.push('/login')
   }
 
+  const handleDeactivate = async () => {
+    setDeactivating(true)
+    try {
+      const res = await fetch('/api/member', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: member.id, status: 'deactivated' }),
+      })
+      if (!res.ok) throw new Error('Failed')
+      localStorage.removeItem('member')
+      localStorage.removeItem('sessionTime')
+      router.push('/login?reason=deactivated')
+    } catch {
+      toast.error('Could not deactivate account. Please try again.')
+      setDeactivating(false)
+      setShowDeactivateModal(false)
+    }
+  }
+
   if (!member) return <div style={{background:s.bg,minHeight:'100vh'}}></div>
 
   const menuItems = [
@@ -177,7 +205,7 @@ export default function Dashboard() {
         {l.price_guide&&<div style={{fontSize:13,color:s.gold,marginTop:6}}>{l.price_guide}</div>}
       </div>
       <div style={{display:'flex',flexDirection:'column',gap:8,alignItems:'flex-end'}}>
-        <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',padding:'3px 10px',border:`1px solid`,color:l.status==='sold'?s.muted:s.gold,borderColor:l.status==='sold'?s.border:'rgba(155,109,255,0.5)'}}>{l.status}</div>
+        <div style={{fontSize:10,letterSpacing:'0.2em',textTransform:'uppercase',padding:'3px 10px',border:`1px solid`,color:l.status==='sold'?s.muted:s.gold,borderColor:l.status==='sold'?s.border:'rgba(184,146,58,0.5)'}}>{l.status}</div>
         <div style={{fontSize:11,color:s.muted}}>{l.created_at ? format(new Date(l.created_at), 'dd MMM yyyy') : 'N/A'}</div>
         <Link href={`/listings/edit/${l.id}`} style={{fontSize:11,color:s.gold,textDecoration:'none',border:`1px solid ${s.border}`,padding:'4px 10px'}}>Edit →</Link>
       </div>
@@ -200,7 +228,7 @@ export default function Dashboard() {
       <style>{`
         .mobile-nav{display:none;}
         @media(max-width:768px){
-          .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#162016;border-top:1px solid #2D4A2D;z-index:100;padding:8px 0;}
+          .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#F8F6F1;border-top:1px solid rgba(184,146,58,0.2);z-index:100;padding:8px 0;}
           .mobile-nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;cursor:pointer;border:none;background:none;}
           .main-content{padding-bottom:80px !important;}
         }
@@ -235,7 +263,7 @@ export default function Dashboard() {
                   <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:4}}>Member dashboard</div>
                   <h2 style={{fontSize:22,color:s.white,fontWeight:600}}>Welcome back, {member.firstName}</h2>
                 </div>
-                <Link href="/listings/new" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>+ New Listing</Link>
+                <Link href="/listings/new" style={{background:'#B8923A',color:'#fff',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>+ New Listing</Link>
               </div>
               <div className="metrics-grid" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12,marginBottom:28}}>
                 {[['My listings',listings.length],['Saved',saved.length],['Enquiries sent',enquiriesSent.length],['Enquiries received',enquiriesReceived.length]].map(([label,val])=>(
@@ -258,7 +286,7 @@ export default function Dashboard() {
               ) : (
                 <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center',marginBottom:28}}>
                   <div style={{fontSize:14,color:s.white,marginBottom:12,fontWeight:600}}>No listings yet</div>
-                  <Link href="/listings/new" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Upload a listing</Link>
+                  <Link href="/listings/new" style={{background:'#B8923A',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Upload a listing</Link>
                 </div>
               )}
               {enquiriesReceived.length > 0 && (
@@ -282,12 +310,12 @@ export default function Dashboard() {
             <>
               <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:28}}>
                 <h2 style={{fontSize:22,color:s.white,fontWeight:600}}>My listings</h2>
-                <Link href="/listings/new" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>+ New Listing</Link>
+                <Link href="/listings/new" style={{background:'#B8923A',color:'#fff',fontSize:13,fontWeight:500,padding:'8px 20px',textDecoration:'none'}}>+ New Listing</Link>
               </div>
               {listings.length === 0 ? (
                 <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
                   <div style={{fontSize:14,color:s.white,marginBottom:12}}>No listings yet</div>
-                  <Link href="/listings/new" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Upload a listing</Link>
+                  <Link href="/listings/new" style={{background:'#B8923A',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Upload a listing</Link>
                 </div>
               ) : (
                 <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
@@ -301,7 +329,7 @@ export default function Dashboard() {
             <div>
               <h2 style={{fontSize:22,color:s.white,fontWeight:600,marginBottom:16}}>Browse feed</h2>
               <p style={{color:s.muted,marginBottom:24,fontSize:14}}>Search and browse all active off market listings from verified members.</p>
-              <Link href="/listings" style={{display:'inline-block',background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'12px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Open full browse feed →</Link>
+              <Link href="/listings" style={{display:'inline-block',background:'#B8923A',color:'#fff',padding:'12px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Open full browse feed →</Link>
             </div>
           )}
 
@@ -311,7 +339,7 @@ export default function Dashboard() {
               {saved.length === 0 ? (
                 <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
                   <div style={{fontSize:14,color:s.white,marginBottom:12}}>No saved listings yet</div>
-                  <Link href="/listings" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse listings</Link>
+                  <Link href="/listings" style={{background:'#B8923A',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse listings</Link>
                 </div>
               ) : (
                 <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
@@ -357,7 +385,7 @@ export default function Dashboard() {
               {enquiriesSent.length === 0 ? (
                 <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,textAlign:'center'}}>
                   <div style={{fontSize:14,color:s.white,marginBottom:12}}>No enquiries sent yet</div>
-                  <Link href="/listings" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse listings</Link>
+                  <Link href="/listings" style={{background:'#B8923A',color:'#fff',padding:'10px 24px',fontSize:13,fontWeight:500,textDecoration:'none'}}>Browse listings</Link>
                 </div>
               ) : (
                 <div style={{display:'flex',flexDirection:'column',gap:1,background:s.border}}>
@@ -457,13 +485,58 @@ export default function Dashboard() {
             <>
               <h2 style={{fontSize:22,color:s.white,fontWeight:600,marginBottom:28}}>Settings</h2>
               <div style={{display:'flex',flexDirection:'column',gap:16,maxWidth:500}}>
-                {[["Change password","Update your login password","/profile/change-password"],["Email notifications","Get alerts for new listings and enquiries",""],["Account visibility","Control who can see your profile",""],["Deactivate account","Temporarily disable your account",""]].map(([title,desc,link])=>(
-                  <div key={title} style={{background:s.bg3,border:`1px solid ${s.border}`,padding:20,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                    <div><div style={{fontSize:14,color:s.white,fontWeight:600,marginBottom:4}}>{title}</div><div style={{fontSize:12,color:s.muted}}>{desc}</div></div>
-                    {link ? <Link href={link} style={{background:"none",border:`1px solid ${s.border}`,color:s.gold,fontSize:12,padding:"6px 14px",textDecoration:"none"}}>Manage</Link> : <button style={{background:"none",border:`1px solid ${s.border}`,color:s.muted,fontSize:12,padding:"6px 14px",cursor:"pointer"}}>Coming soon</button>}
-                  </div>
-                ))}
+
+                {/* Change password */}
+                <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:20,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <div><div style={{fontSize:14,color:s.white,fontWeight:600,marginBottom:4}}>Change password</div><div style={{fontSize:12,color:s.muted}}>Update your login password</div></div>
+                  <Link href="/profile/change-password" style={{background:'none',border:`1px solid ${s.border}`,color:s.gold,fontSize:12,padding:'6px 14px',textDecoration:'none'}}>Manage</Link>
+                </div>
+
+                {/* Email notifications */}
+                <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:20,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <div><div style={{fontSize:14,color:s.white,fontWeight:600,marginBottom:4}}>Email notifications</div><div style={{fontSize:12,color:s.muted}}>Get alerts for new listings and enquiries</div></div>
+                  <button
+                    onClick={() => { const next = !emailNotifs; setEmailNotifs(next); localStorage.setItem('emailNotifs', String(next)); toast.success(next ? 'Email notifications enabled' : 'Email notifications disabled') }}
+                    style={{width:44,height:24,borderRadius:12,border:'none',cursor:'pointer',background:emailNotifs?s.gold:'rgba(255,255,255,0.1)',position:'relative',transition:'background 0.2s',flexShrink:0}}
+                  >
+                    <span style={{position:'absolute',top:3,left:emailNotifs?22:3,width:18,height:18,borderRadius:'50%',background:'#fff',transition:'left 0.2s',display:'block'}}/>
+                  </button>
+                </div>
+
+                {/* Account visibility */}
+                <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:20,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <div><div style={{fontSize:14,color:s.white,fontWeight:600,marginBottom:4}}>Account visibility</div><div style={{fontSize:12,color:s.muted}}>{profileVisible ? 'Your profile is visible to other members' : 'Your profile is hidden from other members'}</div></div>
+                  <button
+                    onClick={() => { const next = !profileVisible; setProfileVisible(next); localStorage.setItem('profileVisible', String(next)); toast.success(next ? 'Profile is now visible' : 'Profile is now hidden') }}
+                    style={{width:44,height:24,borderRadius:12,border:'none',cursor:'pointer',background:profileVisible?s.gold:'rgba(255,255,255,0.1)',position:'relative',transition:'background 0.2s',flexShrink:0}}
+                  >
+                    <span style={{position:'absolute',top:3,left:profileVisible?22:3,width:18,height:18,borderRadius:'50%',background:'#fff',transition:'left 0.2s',display:'block'}}/>
+                  </button>
+                </div>
+
+                {/* Deactivate account */}
+                <div style={{background:s.bg3,border:`1px solid rgba(255,80,80,0.2)`,padding:20,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                  <div><div style={{fontSize:14,color:'#FF5050',fontWeight:600,marginBottom:4}}>Deactivate account</div><div style={{fontSize:12,color:s.muted}}>Temporarily disable your account</div></div>
+                  <button onClick={() => setShowDeactivateModal(true)} style={{background:'none',border:'1px solid rgba(255,80,80,0.4)',color:'#FF5050',fontSize:12,padding:'6px 14px',cursor:'pointer',borderRadius:4}}>Deactivate</button>
+                </div>
+
               </div>
+
+              {/* Deactivate confirmation modal */}
+              {showDeactivateModal && (
+                <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:1000}}>
+                  <div style={{background:s.bg2,border:`1px solid ${s.border}`,borderRadius:12,padding:32,maxWidth:400,width:'90%'}}>
+                    <div style={{fontSize:18,color:s.white,fontWeight:600,marginBottom:12}}>Deactivate account?</div>
+                    <div style={{fontSize:13,color:s.muted,marginBottom:24,lineHeight:1.6}}>Your account will be temporarily disabled. You won't be able to log in until you contact support to reactivate it.</div>
+                    <div style={{display:'flex',gap:12}}>
+                      <button onClick={() => setShowDeactivateModal(false)} style={{flex:1,padding:'10px',background:'none',border:`1px solid ${s.border}`,color:s.muted,fontSize:13,cursor:'pointer',borderRadius:6}}>Cancel</button>
+                      <button onClick={handleDeactivate} disabled={deactivating} style={{flex:1,padding:'10px',background:'rgba(255,80,80,0.15)',border:'1px solid rgba(255,80,80,0.4)',color:'#FF5050',fontSize:13,fontWeight:600,cursor:'pointer',borderRadius:6}}>
+                        {deactivating ? 'Deactivating...' : 'Yes, deactivate'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </>
           )}
 

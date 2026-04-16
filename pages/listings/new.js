@@ -4,7 +4,7 @@ import Nav from '../../components/Nav'
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',bg4:'#221E46',white:'#FFFFFF',cream:'#D4CFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)',borderGold:'rgba(255,209,102,0.25)',violet:'#9B6DFF',emerald:'#00E5A0',red:'#FF6B6B'}
+const s={gold:'#B8923A',goldDim:'rgba(184,146,58,0.1)',bg:'#F8F6F1',bg2:'#FFFFFF',bg3:'#F2EFE9',bg4:'#EAE6DE',white:'#1C1A17',cream:'#4A4640',muted:'#8A8178',mid:'#4A4640',border:'rgba(184,146,58,0.2)',borderGold:'rgba(184,146,58,0.35)',error:'#CC3333',silver:'#4A4640'}
 
 function DropZoneUploader({ onUpload, uploading }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -18,22 +18,22 @@ function DropZoneUploader({ onUpload, uploading }) {
 
   return (
     <div {...getRootProps()} style={{
-      border:`2px dashed ${isDragActive ? '#FFD166' : 'rgba(155,109,255,0.3)'}`,
+      border:`2px dashed ${isDragActive ? '#B8923A' : 'rgba(184,146,58,0.3)'}`,
       borderRadius: 10,
       padding:'48px 20px',
       textAlign:'center',
       cursor:'pointer',
-      background: isDragActive ? 'rgba(255,209,102,0.05)' : 'rgba(155,109,255,0.04)',
+      background: isDragActive ? 'rgba(201,169,110,0.05)' : 'rgba(201,169,110,0.04)',
       transition:'all 0.2s ease'
     }}>
       <input {...getInputProps()}/>
       <div style={{fontSize:36,marginBottom:12}}>📸</div>
       {isDragActive ? (
-        <div style={{fontSize:14,color:'#FFD166',fontWeight:500}}>Drop photos here...</div>
+        <div style={{fontSize:14,color:'#B8923A',fontWeight:500}}>Drop photos here...</div>
       ) : (
         <>
-          <div style={{fontSize:14,color:'#D4CFFF',marginBottom:6,fontWeight:500}}>{uploading ? 'Uploading...' : 'Drag & drop photos here'}</div>
-          <div style={{fontSize:12,color:'#8888BB'}}>or click to browse · JPG, PNG up to 10MB each</div>
+          <div style={{fontSize:14,color:'#4A4640',marginBottom:6,fontWeight:500}}>{uploading ? 'Uploading...' : 'Drag & drop photos here'}</div>
+          <div style={{fontSize:12,color:'#8A8178'}}>or click to browse · JPG, PNG up to 10MB each</div>
         </>
       )}
     </div>
@@ -171,13 +171,13 @@ export default function NewListing() {
     <div style={{background:s.bg,minHeight:'100vh',color:s.white}}>
       <Nav/>
       <style>{`
-        .pac-container { background:#1A1638 !important; border:1px solid rgba(155,109,255,0.25) !important; font-family:inherit !important; border-radius:8px !important; }
-        .pac-item { color:#D4CFFF !important; padding:8px 12px !important; cursor:pointer !important; border-top:1px solid rgba(155,109,255,0.1) !important; }
-        .pac-item:hover { background:#221E46 !important; }
-        .pac-item-query { color:#FFD166 !important; }
-        .pac-matched { color:#FFD166 !important; }
-        input::placeholder, textarea::placeholder { color:#8888BB; }
-        select option { background:#1A1638; }
+        .pac-container { background:#F2EFE9 !important; border:1px solid rgba(184,146,58,0.35) !important; font-family:inherit !important; border-radius:8px !important; }
+        .pac-item { color:#B8C4D4 !important; padding:8px 12px !important; cursor:pointer !important; border-top:1px solid rgba(184,146,58,0.1) !important; }
+        .pac-item:hover { background:#EAE6DE !important; }
+        .pac-item-query { color:#B8923A !important; }
+        .pac-matched { color:#B8923A !important; }
+        input::placeholder, textarea::placeholder { color:#8A8178; }
+        select option { background:#F2EFE9; }
       `}</style>
       <div style={{maxWidth:800,margin:'0 auto',padding:'48px 20px'}}>
         <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>New listing</div>
@@ -240,7 +240,7 @@ export default function NewListing() {
           <div style={{background:s.bg2,border:`1px solid ${s.border}`,borderRadius:12,padding:28}}>
             <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:20}}>Photos</div>
             <input type="file" accept="image/*" multiple onChange={handleImageUpload} style={{display:'none'}} id="imageUpload"/>
-            <label htmlFor="imageUpload" style={{display:'block',border:`2px dashed rgba(155,109,255,0.3)`,borderRadius:10,padding:'32px',textAlign:'center',cursor:'pointer',marginBottom:16,background:'rgba(155,109,255,0.04)'}}>
+            <label htmlFor="imageUpload" style={{display:'block',border:`2px dashed rgba(184,146,58,0.3)`,borderRadius:10,padding:'32px',textAlign:'center',cursor:'pointer',marginBottom:16,background:'rgba(201,169,110,0.04)'}}>
               <div style={{fontSize:32,marginBottom:8}}>📷</div>
               <div style={{fontSize:14,color:s.white,marginBottom:4}}>{uploading?'Uploading...':'Click to upload photos'}</div>
               <div style={{fontSize:12,color:s.muted}}>JPG, PNG up to 10MB each. Multiple allowed.</div>
@@ -257,7 +257,7 @@ export default function NewListing() {
             )}
           </div>
 
-          <button type="submit" disabled={loading} style={{background:`linear-gradient(135deg, ${s.violet}, ${s.gold})`,border:'none',color:s.white,fontSize:15,fontWeight:700,padding:16,cursor:loading?'not-allowed':'pointer',opacity:loading?0.7:1,borderRadius:10,boxShadow:'0 0 32px rgba(155,109,255,0.35)'}}>
+          <button type="submit" disabled={loading} style={{background:`linear-gradient(135deg, ${s.violet}, ${s.gold})`,border:'none',color:s.white,fontSize:15,fontWeight:700,padding:16,cursor:loading?'not-allowed':'pointer',opacity:loading?0.7:1,borderRadius:10,boxShadow:'0 0 32px rgba(184,146,58,0.35)'}}>
             {loading?'Uploading listing...':'Publish Listing →'}
           </button>
         </form>

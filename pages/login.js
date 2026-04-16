@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',white:'#FFFFFF',muted:'#8888BB',mid:'#D4CFFF',border:'rgba(155,109,255,0.15)',error:'#FF9500'}
+const s={gold:'#B8923A',goldDim:'rgba(184,146,58,0.1)',bg:'#F8F6F1',bg2:'#FFFFFF',bg3:'#F2EFE9',bg4:'#EAE6DE',white:'#1C1A17',cream:'#4A4640',muted:'#8A8178',mid:'#4A4640',border:'rgba(184,146,58,0.2)',borderGold:'rgba(184,146,58,0.35)',error:'#CC3333',silver:'#4A4640'}
 
 export default function Login() {
   const router = useRouter()
@@ -65,27 +65,27 @@ export default function Login() {
             <source src="/video3.mp4" type="video/mp4"/>
           </video>
           {/* Dark overlay */}
-          <div style={{position:'absolute',inset:0,background:'linear-gradient(160deg,rgba(13,10,26,0.85) 0%,rgba(13,10,26,0.60) 50%,rgba(13,10,26,0.80) 100%)'}}/>
+          <div style={{position:'absolute',inset:0,background:'linear-gradient(160deg,rgba(9,9,15,0.85) 0%,rgba(9,9,15,0.60) 50%,rgba(9,9,15,0.80) 100%)'}}/>
           {/* Colour glow */}
-          <div style={{position:'absolute',top:'-10%',left:'-10%',width:'70%',height:'60%',background:'radial-gradient(ellipse,rgba(155,109,255,0.18) 0%,transparent 65%)',pointerEvents:'none'}}/>
+          <div style={{position:'absolute',top:'-10%',left:'-10%',width:'70%',height:'60%',background:'radial-gradient(ellipse,rgba(201,169,110,0.18) 0%,transparent 65%)',pointerEvents:'none'}}/>
           {/* Content overlaid on video */}
           <div style={{position:'relative',zIndex:1,padding:'48px 40px',display:'flex',flexDirection:'column',justifyContent:'space-between',height:'100%'}}>
             <Link href="/" style={{textDecoration:'none'}}>
-              <img src="/goOffmarketlogo1.png" alt="Off Market Property Network" style={{height:86,width:'auto',objectFit:'contain'}}/>
+              <img src="/offmarkethublogo.png" alt="Off Market Property Network" style={{height:86,width:'auto',objectFit:'contain'}}/>
             </Link>
             <div>
               <div style={{fontSize:11,letterSpacing:'0.15em',color:s.gold,textTransform:'uppercase',marginBottom:14,opacity:0.9}}>Member review</div>
-              <p style={{fontSize:22,color:s.white,lineHeight:1.5,marginBottom:16,fontWeight:600}}>&ldquo;The only platform where I can share a prestige listing and know it&apos;s in front of qualified buyers agents.&rdquo;</p>
-              <span style={{fontSize:12,color:'rgba(212,207,255,0.7)'}}>Sarah H. · Selling agent · Gold Coast</span>
+              <p style={{fontSize:22,color:'#FFFFFF',lineHeight:1.5,marginBottom:16,fontWeight:600}}>&ldquo;The only platform where I can share a prestige listing and know it&apos;s in front of qualified buyers agents.&rdquo;</p>
+              <span style={{fontSize:12,color:'rgba(255,255,255,0.65)'}}>Sarah H. · Selling agent · Gold Coast</span>
             </div>
             <div style={{display:'flex',gap:40}}>
               <div>
-                <div style={{fontSize:28,color:s.gold,fontWeight:700,textShadow:'0 0 20px rgba(255,209,102,0.4)'}}>2,400+</div>
-                <div style={{fontSize:10,letterSpacing:'0.2em',color:'rgba(136,136,187,0.8)',textTransform:'uppercase',marginTop:4}}>Verified members</div>
+                <div style={{fontSize:28,color:s.gold,fontWeight:700}}>2,400+</div>
+                <div style={{fontSize:10,letterSpacing:'0.2em',color:'rgba(255,255,255,0.55)',textTransform:'uppercase',marginTop:4}}>Verified members</div>
               </div>
               <div>
-                <div style={{fontSize:28,color:s.gold,fontWeight:700,textShadow:'0 0 20px rgba(255,209,102,0.4)'}}>$1.8B</div>
-                <div style={{fontSize:10,letterSpacing:'0.2em',color:'rgba(136,136,187,0.8)',textTransform:'uppercase',marginTop:4}}>Off market value</div>
+                <div style={{fontSize:28,color:s.gold,fontWeight:700}}>$1.8B</div>
+                <div style={{fontSize:10,letterSpacing:'0.2em',color:'rgba(255,255,255,0.55)',textTransform:'uppercase',marginTop:4}}>Off market value</div>
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function Login() {
               <label style={lab}>Password</label>
               <input name="password" value={form.password} onChange={handleChange} type="password" placeholder="••••••••" style={input} required/>
             </div>
-            <button type="submit" disabled={loading} style={{background:loading?'rgba(155,109,255,0.5)':s.gold,border:'none',color:'#fff',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',marginTop:4,opacity:loading?0.8:1}}>
+            <button type="submit" disabled={loading} style={{background:loading?'rgba(201,169,110,0.5)':s.gold,border:'none',color:'#F8F6F1',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',marginTop:4,opacity:loading?0.8:1}}>
               {loading ? 'Signing in...' : 'Sign In →'}
             </button>
             <div style={{fontSize:12,color:s.muted,textAlign:'center'}}><Link href="/forgot-password" style={{color:s.gold,textDecoration:'none'}}>Forgot password?</Link></div>

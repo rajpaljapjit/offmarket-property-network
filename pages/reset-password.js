@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',white:'#FFFFFF',muted:'#8888BB',border:'rgba(155,109,255,0.15)',error:'#FF9500'}
+const s={gold:'#B8923A',goldDim:'rgba(184,146,58,0.1)',bg:'#F8F6F1',bg2:'#FFFFFF',bg3:'#F2EFE9',bg4:'#EAE6DE',white:'#1C1A17',cream:'#4A4640',muted:'#8A8178',mid:'#4A4640',border:'rgba(184,146,58,0.2)',borderGold:'rgba(184,146,58,0.35)',error:'#CC3333',silver:'#4A4640'}
 
 export default function ResetPassword() {
   const router = useRouter()
@@ -53,7 +53,7 @@ export default function ResetPassword() {
       <Nav/>
       <div style={{maxWidth:420,margin:'0 auto',padding:'80px 20px'}}>
         <div style={{textAlign:'center',marginBottom:40}}>
-          <img src="/goOffmarketlogo1.png" alt="Off Market Property Network" style={{height:62,marginBottom:16}}/>
+          <img src="/offmarkethublogo.png" alt="Off Market Property Network" style={{height:62,marginBottom:16}}/>
           <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase'}}>Password reset</div>
         </div>
         <div style={{background:s.bg2,border:`1px solid ${s.border}`,padding:36}}>
@@ -62,7 +62,7 @@ export default function ResetPassword() {
               <div style={{fontSize:48,marginBottom:16}}>✅</div>
               <h2 style={{fontSize:20,color:s.white,fontWeight:600,marginBottom:12}}>Password updated!</h2>
               <p style={{fontSize:13,color:s.muted,lineHeight:1.7,marginBottom:24}}>Your password has been successfully updated. You can now sign in with your new password.</p>
-              <Link href="/login" style={{display:'inline-block',background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'12px 24px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Sign in now →</Link>
+              <Link href="/login" style={{display:'inline-block',background:'#B8923A',color:'#fff',padding:'12px 24px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Sign in now →</Link>
             </div>
           ) : validToken === false ? (
             <div style={{textAlign:'center'}}>
@@ -85,7 +85,7 @@ export default function ResetPassword() {
                   <label style={lab}>Confirm new password *</label>
                   <input type="password" value={form.confirmPassword} onChange={e=>setForm({...form,confirmPassword:e.target.value})} placeholder="Repeat new password" style={input} required/>
                 </div>
-                <button type="submit" disabled={loading} style={{background:loading?'rgba(155,109,255,0.5)':s.gold,border:'none',color:'#fff',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
+                <button type="submit" disabled={loading} style={{background:loading?'rgba(201,169,110,0.5)':s.gold,border:'none',color:'#fff',fontSize:14,fontWeight:600,padding:14,cursor:loading?'not-allowed':'pointer',opacity:loading?0.8:1}}>
                   {loading?'Updating...':'Update password →'}
                 </button>
               </form>

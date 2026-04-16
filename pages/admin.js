@@ -9,22 +9,22 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 const c = {
-  bg:         '#0D0A1A',
-  bg2:        '#13102A',
-  bg3:        '#1A1638',
-  bg4:        '#221E46',
-  gold:       '#FFD166',
-  goldDim:    'rgba(255,209,102,0.1)',
-  violet:     '#9B6DFF',
-  violetDim:  'rgba(155,109,255,0.12)',
-  emerald:    '#00E5A0',
-  emeraldDim: 'rgba(0,229,160,0.1)',
+  bg:         '#F8F6F1',
+  bg2:        '#FFFFFF',
+  bg3:        '#F2EFE9',
+  bg4:        '#EAE6DE',
+  gold:       '#B8923A',
+  goldDim:    'rgba(184,146,58,0.1)',
+  violet:     '#B8923A',
+  violetDim:  'rgba(184,146,58,0.1)',
+  emerald:    '#6B9E82',
+  emeraldDim: 'rgba(107,158,130,0.1)',
   amber:      '#FF9500',
   white:      '#FFFFFF',
-  cream:      '#D4CFFF',
-  muted:      '#8888BB',
-  border:     'rgba(155,109,255,0.15)',
-  borderGold: 'rgba(255,209,102,0.2)',
+  cream:      '#4A4640',
+  muted:      '#8A8178',
+  border:     'rgba(184,146,58,0.2)',
+  borderGold: 'rgba(201,169,110,0.2)',
 }
 
 const CHART_TOOLTIP = { background: c.bg3, border: `1px solid ${c.border}`, color: c.gold, borderRadius: 8, fontSize: 12 }
@@ -38,7 +38,7 @@ const toChartData = (obj) => Object.entries(obj).map(([name, value]) => ({ name,
 
 const StatusBadge = ({ status }) => {
   const map = {
-    active:    { color: c.emerald, bg: c.emeraldDim, border: 'rgba(0,229,160,0.25)' },
+    active:    { color: c.emerald, bg: c.emeraldDim, border: 'rgba(107,158,130,0.25)' },
     pending:   { color: c.gold,    bg: c.goldDim,    border: c.borderGold },
     suspended: { color: c.amber,   bg: 'rgba(255,149,0,0.1)', border: 'rgba(255,149,0,0.25)' },
     rejected:  { color: c.muted,   bg: c.violetDim,  border: c.border },
@@ -182,7 +182,7 @@ export default function Admin() {
     <tr style={{ background: idx % 2 === 0 ? c.bg2 : c.bg3, borderBottom: `1px solid ${c.border}` }}>
       <td style={{ padding: '14px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: '50%', background: c.violetDim, border: `1px solid rgba(155,109,255,0.25)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: c.violet, flexShrink: 0 }}>
+          <div style={{ width: 36, height: 36, borderRadius: '50%', background: c.violetDim, border: `1px solid rgba(184,146,58,0.35)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: c.violet, flexShrink: 0 }}>
             {m.first_name?.[0]}{m.last_name?.[0]}
           </div>
           <div>
@@ -206,13 +206,13 @@ export default function Admin() {
       <td style={{ padding: '14px 16px' }}><StatusBadge status={m.status} /></td>
       <td style={{ padding: '14px 16px' }}>
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          <button onClick={() => setViewMember(m)} style={{ ...btnStyle, background: c.violetDim, color: c.violet, border: `1px solid rgba(155,109,255,0.25)` }}>View</button>
+          <button onClick={() => setViewMember(m)} style={{ ...btnStyle, background: c.violetDim, color: c.violet, border: `1px solid rgba(184,146,58,0.35)` }}>View</button>
           {m.status === 'pending' && <>
-            <button onClick={() => updateMemberStatus(m.id, 'active')}   style={{ ...btnStyle, background: c.emeraldDim, color: c.emerald, border: '1px solid rgba(0,229,160,0.25)' }}>✓ Approve</button>
+            <button onClick={() => updateMemberStatus(m.id, 'active')}   style={{ ...btnStyle, background: c.emeraldDim, color: c.emerald, border: '1px solid rgba(107,158,130,0.25)' }}>✓ Approve</button>
             <button onClick={() => updateMemberStatus(m.id, 'rejected')} style={{ ...btnStyle, background: 'rgba(255,149,0,0.1)', color: c.amber, border: '1px solid rgba(255,149,0,0.25)' }}>✗ Reject</button>
           </>}
           {m.status === 'active' && <button onClick={() => updateMemberStatus(m.id, 'suspended')} style={{ ...btnStyle, background: 'rgba(255,149,0,0.1)', color: c.amber, border: '1px solid rgba(255,149,0,0.25)' }}>Suspend</button>}
-          {m.status === 'suspended' && <button onClick={() => updateMemberStatus(m.id, 'active')} style={{ ...btnStyle, background: c.emeraldDim, color: c.emerald, border: '1px solid rgba(0,229,160,0.25)' }}>Reinstate</button>}
+          {m.status === 'suspended' && <button onClick={() => updateMemberStatus(m.id, 'active')} style={{ ...btnStyle, background: c.emeraldDim, color: c.emerald, border: '1px solid rgba(107,158,130,0.25)' }}>Reinstate</button>}
           <button onClick={() => deleteMember(m.id)} style={{ ...btnStyle, background: 'rgba(255,149,0,0.08)', color: c.amber, border: '1px solid rgba(255,149,0,0.15)' }}>Delete</button>
         </div>
       </td>
@@ -255,7 +255,7 @@ export default function Admin() {
       <div style={{ background: c.bg2, borderBottom: `1px solid ${c.border}`, padding: '0 24px' }}>
         <div style={{ maxWidth: 1300, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <img src="/goOffmarketlogo1.png" alt="OMPN" style={{ height: 52 }} />
+            <img src="/offmarkethublogo.png" alt="OMPN" style={{ height: 52 }} />
             <div>
               <div style={{ fontSize: 11, letterSpacing: '0.25em', color: c.gold, textTransform: 'uppercase', fontWeight: 600 }}>Admin Panel</div>
               <div style={{ fontSize: 11, color: c.muted, marginTop: 1 }}>Network management</div>
@@ -364,7 +364,7 @@ export default function Admin() {
                           <stop offset="95%" stopColor={c.violet} stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid stroke="rgba(155,109,255,0.08)" />
+                      <CartesianGrid stroke="rgba(201,169,110,0.08)" />
                       <XAxis dataKey="name" tick={{ fill: c.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: c.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
                       <Tooltip contentStyle={CHART_TOOLTIP} />
@@ -453,7 +453,7 @@ export default function Admin() {
                           </td>
                           <td style={{ padding: '12px 16px' }}><StatusBadge status={l.status} /></td>
                           <td style={{ padding: '12px 16px' }}>
-                            <Link href={`/listings/${l.id}`} style={{ ...btnStyle, background: c.violetDim, color: c.violet, border: `1px solid rgba(155,109,255,0.25)`, textDecoration: 'none', display: 'inline-block' }}>View →</Link>
+                            <Link href={`/listings/${l.id}`} style={{ ...btnStyle, background: c.violetDim, color: c.violet, border: `1px solid rgba(184,146,58,0.35)`, textDecoration: 'none', display: 'inline-block' }}>View →</Link>
                           </td>
                         </tr>
                       ))}
@@ -495,7 +495,7 @@ export default function Admin() {
                 <ChartCard title="Members by role">
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={membersByRole}>
-                      <CartesianGrid stroke="rgba(155,109,255,0.06)" vertical={false} />
+                      <CartesianGrid stroke="rgba(201,169,110,0.06)" vertical={false} />
                       <XAxis dataKey="name" tick={{ fill: c.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: c.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
                       <Tooltip contentStyle={CHART_TOOLTIP} cursor={{ fill: c.goldDim }} />
@@ -508,7 +508,7 @@ export default function Admin() {
                 <ChartCard title="Listings by state">
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={listingsByState}>
-                      <CartesianGrid stroke="rgba(155,109,255,0.06)" vertical={false} />
+                      <CartesianGrid stroke="rgba(201,169,110,0.06)" vertical={false} />
                       <XAxis dataKey="name" tick={{ fill: c.muted, fontSize: 11 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: c.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
                       <Tooltip contentStyle={CHART_TOOLTIP} cursor={{ fill: c.emeraldDim }} />
@@ -539,7 +539,7 @@ export default function Admin() {
                           <stop offset="95%" stopColor={c.emerald} stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid stroke="rgba(155,109,255,0.06)" />
+                      <CartesianGrid stroke="rgba(201,169,110,0.06)" />
                       <XAxis dataKey="name" tick={{ fill: c.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: c.muted, fontSize: 10 }} axisLine={false} tickLine={false} />
                       <Tooltip contentStyle={CHART_TOOLTIP} />
@@ -597,7 +597,7 @@ export default function Admin() {
             <div style={{ display: 'flex', gap: 10 }}>
               {viewMember.status === 'pending' && <>
                 <button onClick={() => { updateMemberStatus(viewMember.id, 'active'); setViewMember(null) }}
-                  style={{ flex: 1, background: c.emeraldDim, border: '1px solid rgba(0,229,160,0.3)', color: c.emerald, fontSize: 13, fontWeight: 700, padding: 12, cursor: 'pointer', borderRadius: 8 }}>✓ Approve</button>
+                  style={{ flex: 1, background: c.emeraldDim, border: '1px solid rgba(107,158,130,0.3)', color: c.emerald, fontSize: 13, fontWeight: 700, padding: 12, cursor: 'pointer', borderRadius: 8 }}>✓ Approve</button>
                 <button onClick={() => { updateMemberStatus(viewMember.id, 'rejected'); setViewMember(null) }}
                   style={{ flex: 1, background: 'rgba(255,149,0,0.08)', border: '1px solid rgba(255,149,0,0.25)', color: c.amber, fontSize: 13, padding: 12, cursor: 'pointer', borderRadius: 8 }}>✗ Reject</button>
               </>}
@@ -607,7 +607,7 @@ export default function Admin() {
               )}
               {viewMember.status === 'suspended' && (
                 <button onClick={() => { updateMemberStatus(viewMember.id, 'active'); setViewMember(null) }}
-                  style={{ flex: 1, background: c.emeraldDim, border: '1px solid rgba(0,229,160,0.3)', color: c.emerald, fontSize: 13, fontWeight: 700, padding: 12, cursor: 'pointer', borderRadius: 8 }}>Reinstate</button>
+                  style={{ flex: 1, background: c.emeraldDim, border: '1px solid rgba(107,158,130,0.3)', color: c.emerald, fontSize: 13, fontWeight: 700, padding: 12, cursor: 'pointer', borderRadius: 8 }}>Reinstate</button>
               )}
               <button onClick={() => setViewMember(null)}
                 style={{ flex: 1, background: c.violetDim, border: `1px solid ${c.border}`, color: c.muted, fontSize: 13, padding: 12, cursor: 'pointer', borderRadius: 8 }}>Close</button>

@@ -24,57 +24,29 @@ export default function App({ Component, pageProps }) {
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#1F2E1F',
-            color: '#C9A84C',
-            border: '1px solid #2D4A2D',
+            background: '#0E1117',
+            color: '#C9A96E',
+            border: '1px solid rgba(201,169,110,0.2)',
             fontSize: '13px',
-            fontFamily: 'Arial, sans-serif',
+            fontFamily: "'Inter', -apple-system, sans-serif",
+            borderRadius: '6px',
           },
           success: {
             iconTheme: {
-              primary: '#C9A84C',
-              secondary: '#1F2E1F',
+              primary: '#C9A96E',
+              secondary: '#0E1117',
             },
           },
           error: {
             style: {
-              background: '#2A1B1B',
+              background: '#160F0F',
               color: '#E24B4A',
-              border: '1px solid #4A2D2D',
+              border: '1px solid rgba(226,75,74,0.25)',
+              borderRadius: '6px',
             },
             iconTheme: {
               primary: '#E24B4A',
-              secondary: '#2A1B1B',
-            },
-          },
-        }}
-      />
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: '#1F2E1F',
-            color: '#C9A84C',
-            border: '1px solid #2D4A2D',
-            fontSize: '13px',
-            fontFamily: 'Arial, sans-serif',
-          },
-          success: {
-            iconTheme: {
-              primary: '#C9A84C',
-              secondary: '#1F2E1F',
-            },
-          },
-          error: {
-            style: {
-              background: '#2A1B1B',
-              color: '#E24B4A',
-              border: '1px solid #4A2D2D',
-            },
-            iconTheme: {
-              primary: '#E24B4A',
-              secondary: '#2A1B1B',
+              secondary: '#160F0F',
             },
           },
         }}

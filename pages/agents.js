@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-const s={gold:'#FFD166',bg:'#0D0A1A',bg2:'#13102A',bg3:'#1A1638',bg4:'#221E46',white:'#FFFFFF',muted:'#8888BB',mid:'#D4CFFF',border:'rgba(155,109,255,0.15)',silver:'#D4CFFF',error:'#FF9500'}
+const s={gold:'#B8923A',goldDim:'rgba(184,146,58,0.1)',bg:'#F8F6F1',bg2:'#FFFFFF',bg3:'#F2EFE9',bg4:'#EAE6DE',white:'#1C1A17',cream:'#4A4640',muted:'#8A8178',mid:'#4A4640',border:'rgba(184,146,58,0.2)',borderGold:'rgba(184,146,58,0.35)',error:'#CC3333',silver:'#4A4640'}
 
 export default function Agents() {
   const [member, setMember] = useState(null)
@@ -64,7 +64,7 @@ export default function Agents() {
     <div style={{background:s.bg,color:s.white,minHeight:'100vh'}}>
       <Nav/>
       <style>{`
-        .agents-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2D4A2D;}
+        .agents-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(184,146,58,0.1);}
         @media(max-width:900px){.agents-grid{grid-template-columns:repeat(2,1fr);}}
         @media(max-width:600px){.agents-grid{grid-template-columns:1fr;}}
       `}</style>
@@ -79,7 +79,7 @@ export default function Agents() {
             <h2 style={{fontSize:22,color:s.white,marginBottom:12,fontWeight:600}}>Members only</h2>
             <p style={{color:s.muted,marginBottom:24,maxWidth:400,margin:'0 auto 24px'}}>The agent directory is exclusively available to verified members.</p>
             <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap'}}>
-              <Link href="/login" style={{background:'linear-gradient(135deg,#9B6DFF,#FFD166)',color:'#fff',padding:'14px 28px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Sign in to view agents</Link>
+              <Link href="/login" style={{background:'#B8923A',color:'#fff',padding:'14px 28px',fontSize:14,fontWeight:600,textDecoration:'none'}}>Sign in to view agents</Link>
               <Link href="/signup" style={{border:`1px solid ${s.silver}`,color:s.silver,padding:'14px 28px',fontSize:14,textDecoration:'none'}}>Join free</Link>
             </div>
           </div>

@@ -8,20 +8,20 @@ import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
 const c = {
-  bg:         '#0D0A1A',
-  bg2:        '#13102A',
-  bg3:        '#1A1638',
-  bg4:        '#221E46',
-  gold:       '#FFD166',
-  goldDim:    'rgba(255,209,102,0.1)',
-  violet:     '#9B6DFF',
-  violetDim:  'rgba(155,109,255,0.1)',
-  emerald:    '#00E5A0',
+  bg:         '#F8F6F1',
+  bg2:        '#FFFFFF',
+  bg3:        '#F2EFE9',
+  bg4:        '#EAE6DE',
+  gold:       '#B8923A',
+  goldDim:    'rgba(184,146,58,0.1)',
+  violet:     '#B8923A',
+  violetDim:  'rgba(184,146,58,0.1)',
+  emerald:    '#6B9E82',
   white:      '#FFFFFF',
-  cream:      '#D4CFFF',
-  muted:      '#8888BB',
-  border:     'rgba(155,109,255,0.15)',
-  borderGold: 'rgba(255,209,102,0.2)',
+  cream:      '#4A4640',
+  muted:      '#8A8178',
+  border:     'rgba(184,146,58,0.2)',
+  borderGold: 'rgba(201,169,110,0.2)',
 }
 
 export default function ListingDetail() {
@@ -139,7 +139,7 @@ export default function ListingDetail() {
                     src={images[activePhoto]} alt={listing.title}
                     style={{ width: '100%', height: 420, objectFit: 'cover', display: 'block' }}
                   />
-                  <div style={{ position: 'absolute', bottom: 14, right: 14, background: 'rgba(13,10,26,0.75)', border: `1px solid ${c.border}`, borderRadius: 8, padding: '5px 12px', fontSize: 11, color: c.cream, backdropFilter: 'blur(8px)' }}>
+                  <div style={{ position: 'absolute', bottom: 14, right: 14, background: 'rgba(9,9,15,0.75)', border: `1px solid ${c.border}`, borderRadius: 8, padding: '5px 12px', fontSize: 11, color: c.cream, backdropFilter: 'blur(8px)' }}>
                     🔍 {activePhoto + 1} / {images.length}
                   </div>
                 </div>
@@ -240,7 +240,7 @@ export default function ListingDetail() {
               <div style={{ marginBottom: 20, paddingBottom: 20, borderBottom: `1px solid ${c.border}` }}>
                 <div style={{ fontSize: 10, letterSpacing: '0.25em', color: c.muted, textTransform: 'uppercase', marginBottom: 12 }}>Listed by</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: c.violetDim, border: `1px solid rgba(155,109,255,0.3)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 700, color: c.violet, flexShrink: 0 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: c.violetDim, border: `1px solid rgba(184,146,58,0.3)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 700, color: c.violet, flexShrink: 0 }}>
                     {listing.first_name?.[0]}{listing.last_name?.[0]}
                   </div>
                   <div>
@@ -287,10 +287,10 @@ export default function ListingDetail() {
                     onClick={handleEnquiry}
                     disabled={enquiryLoading}
                     style={{
-                      width: '100%', background: enquiryLoading ? 'rgba(155,109,255,0.4)' : `linear-gradient(135deg, ${c.violet}, ${c.gold})`,
+                      width: '100%', background: enquiryLoading ? 'rgba(184,146,58,0.45)' : `linear-gradient(135deg, ${c.violet}, ${c.gold})`,
                       border: 'none', color: '#fff', fontSize: 15, fontWeight: 700, padding: '14px',
                       borderRadius: 10, cursor: enquiryLoading ? 'not-allowed' : 'pointer',
-                      boxShadow: enquiryLoading ? 'none' : '0 0 28px rgba(155,109,255,0.3)',
+                      boxShadow: enquiryLoading ? 'none' : '0 0 28px rgba(184,146,58,0.3)',
                       transition: 'opacity 0.2s',
                     }}
                   >
@@ -298,7 +298,7 @@ export default function ListingDetail() {
                   </button>
                 )
               ) : (
-                <Link href="/login" style={{ display: 'block', background: `linear-gradient(135deg, ${c.violet}, ${c.gold})`, color: '#fff', fontSize: 15, fontWeight: 700, padding: '14px', textAlign: 'center', textDecoration: 'none', borderRadius: 10, boxShadow: '0 0 28px rgba(155,109,255,0.3)' }}>
+                <Link href="/login" style={{ display: 'block', background: `linear-gradient(135deg, ${c.violet}, ${c.gold})`, color: '#fff', fontSize: 15, fontWeight: 700, padding: '14px', textAlign: 'center', textDecoration: 'none', borderRadius: 10, boxShadow: '0 0 28px rgba(184,146,58,0.3)' }}>
                   Sign in to enquire →
                 </Link>
               )}
