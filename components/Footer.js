@@ -17,7 +17,7 @@ export default function Footer() {
           {[
             { title: 'Network', links: [['/', 'Home'], ['/how-it-works', 'How it works'], ['/listings', 'Listings'], ['/agents', 'Agents'], ['/pricing', 'Pricing']] },
             { title: 'Account', links: [['/login', 'Sign in'], ['/signup', 'Join free'], ['/dashboard', 'Dashboard']] },
-            { title: 'Legal', links: [['/privacy', 'Privacy policy'], ['/terms', 'Terms of use']] },
+            { title: 'Company', links: [['/about', 'About us'], ['/contact', 'Contact us'], ['/privacy', 'Privacy policy'], ['/terms', 'Terms of use']] },
           ].map(col => (
             <div key={col.title}>
               <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.35em', color: '#B8923A', textTransform: 'uppercase', marginBottom: 16 }}>{col.title}</div>
