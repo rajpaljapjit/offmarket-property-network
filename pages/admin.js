@@ -28,7 +28,7 @@ const c = {
 }
 
 const CHART_TOOLTIP = { background: c.bg3, border: `1px solid ${c.border}`, color: c.gold, borderRadius: 8, fontSize: 12 }
-const ADMIN_USERNAME = process.env.NEXT_PUBLIC_ADMIN_USERNAME || 'admin'
+const ADMIN_USERNAME = 'omhadminlogin'
 
 // ── helpers ──────────────────��───────────────────────────
 const groupBy = (arr, key) =>
