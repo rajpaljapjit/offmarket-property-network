@@ -70,10 +70,7 @@ export default function BuyersAgent() {
 
       {/* ── HERO ── */}
       <section style={{ position: 'relative', minHeight: '95vh', display: 'flex', alignItems: 'center', overflow: 'hidden', padding: '60px 0' }}>
-        <video autoPlay muted loop playsInline poster="/Heroimage.png"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}>
-          <source src="/video1.mp4" type="video/mp4" />
-        </video>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/hero image6..jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(9,9,15,0.90) 0%, rgba(9,9,15,0.70) 60%, rgba(9,9,15,0.85) 100%)' }} />
         <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '55%', height: '70%', background: 'radial-gradient(ellipse, rgba(184,146,58,0.18) 0%, transparent 65%)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '0', right: '0', width: '45%', height: '55%', background: 'radial-gradient(ellipse, rgba(107,158,130,0.1) 0%, transparent 65%)', pointerEvents: 'none' }} />
