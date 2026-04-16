@@ -15,18 +15,18 @@ export default async function handler(req, res) {
 
   const { username, password, key } = req.body
 
-  const expectedKey = process.env.ADMIN_SECRET_KEY
-  const expectedUsername = process.env.ADMIN_USERNAME || 'ompnadminlogin'
+  const expectedKey = (process.env.ADMIN_SECRET_KEY || '').trim()
+  const expectedUsername = (process.env.ADMIN_USERNAME || 'omhadminlogin').trim()
 
   if (!expectedKey || !expectedUsername) {
     return res.status(500).json({ error: 'Admin configuration error.' })
   }
 
-  if (key !== expectedKey) {
+  if (key.trim() !== expectedKey) {
     return res.status(401).json({ error: 'Invalid admin key.' })
   }
 
-  if (username !== expectedUsername) {
+  if (username.trim() !== expectedUsername) {
     return res.status(401).json({ error: 'Invalid admin credentials.' })
   }
 
