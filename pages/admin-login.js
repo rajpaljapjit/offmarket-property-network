@@ -43,6 +43,7 @@ export default function AdminLogin() {
       else {
         localStorage.setItem('member', JSON.stringify(data.member))
         localStorage.setItem('adminAuth', 'true')
+        sessionStorage.setItem('adminKey', form.key.trim())
         router.push('/admin')
       }
     } catch { setError('Something went wrong.') }

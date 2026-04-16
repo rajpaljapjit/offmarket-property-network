@@ -101,13 +101,12 @@ export default function Admin() {
   const fetchAll = async () => {
     setLoading(true)
     try {
-      const db = await getSupabase()
-      const [mRes, lRes] = await Promise.all([
-        db.from('members').select('*').neq('username', ADMIN_USERNAME),
-        db.from('listings').select('*'),
-      ])
-      setMembers(mRes.data || [])
-      setListings(lRes.data || [])
+      const res = await fetch('/api/admin-data', {
+        headers: { 'x-admin-key': sessionStorage.getItem('adminKey') || '' }
+      })
+      const data = await res.json()
+      setMembers(data.members || [])
+      setListings(data.listings || [])
     } catch (err) { console.error(err) }
     setLoading(false)
   }
@@ -116,7 +115,7 @@ export default function Admin() {
     try {
       await fetch('/api/approve-member', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-admin-key': process.env.NEXT_PUBLIC_ADMIN_KEY || '' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': sessionStorage.getItem('adminKey') || '' },
         body: JSON.stringify({ memberId: id, status }),
       })
     } catch (e) { console.error(e) }
@@ -125,8 +124,11 @@ export default function Admin() {
 
   const deleteMember = async (id) => {
     if (!confirm('Delete this member? This cannot be undone.')) return
-    const db = await getSupabase()
-    await db.from('members').delete().eq('id', id)
+    await fetch('/api/admin-data', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': sessionStorage.getItem('adminKey') || '' },
+      body: JSON.stringify({ memberId: id }),
+    })
     await fetchAll()
   }
 
