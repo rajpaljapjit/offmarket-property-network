@@ -50,7 +50,8 @@ export default async function handler(req, res) {
 
     if (listingMemberEmail) {
       try {
-        const resendKey = process.env.RESEND_API_KEY || 're_bmLA4KoW_HFXWiJj5w7yu27hwHkeb5hBd'
+        const resendKey = process.env.RESEND_API_KEY
+        if (!resendKey) { console.error('RESEND_API_KEY not set'); }
         await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
