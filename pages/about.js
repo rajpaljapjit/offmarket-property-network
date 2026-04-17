@@ -36,7 +36,7 @@ export default function About() {
 
       {/* Hero */}
       <div style={{ position: 'relative', minHeight: '55vh', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/Heroimage.png)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/nightnetworking.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(9,9,15,0.88) 0%, rgba(9,9,15,0.65) 60%, rgba(9,9,15,0.85) 100%)' }} />
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 1200, margin: '0 auto', padding: '80px 40px' }}>
           <div style={{ fontSize: 11, letterSpacing: '0.4em', color: s.gold, textTransform: 'uppercase', marginBottom: 20, fontWeight: 700 }}>About Us</div>
