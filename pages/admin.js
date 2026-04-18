@@ -81,6 +81,10 @@ export default function Admin() {
   const [viewMember, setViewMember] = useState(null)
   const [memberSearch, setMemberSearch] = useState('')
   const [listingSearch, setListingSearch] = useState('')
+  const [showPostModal, setShowPostModal] = useState(false)
+  const [postForm, setPostForm] = useState({ memberId: '', title: '', description: '', propertyType: 'House', bedrooms: '', bathrooms: '', carSpaces: '', landSize: '', priceGuide: '', streetAddress: '', suburb: '', state: 'QLD', postcode: '' })
+  const [postLoading, setPostLoading] = useState(false)
+  const [postError, setPostError] = useState('')
 
   useEffect(() => {
     const stored = localStorage.getItem('member')
@@ -131,6 +135,46 @@ export default function Admin() {
       body: JSON.stringify({ memberId: id }),
     })
     await fetchAll()
+  }
+
+  const deleteListing = async (id) => {
+    if (!confirm('Delete this listing? This cannot be undone.')) return
+    await fetch('/api/admin-data', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': sessionStorage.getItem('adminKey') || '' },
+      body: JSON.stringify({ listingId: id }),
+    })
+    await fetchAll()
+  }
+
+  const handlePostListing = async (e) => {
+    e.preventDefault()
+    setPostError('')
+    setPostLoading(true)
+    const selectedMember = members.find(m => m.id === postForm.memberId)
+    if (!selectedMember) { setPostError('Please select a member.'); setPostLoading(false); return }
+    try {
+      const res = await fetch('/api/listings/create-admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': sessionStorage.getItem('adminKey') || '' },
+        body: JSON.stringify({
+          memberId: selectedMember.id,
+          firstName: selectedMember.first_name,
+          lastName: selectedMember.last_name,
+          agency: selectedMember.agency,
+          ...postForm,
+          images: [],
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) { setPostError(data.error || 'Failed to post listing.') }
+      else {
+        setShowPostModal(false)
+        setPostForm({ memberId: '', title: '', description: '', propertyType: 'House', bedrooms: '', bathrooms: '', carSpaces: '', landSize: '', priceGuide: '', streetAddress: '', suburb: '', state: 'QLD', postcode: '' })
+        await fetchAll()
+      }
+    } catch { setPostError('Something went wrong.') }
+    setPostLoading(false)
   }
 
   const handleLogout = () => {
@@ -419,10 +463,11 @@ export default function Admin() {
             </div>
           ) : activeTab === 'Listings' ? (
             <div>
-              <div style={{ padding: '16px 24px', borderBottom: `1px solid ${c.border}`, display: 'flex', gap: 12, alignItems: 'center' }}>
+              <div style={{ padding: '16px 24px', borderBottom: `1px solid ${c.border}`, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
                 <input type="text" placeholder="Search listings..." value={listingSearch} onChange={e => setListingSearch(e.target.value)}
                   style={{ background: c.bg3, border: `1px solid ${c.border}`, color: c.white, fontSize: 13, padding: '8px 14px', borderRadius: 8, outline: 'none', width: 280 }} />
                 <span style={{ fontSize: 12, color: c.muted }}>{filteredListings.length} listings</span>
+                <button onClick={() => setShowPostModal(true)} style={{ ...btnStyle, background: c.goldDim, color: c.gold, border: `1px solid ${c.borderGold}`, fontSize: 12, padding: '7px 16px', marginLeft: 'auto' }}>+ Post listing on behalf</button>
               </div>
               {filteredListings.length === 0 ? (
                 <div style={{ padding: 60, textAlign: 'center', color: c.muted }}>No listings yet</div>
@@ -458,7 +503,10 @@ export default function Admin() {
                           </td>
                           <td style={{ padding: '12px 16px' }}><StatusBadge status={l.status} /></td>
                           <td style={{ padding: '12px 16px' }}>
-                            <Link href={`/listings/${l.id}`} style={{ ...btnStyle, background: c.violetDim, color: c.violet, border: `1px solid rgba(184,146,58,0.35)`, textDecoration: 'none', display: 'inline-block' }}>View →</Link>
+                            <div style={{ display: 'flex', gap: 6 }}>
+                              <Link href={`/listings/${l.id}`} style={{ ...btnStyle, background: c.violetDim, color: c.violet, border: `1px solid rgba(184,146,58,0.35)`, textDecoration: 'none', display: 'inline-block' }}>View →</Link>
+                              <button onClick={() => deleteListing(l.id)} style={{ ...btnStyle, background: 'rgba(255,80,80,0.08)', color: '#FF5050', border: '1px solid rgba(255,80,80,0.25)' }}>Delete</button>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -558,7 +606,78 @@ export default function Admin() {
         </div>
       </div>
 
-      {/* ── MEMBER DETAIL MODAL ───────────────��──── */}
+      {/* ── POST LISTING MODAL ─────────────────── */}
+      {showPostModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, backdropFilter: 'blur(4px)' }}
+          onClick={() => setShowPostModal(false)}>
+          <div style={{ background: c.bg2, border: `1px solid ${c.border}`, borderRadius: 16, padding: 32, maxWidth: 640, width: '100%', maxHeight: '90vh', overflowY: 'auto' }}
+            onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+              <div>
+                <div style={{ fontSize: 10, letterSpacing: '0.25em', color: c.gold, textTransform: 'uppercase', marginBottom: 4 }}>Admin action</div>
+                <h2 style={{ fontSize: 20, color: c.white, fontWeight: 700 }}>Post listing on behalf of member</h2>
+              </div>
+              <button onClick={() => setShowPostModal(false)} style={{ background: c.violetDim, border: `1px solid ${c.border}`, color: c.muted, fontSize: 16, cursor: 'pointer', width: 32, height: 32, borderRadius: 8 }}>✕</button>
+            </div>
+            {postError && <div style={{ background: 'rgba(255,80,80,0.08)', border: '1px solid rgba(255,80,80,0.25)', padding: '10px 14px', marginBottom: 16, fontSize: 13, color: '#FF5050', borderRadius: 6 }}>{postError}</div>}
+            <form onSubmit={handlePostListing} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {[
+                { label: 'Member', field: 'memberId', type: 'select' },
+                { label: 'Title *', field: 'title', placeholder: 'e.g. Prestige waterfront opportunity' },
+                { label: 'Description', field: 'description', type: 'textarea', placeholder: 'Describe the property...' },
+                { label: 'Price guide', field: 'priceGuide', placeholder: 'e.g. $1.2M - $1.4M' },
+                { label: 'Street address *', field: 'streetAddress', placeholder: '123 Main St' },
+                { label: 'Suburb *', field: 'suburb', placeholder: 'Suburb' },
+                { label: 'Postcode *', field: 'postcode', placeholder: '4000' },
+              ].map(({ label, field, type, placeholder }) => {
+                const inp = { background: c.bg3, border: `1px solid ${c.border}`, color: c.white, fontSize: 13, padding: '10px 12px', width: '100%', boxSizing: 'border-box', borderRadius: 6, outline: 'none' }
+                return (
+                  <div key={field}>
+                    <label style={{ fontSize: 11, letterSpacing: '0.15em', color: c.muted, textTransform: 'uppercase', marginBottom: 5, display: 'block' }}>{label}</label>
+                    {type === 'select' ? (
+                      <select value={postForm.memberId} onChange={e => setPostForm({ ...postForm, memberId: e.target.value })} style={{ ...inp, padding: '10px 12px' }} required>
+                        <option value="">Select a member...</option>
+                        {members.filter(m => m.status === 'active').map(m => (
+                          <option key={m.id} value={m.id}>{m.first_name} {m.last_name} — @{m.username} ({m.agency})</option>
+                        ))}
+                      </select>
+                    ) : type === 'textarea' ? (
+                      <textarea value={postForm[field]} onChange={e => setPostForm({ ...postForm, [field]: e.target.value })} placeholder={placeholder} style={{ ...inp, height: 80, resize: 'vertical' }} />
+                    ) : (
+                      <input value={postForm[field]} onChange={e => setPostForm({ ...postForm, [field]: e.target.value })} placeholder={placeholder} style={inp} required={label.includes('*')} />
+                    )}
+                  </div>
+                )
+              })}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+                {[['propertyType', 'Property type', ['House','Apartment','Townhouse','Villa','Land','Acreage','Rural','Commercial','Other']],
+                  ['state', 'State', ['QLD','NSW','VIC','WA','SA','TAS','ACT','NT']]].map(([field, label, opts]) => (
+                  <div key={field}>
+                    <label style={{ fontSize: 11, letterSpacing: '0.15em', color: c.muted, textTransform: 'uppercase', marginBottom: 5, display: 'block' }}>{label}</label>
+                    <select value={postForm[field]} onChange={e => setPostForm({ ...postForm, [field]: e.target.value })} style={{ background: c.bg3, border: `1px solid ${c.border}`, color: c.white, fontSize: 13, padding: '10px 12px', width: '100%', borderRadius: 6, outline: 'none' }}>
+                      {opts.map(o => <option key={o}>{o}</option>)}
+                    </select>
+                  </div>
+                ))}
+                {[['bedrooms','Beds'],['bathrooms','Baths'],['carSpaces','Cars']].map(([field, label]) => (
+                  <div key={field}>
+                    <label style={{ fontSize: 11, letterSpacing: '0.15em', color: c.muted, textTransform: 'uppercase', marginBottom: 5, display: 'block' }}>{label}</label>
+                    <input type="number" min="0" value={postForm[field]} onChange={e => setPostForm({ ...postForm, [field]: e.target.value })} style={{ background: c.bg3, border: `1px solid ${c.border}`, color: c.white, fontSize: 13, padding: '10px 12px', width: '100%', boxSizing: 'border-box', borderRadius: 6, outline: 'none' }} />
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+                <button type="button" onClick={() => setShowPostModal(false)} style={{ flex: 1, background: 'none', border: `1px solid ${c.border}`, color: c.muted, fontSize: 13, padding: 12, cursor: 'pointer', borderRadius: 8 }}>Cancel</button>
+                <button type="submit" disabled={postLoading} style={{ flex: 2, background: c.gold, border: 'none', color: '#fff', fontSize: 13, fontWeight: 700, padding: 12, cursor: postLoading ? 'not-allowed' : 'pointer', borderRadius: 8, opacity: postLoading ? 0.7 : 1 }}>
+                  {postLoading ? 'Posting...' : 'Post listing →'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── MEMBER DETAIL MODAL ───────────────────── */}
       {viewMember && (
         <div
           style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, backdropFilter: 'blur(4px)' }}

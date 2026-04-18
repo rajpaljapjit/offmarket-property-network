@@ -24,8 +24,13 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'DELETE') {
-    const { memberId } = req.body
-    if (!memberId) return res.status(400).json({ error: 'memberId required' })
+    const { memberId, listingId } = req.body
+    if (listingId) {
+      const { error } = await supabase.from('listings').delete().eq('id', listingId)
+      if (error) return res.status(500).json({ error: 'Delete failed' })
+      return res.status(200).json({ success: true })
+    }
+    if (!memberId) return res.status(400).json({ error: 'memberId or listingId required' })
     const { error } = await supabase.from('members').delete().eq('id', memberId)
     if (error) return res.status(500).json({ error: 'Delete failed' })
     return res.status(200).json({ success: true })
