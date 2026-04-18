@@ -66,6 +66,107 @@ function FavouriteAgents({member, s}) {
   )
 }
 
+function SubscriptionSection({ member, s }) {
+  const [loadingCheckout, setLoadingCheckout] = useState(false)
+  const [loadingPortal, setLoadingPortal] = useState(false)
+
+  const trialStart = member.trial_start ? new Date(member.trial_start) : null
+  const trialEnd = trialStart ? new Date(trialStart.getTime() + 90 * 24 * 60 * 60 * 1000) : null
+  const trialActive = trialEnd && new Date() < trialEnd
+  const daysLeft = trialEnd ? Math.max(0, Math.ceil((trialEnd - new Date()) / (1000 * 60 * 60 * 24))) : 0
+  const isSubscribed = member.subscription_status === 'active'
+  const plans = [
+    { name: 'Silver', price: '$39', priceId: 'Silver' },
+    { name: 'Gold', price: '$79', priceId: 'Gold' },
+    { name: 'Buyers Agent', price: '$69', priceId: 'Buyers Agent' },
+    { name: 'Platinum', price: 'POA', priceId: null },
+  ]
+
+  const handleSubscribe = async (planName) => {
+    setLoadingCheckout(planName)
+    try {
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ memberId: member.id, plan: planName }),
+      })
+      const data = await res.json()
+      if (data.url) window.location.href = data.url
+      else toast.error(data.error || 'Something went wrong.')
+    } catch { toast.error('Something went wrong.') }
+    setLoadingCheckout(false)
+  }
+
+  const handlePortal = async () => {
+    setLoadingPortal(true)
+    try {
+      const res = await fetch('/api/stripe/portal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ memberId: member.id }),
+      })
+      const data = await res.json()
+      if (data.url) window.location.href = data.url
+      else toast.error(data.error || 'Something went wrong.')
+    } catch { toast.error('Something went wrong.') }
+    setLoadingPortal(false)
+  }
+
+  return (
+    <>
+      <h2 style={{fontSize:22,color:s.white,fontWeight:600,marginBottom:28}}>Subscription</h2>
+
+      {/* Status banner */}
+      <div style={{background:s.bg3,border:`1px solid ${trialActive?s.border:'rgba(184,146,58,0.5)'}`,padding:24,maxWidth:600,marginBottom:24,display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:16}}>
+        <div>
+          <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:8}}>Current plan</div>
+          <div style={{fontSize:24,color:s.gold,fontWeight:700,marginBottom:4}}>{member.plan}</div>
+          {isSubscribed ? (
+            <div style={{fontSize:13,color:'#4CAF50'}}>✓ Active subscription</div>
+          ) : trialActive ? (
+            <div style={{fontSize:13,color:s.muted}}>{daysLeft} days left in your free trial</div>
+          ) : (
+            <div style={{fontSize:13,color:'#FF5050'}}>Trial ended — subscribe to continue</div>
+          )}
+        </div>
+        {isSubscribed && (
+          <button onClick={handlePortal} disabled={loadingPortal} style={{background:'none',border:`1px solid ${s.border}`,color:s.gold,fontSize:13,padding:'10px 20px',cursor:'pointer'}}>
+            {loadingPortal ? 'Loading...' : 'Manage billing →'}
+          </button>
+        )}
+      </div>
+
+      {/* Plan selection — only show if not subscribed */}
+      {!isSubscribed && (
+        <div style={{maxWidth:600}}>
+          <div style={{fontSize:13,color:s.muted,marginBottom:16}}>Choose a plan to subscribe after your trial:</div>
+          <div style={{display:'flex',flexDirection:'column',gap:12}}>
+            {plans.map(({name, price, priceId}) => (
+              <div key={name} style={{background:name===member.plan?'rgba(201,168,76,0.08)':s.bg2,border:`1px solid ${name===member.plan?s.gold:s.border}`,padding:'20px 24px',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <div>
+                  <div style={{fontSize:15,color:s.white,fontWeight:600,marginBottom:4}}>{name}</div>
+                  <div style={{fontSize:13,color:s.muted}}>{price}{price !== 'POA' ? '/month' : ' — contact us'}</div>
+                </div>
+                {priceId ? (
+                  <button
+                    onClick={() => handleSubscribe(name)}
+                    disabled={loadingCheckout === name}
+                    style={{background:name===member.plan?s.gold:'none',border:`1px solid ${name===member.plan?s.gold:s.border}`,color:name===member.plan?'#fff':s.gold,fontSize:13,fontWeight:600,padding:'10px 20px',cursor:'pointer'}}
+                  >
+                    {loadingCheckout === name ? 'Loading...' : name === member.plan ? 'Subscribe →' : 'Select →'}
+                  </button>
+                ) : (
+                  <a href="mailto:support@offmarkethub.com.au" style={{fontSize:13,color:s.gold,textDecoration:'none'}}>Contact us →</a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
 export default function Dashboard() {
   const router = useRouter()
   const [member, setMember] = useState(null)
@@ -461,24 +562,7 @@ export default function Dashboard() {
           )}
 
           {activeSection === 'Subscription' && (
-            <>
-              <h2 style={{fontSize:22,color:s.white,fontWeight:600,marginBottom:28}}>Subscription</h2>
-              <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,maxWidth:600,marginBottom:20}}>
-                <div style={{fontSize:10,letterSpacing:'0.3em',color:s.gold,textTransform:'uppercase',marginBottom:16}}>Current plan</div>
-                <div style={{fontSize:28,color:s.gold,fontWeight:700,marginBottom:4}}>{member.plan}</div>
-                <div style={{fontSize:13,color:s.muted,marginBottom:24}}>3 months free trial · No credit card required</div>
-                <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:12}}>
-                  {[['Silver','$39'],['Gold','$79'],['Platinum','POA'],['Buyers Agent','$69']].map(([p,price])=>(
-                    <div key={p} style={{background:p===member.plan?'rgba(201,168,76,0.1)':s.bg4,border:`1px solid ${p===member.plan?s.gold:s.border}`,padding:'16px 12px',textAlign:'center'}}>
-                      <div style={{fontSize:14,color:p===member.plan?s.gold:s.white,fontWeight:600,marginBottom:4}}>{p}</div>
-                      <div style={{fontSize:11,color:s.muted}}>{price}/mo after trial</div>
-                      {p===member.plan&&<div style={{fontSize:10,color:s.gold,marginTop:8}}>✓ Current</div>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div style={{fontSize:13,color:s.muted}}>To change your plan contact <a href="mailto:support@offmarkethub.com.au" style={{color:s.gold,textDecoration:'none'}}>support@offmarkethub.com.au</a></div>
-            </>
+            <SubscriptionSection member={member} s={s} />
           )}
 
           {activeSection === 'Settings' && (
