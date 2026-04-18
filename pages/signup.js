@@ -184,7 +184,7 @@ export default function Signup() {
                     <input type="radio" value="Buyers Agent" {...register('plan')} style={{accentColor:s.gold}} defaultChecked/>
                     <div>
                       <div style={{fontSize:14,color:s.gold,fontWeight:600}}>{watchRole === 'Both' ? 'Buyers & Selling Agent Plan' : 'Buyers Agent Plan'}</div>
-                      <div style={{fontSize:12,color:s.muted,marginTop:2}}>$69/month — Browse all listings, save, enquire, message agents{watchRole === 'Both' ? ' + 1 free listing per month' : ''}</div>
+                      <div style={{fontSize:12,color:s.muted,marginTop:2}}>$79/month — Browse all listings, save, enquire, message agents{watchRole === 'Both' ? ' + 1 free listing per month' : ''}</div>
                     </div>
                   </label>
                   <div style={{background:'rgba(201,168,76,0.06)',border:`1px solid rgba(201,168,76,0.2)`,padding:'12px 16px',marginTop:8}}>
@@ -200,7 +200,7 @@ export default function Signup() {
                   <div style={{fontSize:11,color:s.muted,marginBottom:4}}>Select your selling agent plan:</div>
                   {[
                     ['Silver','$39/month','1 listing per month','Silver'],
-                    ['Gold','$79/month','5 listings per month — Most popular','Gold'],
+                    ['Gold','$69/month','5 listings per month — Most popular','Gold'],
                     ['Platinum','POA','Principal agents with 5+ agents','Platinum'],
                   ].map(([label,price,desc,val])=>(
                     <label key={val} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 16px',background:s.bg2,border:`1px solid ${s.border}`,cursor:'pointer'}}>

@@ -77,8 +77,8 @@ function SubscriptionSection({ member, s }) {
   const isSubscribed = member.subscription_status === 'active'
   const plans = [
     { name: 'Silver', price: '$39', priceId: 'Silver' },
-    { name: 'Gold', price: '$79', priceId: 'Gold' },
-    { name: 'Buyers Agent', price: '$69', priceId: 'Buyers Agent' },
+    { name: 'Gold', price: '$69', priceId: 'Gold' },
+    { name: 'Buyers Agent', price: '$79', priceId: 'Buyers Agent' },
     { name: 'Platinum', price: 'POA', priceId: null },
   ]
 
