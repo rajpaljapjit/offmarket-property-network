@@ -37,25 +37,17 @@ export default function HowItWorks() {
         @media(max-width:600px) { .step-row { grid-template-columns: 1fr; gap: 16px; } .step-num { font-size: 36px !important; } }
       `}</style>
 
-      {/* ── HERO WITH BACKGROUND IMAGE ── */}
+      {/* ── HERO WITH VIDEO ── */}
       <div style={{ position: 'relative', minHeight: '60vh', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-        {/* Background image */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'url(/Heroimage.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }} />
+        {/* Background video */}
+        <video autoPlay muted loop playsInline poster="/Heroimage.png"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}>
+          <source src="/video1.mp4" type="video/mp4" />
+        </video>
         {/* Dark overlay */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(9,9,15,0.88) 0%, rgba(9,9,15,0.65) 60%, rgba(9,9,15,0.85) 100%)' }} />
-        {/* Colour glows */}
-        <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '50%', height: '80%', background: 'radial-gradient(ellipse, rgba(184,146,58,0.18) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: '0', right: '0', width: '40%', height: '60%', background: 'radial-gradient(ellipse, rgba(107,158,130,0.1) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        {/* Dot grid */}
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(184,146,58,0.07) 1px, transparent 1px)', backgroundSize: '30px 30px', pointerEvents: 'none' }} />
-
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(9,9,15,0.88) 0%, rgba(9,9,15,0.65) 60%, rgba(9,9,15,0.85) 100%)', zIndex: 1 }} />
         {/* Hero text */}
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', padding: '80px 24px' }}>
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: 1200, margin: '0 auto', padding: '80px 24px' }}>
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
