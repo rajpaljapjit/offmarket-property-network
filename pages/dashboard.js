@@ -70,6 +70,19 @@ function SubscriptionSection({ member, s }) {
   const [loadingCheckout, setLoadingCheckout] = useState(false)
   const [loadingPortal, setLoadingPortal] = useState(false)
 
+  const isAdmin = member.username === 'omhadminlogin'
+  if (isAdmin) {
+    return (
+      <>
+        <h2 style={{fontSize:22,color:s.white,fontWeight:600,marginBottom:28}}>Subscription</h2>
+        <div style={{background:s.bg3,border:`1px solid ${s.border}`,padding:32,maxWidth:600}}>
+          <div style={{fontSize:14,color:s.gold,fontWeight:600,marginBottom:8}}>Admin account</div>
+          <div style={{fontSize:13,color:s.muted}}>Subscription management does not apply to the admin account.</div>
+        </div>
+      </>
+    )
+  }
+
   const trialStart = member.trial_start ? new Date(member.trial_start) : null
   const trialEnd = trialStart ? new Date(trialStart.getTime() + 90 * 24 * 60 * 60 * 1000) : null
   const trialActive = trialEnd && new Date() < trialEnd
