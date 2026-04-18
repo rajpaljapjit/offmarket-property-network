@@ -42,7 +42,7 @@ export default function HowItWorks() {
         {/* Background video */}
         <video autoPlay muted loop playsInline poster="/Heroimage.png"
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}>
-          <source src="/video1.mp4" type="video/mp4" />
+          <source src="/Video1.mp4" type="video/mp4" />
         </video>
         {/* Dark overlay */}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(9,9,15,0.88) 0%, rgba(9,9,15,0.65) 60%, rgba(9,9,15,0.85) 100%)', zIndex: 1 }} />
