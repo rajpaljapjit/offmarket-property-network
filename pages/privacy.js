@@ -10,10 +10,10 @@ export default function Privacy() {
       <div style={{maxWidth:800,margin:'0 auto',padding:'60px 20px'}}>
         <div style={{fontSize:10,letterSpacing:'0.4em',color:s.gold,textTransform:'uppercase',marginBottom:12}}>Legal</div>
         <h1 style={{fontSize:'clamp(28px,5vw,40px)',color:s.white,marginBottom:8,fontWeight:600}}>Privacy policy</h1>
-        <p style={{color:s.muted,marginBottom:48}}>Last updated: April 2026</p>
+        <p style={{color:s.muted,marginBottom:48}}>Last updated: April 2026 · Applies to website and mobile app</p>
 
         {[
-          {title:'1. Introduction',body:`Off Market Property Network ("we", "us", "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, store and disclose your personal information when you use our Platform. By using the Platform, you consent to the practices described in this policy.`},
+          {title:'1. Introduction',body:`OffMarket Hub Pty Ltd ("we", "us", "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, store and disclose your personal information when you use our Platform, including the OffMarket Hub website and mobile application. By using the Platform, you consent to the practices described in this policy.`},
           {title:'2. Information we collect',body:`We collect information you provide when applying for membership, including your name, email address, mobile number, agency name, real estate license number, role and state. We also collect information about your activity on the Platform, including listings you upload, enquiries you make and messages you send.`},
           {title:'3. How we use your information',body:`We use your personal information to verify your identity and license, to provide and improve the Platform, to communicate with you about your account and membership, to send you notifications about enquiries and listings, and to comply with legal obligations.`},
           {title:'4. License verification',body:`As part of the membership process, we verify your real estate license against state-based regulatory registers. This verification process requires us to share limited information with those registers for verification purposes only.`},
